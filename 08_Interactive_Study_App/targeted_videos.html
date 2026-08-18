@@ -623,70 +623,121 @@
       font-weight: 700;
     }
 
+    /* Custom Cursor Styles */
+    .cursor-dot {
+      width: 8px;
+      height: 8px;
+      background-color: #ea580c;
+      border-radius: 50%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 99999;
+      transition: transform 0.1s ease-out, opacity 0.2s ease;
+      box-shadow: 0 0 10px rgba(234, 88, 12, 0.6);
+      transform: translate(-50%, -50%);
+      display: none; /* Only show on desktop mouse move */
+    }
+
+    .cursor-outline {
+      width: 34px;
+      height: 34px;
+      border: 2px solid rgba(249, 115, 22, 0.6);
+      background: rgba(254, 215, 170, 0.15);
+      border-radius: 50%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 99998;
+      transition: width 0.2s ease, height 0.2s ease, border-color 0.2s ease, background 0.2s ease, transform 0.08s ease-out;
+      transform: translate(-50%, -50%);
+      display: none; /* Only show on desktop mouse move */
+    }
+
     .footer {
       text-align: center;
-      padding: 2.5rem;
+      padding: 2rem 1rem;
       color: var(--text-muted);
-      font-size: 0.88rem;
+      font-size: 0.85rem;
       border-top: 1px solid #fed7aa;
-      margin-top: 3.5rem;
+      margin-top: 3rem;
       background: #ffffff;
     }
 
     /* ========================================================
        ULTRA-FEASIBLE MOBILE & TOUCH SCREEN OPTIMIZATION
        ======================================================== */
-    @media (hover: none) and (pointer: coarse) {
+    @media (max-width: 900px), (hover: none), (pointer: coarse) {
       .cursor-dot, .cursor-outline {
         display: none !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
       }
-    }
 
-    @media (max-width: 868px) {
       header {
+        position: relative !important; /* Prevents blocking mobile screen on scroll */
         padding: 0.75rem 1rem;
         flex-direction: column;
-        align-items: stretch;
+        align-items: center;
         gap: 0.6rem;
+        text-align: center;
       }
 
       .brand {
+        flex-direction: column;
+        gap: 0.35rem;
         justify-content: center;
-        text-align: center;
-        flex-wrap: wrap;
-        gap: 0.4rem;
       }
 
       .brand-title {
         font-size: 1.05rem;
+        line-height: 1.35;
       }
 
       .header-actions {
+        width: 100%;
         justify-content: center;
       }
 
       .btn-nav {
-        font-size: 0.82rem;
-        padding: 0.45rem 0.85rem;
+        font-size: 0.88rem;
+        padding: 0.55rem 1rem;
         width: 100%;
+        max-width: 320px;
         text-align: center;
       }
 
       main {
-        padding: 1rem 0.85rem;
+        padding: 0.85rem 0.6rem;
+        max-width: 100%;
+        width: 100%;
       }
 
       .banner {
-        padding: 1.35rem;
-        border-radius: 16px;
+        padding: 1.25rem 1rem;
+        border-radius: 14px;
+        margin-bottom: 1.25rem;
       }
 
       .banner h1 {
-        font-size: 1.45rem;
+        font-size: 1.35rem;
+      }
+
+      .banner p {
+        font-size: 0.92rem;
       }
 
       .filter-section {
-        padding: 1.1rem;
+        padding: 1rem 0.85rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .search-input {
+        padding: 0.75rem 1rem;
+        font-size: 0.92rem;
       }
 
       .topic-buttons {
@@ -694,7 +745,8 @@
         flex-wrap: nowrap;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
-        padding-bottom: 0.3rem;
+        padding-bottom: 0.4rem;
+        gap: 0.4rem;
       }
 
       .topic-buttons::-webkit-scrollbar {
@@ -703,65 +755,130 @@
 
       .topic-btn {
         flex-shrink: 0;
-        font-size: 0.82rem;
-        padding: 0.4rem 0.8rem;
+        font-size: 0.8rem;
+        padding: 0.4rem 0.85rem;
+        white-space: nowrap;
+      }
+
+      .section-title {
+        font-size: 1.15rem;
+        margin: 1.8rem 0 1rem;
+      }
+
+      .topic-block {
+        margin-bottom: 1.2rem;
+        border-radius: 14px;
       }
 
       .topic-header {
-        padding: 1rem 1.1rem;
+        padding: 0.9rem 1rem;
+        gap: 0.5rem;
+      }
+
+      .topic-title-text {
+        font-size: 0.95rem;
+      }
+
+      .syllabus-badge {
+        font-size: 0.7rem;
+        padding: 0.15rem 0.45rem;
+      }
+
+      .topic-body {
+        padding: 0.75rem;
+        gap: 0.85rem;
+        display: flex;
+        flex-direction: column;
       }
 
       .video-item {
-        padding: 1.1rem;
+        padding: 1rem;
         flex-direction: column;
-        gap: 0.9rem;
+        gap: 0.85rem;
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      .video-info {
+        min-width: 0 !important;
+        width: 100% !important;
+      }
+
+      .video-title {
+        font-size: 1.02rem;
+        line-height: 1.4;
+      }
+
+      .video-summary {
+        font-size: 0.88rem;
+        line-height: 1.5;
+      }
+
+      .omit-notice {
+        font-size: 0.8rem;
+        padding: 0.45rem 0.65rem;
       }
 
       .video-actions {
-        width: 100%;
-        flex-direction: row;
-        justify-content: space-between;
+        width: 100% !important;
+        min-width: 0 !important;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
       }
 
       .btn-yt {
-        flex: 1;
-        padding: 0.6rem;
+        width: 100%;
+        padding: 0.65rem 1rem;
+        font-size: 0.88rem;
+        text-align: center;
+        justify-content: center;
+        border-radius: 8px;
+        box-sizing: border-box;
+      }
+
+      .btn-watched {
+        width: 100%;
+        padding: 0.6rem 1rem;
         font-size: 0.85rem;
+        text-align: center;
+        border-radius: 8px;
+        box-sizing: border-box;
       }
 
       .portal-core {
-        width: 170px;
-        height: 170px;
-        margin-bottom: 1.2rem;
+        width: 150px;
+        height: 150px;
+        margin-bottom: 1rem;
       }
 
       .portal-gear-outer {
-        width: 160px;
-        height: 160px;
+        width: 140px;
+        height: 140px;
       }
 
       .portal-gear-inner {
-        width: 110px;
-        height: 110px;
+        width: 95px;
+        height: 95px;
       }
 
       .portal-icon {
-        font-size: 2.8rem;
+        font-size: 2.5rem;
       }
 
       .portal-title {
-        font-size: 1.45rem;
+        font-size: 1.35rem;
         padding: 0 1rem;
       }
 
       .portal-slogan {
-        font-size: 0.92rem;
-        padding: 0 1.2rem;
+        font-size: 0.88rem;
+        padding: 0 1rem;
       }
 
       .portal-bar-container {
-        width: 85%;
-        max-width: 300px;
+        width: 80%;
+        max-width: 280px;
       }
     }
   </style>
@@ -1383,46 +1500,52 @@
       }, 1150);
     }
 
-    // Custom Cursor Animation Logic
+    // Custom Cursor Animation Logic (Only on Desktop with Fine Pointer)
     const cursorDot = document.getElementById("cursorDot");
     const cursorOutline = document.getElementById("cursorOutline");
+    const isDesktop = window.matchMedia("(min-width: 901px) and (pointer: fine)").matches;
 
-    let mouseX = window.innerWidth / 2;
-    let mouseY = window.innerHeight / 2;
-    let outlineX = mouseX;
-    let outlineY = mouseY;
+    if (isDesktop && cursorDot && cursorOutline) {
+      cursorDot.style.display = "block";
+      cursorOutline.style.display = "block";
 
-    window.addEventListener("mousemove", (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      cursorDot.style.left = `${mouseX}px`;
-      cursorDot.style.top = `${mouseY}px`;
-    });
+      let mouseX = window.innerWidth / 2;
+      let mouseY = window.innerHeight / 2;
+      let outlineX = mouseX;
+      let outlineY = mouseY;
 
-    function animateCursor() {
-      const distX = mouseX - outlineX;
-      const distY = mouseY - outlineY;
-      outlineX += distX * 0.18;
-      outlineY += distY * 0.18;
-
-      cursorOutline.style.left = `${outlineX}px`;
-      cursorOutline.style.top = `${outlineY}px`;
-
-      requestAnimationFrame(animateCursor);
-    }
-    animateCursor();
-
-    document.addEventListener("mousedown", () => document.body.classList.add("cursor-click"));
-    document.addEventListener("mouseup", () => document.body.classList.remove("cursor-click"));
-
-    function attachCursorHover() {
-      const interactives = document.querySelectorAll("a, button, input, .topic-block, .video-item, .topic-btn");
-      interactives.forEach((el) => {
-        el.addEventListener("mouseenter", () => document.body.classList.add("cursor-hover"));
-        el.addEventListener("mouseleave", () => document.body.classList.remove("cursor-hover"));
+      window.addEventListener("mousemove", (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        cursorDot.style.left = `${mouseX}px`;
+        cursorDot.style.top = `${mouseY}px`;
       });
+
+      function animateCursor() {
+        const distX = mouseX - outlineX;
+        const distY = mouseY - outlineY;
+        outlineX += distX * 0.18;
+        outlineY += distY * 0.18;
+
+        cursorOutline.style.left = `${outlineX}px`;
+        cursorOutline.style.top = `${outlineY}px`;
+
+        requestAnimationFrame(animateCursor);
+      }
+      animateCursor();
+
+      document.addEventListener("mousedown", () => document.body.classList.add("cursor-click"));
+      document.addEventListener("mouseup", () => document.body.classList.remove("cursor-click"));
+
+      function attachCursorHover() {
+        const interactives = document.querySelectorAll("a, button, input, .topic-block, .video-item, .topic-btn");
+        interactives.forEach((el) => {
+          el.addEventListener("mouseenter", () => document.body.classList.add("cursor-hover"));
+          el.addEventListener("mouseleave", () => document.body.classList.remove("cursor-hover"));
+        });
+      }
+      attachCursorHover();
     }
-    attachCursorHover();
 
     // ==========================================
     // JASWANTH'S MOTIVATION & TIMER LOGIC

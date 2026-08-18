@@ -977,15 +977,17 @@
     /* ========================================================
        ULTRA-FEASIBLE MOBILE & TOUCH SCREEN OPTIMIZATION
        ======================================================== */
-    @media (hover: none) and (pointer: coarse) {
+    @media (max-width: 900px), (hover: none), (pointer: coarse) {
       .cursor-dot, .cursor-outline {
         display: none !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
       }
-    }
 
-    @media (max-width: 868px) {
       header {
-        padding: 0.75rem 1rem;
+        position: relative !important; /* Prevents blocking mobile screen on scroll */
+        padding: 0.75rem 0.85rem;
         flex-direction: column;
         align-items: stretch;
         gap: 0.6rem;
@@ -999,7 +1001,8 @@
       }
 
       .brand-title {
-        font-size: 1.05rem;
+        font-size: 1rem;
+        line-height: 1.35;
       }
 
       .nav-tabs {
@@ -1009,6 +1012,8 @@
         scrollbar-width: none;
         padding: 0.3rem 0.4rem;
         gap: 0.35rem;
+        width: 100%;
+        box-sizing: border-box;
       }
 
       .nav-tabs::-webkit-scrollbar {
@@ -1019,25 +1024,35 @@
         flex-shrink: 0;
         font-size: 0.82rem;
         padding: 0.45rem 0.85rem;
+        white-space: nowrap;
       }
 
       .nav-btn-gamechanger {
         flex-shrink: 0;
         font-size: 0.85rem !important;
         padding: 0.45rem 0.95rem !important;
+        white-space: nowrap;
       }
 
       main {
-        padding: 1rem 0.85rem;
+        padding: 0.85rem 0.6rem;
+        max-width: 100%;
+        width: 100%;
+        box-sizing: border-box;
       }
 
       .hero-banner {
-        padding: 1.35rem;
-        border-radius: 16px;
+        padding: 1.25rem 1rem;
+        border-radius: 14px;
+        margin-bottom: 1.25rem;
       }
 
       .hero-text h1 {
-        font-size: 1.45rem;
+        font-size: 1.35rem;
+      }
+
+      .hero-text p {
+        font-size: 0.92rem;
       }
 
       .grid-2, .grid-3 {
@@ -1883,52 +1898,58 @@
   <div class="cursor-outline" id="cursorOutline"></div>
 
   <script>
-    // Custom Cursor Animation Logic
+    // Custom Cursor Animation Logic (Only on Desktop with Fine Pointer)
     const cursorDot = document.getElementById("cursorDot");
     const cursorOutline = document.getElementById("cursorOutline");
+    const isDesktop = window.matchMedia("(min-width: 901px) and (pointer: fine)").matches;
 
-    let mouseX = window.innerWidth / 2;
-    let mouseY = window.innerHeight / 2;
-    let outlineX = mouseX;
-    let outlineY = mouseY;
+    if (isDesktop && cursorDot && cursorOutline) {
+      cursorDot.style.display = "block";
+      cursorOutline.style.display = "block";
 
-    window.addEventListener("mousemove", (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      cursorDot.style.left = `${mouseX}px`;
-      cursorDot.style.top = `${mouseY}px`;
-    });
+      let mouseX = window.innerWidth / 2;
+      let mouseY = window.innerHeight / 2;
+      let outlineX = mouseX;
+      let outlineY = mouseY;
 
-    // Smooth Lerp Animation for trailing outline
-    function animateCursor() {
-      const distX = mouseX - outlineX;
-      const distY = mouseY - outlineY;
-      outlineX += distX * 0.18;
-      outlineY += distY * 0.18;
-
-      cursorOutline.style.left = `${outlineX}px`;
-      cursorOutline.style.top = `${outlineY}px`;
-
-      requestAnimationFrame(animateCursor);
-    }
-    animateCursor();
-
-    // Hover & Active States
-    document.addEventListener("mousedown", () => {
-      document.body.classList.add("cursor-click");
-    });
-    document.addEventListener("mouseup", () => {
-      document.body.classList.remove("cursor-click");
-    });
-
-    function attachCursorHover() {
-      const interactives = document.querySelectorAll("a, button, input, .card, .checklist-item, .quiz-option, .notes-btn, .nav-btn, .topic-btn");
-      interactives.forEach((el) => {
-        el.addEventListener("mouseenter", () => document.body.classList.add("cursor-hover"));
-        el.addEventListener("mouseleave", () => document.body.classList.remove("cursor-hover"));
+      window.addEventListener("mousemove", (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        cursorDot.style.left = `${mouseX}px`;
+        cursorDot.style.top = `${mouseY}px`;
       });
+
+      // Smooth Lerp Animation for trailing outline
+      function animateCursor() {
+        const distX = mouseX - outlineX;
+        const distY = mouseY - outlineY;
+        outlineX += distX * 0.18;
+        outlineY += distY * 0.18;
+
+        cursorOutline.style.left = `${outlineX}px`;
+        cursorOutline.style.top = `${outlineY}px`;
+
+        requestAnimationFrame(animateCursor);
+      }
+      animateCursor();
+
+      // Hover & Active States
+      document.addEventListener("mousedown", () => {
+        document.body.classList.add("cursor-click");
+      });
+      document.addEventListener("mouseup", () => {
+        document.body.classList.remove("cursor-click");
+      });
+
+      function attachCursorHover() {
+        const interactives = document.querySelectorAll("a, button, input, .card, .checklist-item, .quiz-option, .notes-btn, .nav-btn, .topic-btn");
+        interactives.forEach((el) => {
+          el.addEventListener("mouseenter", () => document.body.classList.add("cursor-hover"));
+          el.addEventListener("mouseleave", () => document.body.classList.remove("cursor-hover"));
+        });
+      }
+      attachCursorHover();
     }
-    attachCursorHover();
 
     // Portal Warp Animation to Game-Changer Videos
     function launchPortal() {
