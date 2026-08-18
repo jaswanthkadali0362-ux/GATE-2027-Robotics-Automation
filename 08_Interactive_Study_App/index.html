@@ -1,0 +1,2438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GATE 2027 Robotics & Automation (RA) Study Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <!-- MathJax Configuration to render all math formulas cleanly -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      }
+    };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+  <style>
+    :root {
+      --bg-page: #fbfbfc;
+      --bg-card: #ffffff;
+      --bg-card-hover: #fffdfa;
+      --border-warm: #fed7aa;
+      --border-subtle: #f1f5f9;
+      --accent-orange: #ea580c;
+      --accent-orange-light: #fff7ed;
+      --accent-yellow: #f59e0b;
+      --accent-yellow-light: #fefce8;
+      --accent-amber: #d97706;
+      --accent-green: #16a34a;
+      --accent-green-light: #f0fdf4;
+      --text-main: #0f172a;
+      --text-secondary: #334155;
+      --text-muted: #64748b;
+      --font-heading: 'Outfit', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03);
+      --shadow-md: 0 4px 16px -2px rgba(234, 88, 12, 0.08), 0 2px 6px rgba(0, 0, 0, 0.03);
+      --shadow-hover: 0 12px 24px -4px rgba(234, 88, 12, 0.14), 0 4px 10px rgba(0, 0, 0, 0.04);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* Custom Cursor Styles */
+    .cursor-dot {
+      width: 8px;
+      height: 8px;
+      background-color: #ea580c;
+      border-radius: 50%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 99999;
+      transition: transform 0.1s ease-out, opacity 0.2s ease;
+      box-shadow: 0 0 10px rgba(234, 88, 12, 0.6);
+      transform: translate(-50%, -50%);
+    }
+
+    .cursor-outline {
+      width: 34px;
+      height: 34px;
+      border: 2px solid rgba(249, 115, 22, 0.6);
+      background: rgba(254, 215, 170, 0.15);
+      border-radius: 50%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 99998;
+      transition: width 0.2s ease, height 0.2s ease, border-color 0.2s ease, background 0.2s ease, transform 0.08s ease-out;
+      transform: translate(-50%, -50%);
+    }
+
+    .cursor-hover .cursor-outline {
+      width: 52px;
+      height: 52px;
+      border-color: #ea580c;
+      background: rgba(249, 115, 22, 0.12);
+      backdrop-filter: blur(1px);
+    }
+
+    .cursor-hover .cursor-dot {
+      transform: translate(-50%, -50%) scale(1.4);
+      background-color: #d97706;
+    }
+
+    .cursor-click .cursor-outline {
+      transform: translate(-50%, -50%) scale(0.75);
+      background: rgba(234, 88, 12, 0.3);
+      border-color: #c2410c;
+    }
+
+    /* ========================================================
+       JASWANTH'S ROBUST PORTAL WARP ANIMATION
+       ======================================================== */
+    .portal-overlay {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at center, rgba(26, 18, 11, 0.96) 0%, rgba(15, 23, 42, 0.98) 100%);
+      backdrop-filter: blur(16px);
+      z-index: 100000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+      color: #ffffff;
+      font-family: var(--font-heading);
+    }
+
+    .portal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .portal-core {
+      position: relative;
+      width: 220px;
+      height: 220px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.8rem;
+    }
+
+    .portal-gear-outer {
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      border: 4px dashed #f97316;
+      border-radius: 50%;
+      animation: spinGear 3s linear infinite;
+      box-shadow: 0 0 40px rgba(249, 115, 22, 0.6), inset 0 0 25px rgba(249, 115, 22, 0.3);
+    }
+
+    .portal-gear-inner {
+      position: absolute;
+      width: 140px;
+      height: 140px;
+      border: 3px dashed #f59e0b;
+      border-radius: 50%;
+      animation: spinGearRev 2s linear infinite;
+      box-shadow: 0 0 25px rgba(245, 158, 11, 0.7);
+    }
+
+    .portal-pulse-ring {
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(234, 88, 12, 0.8) 0%, transparent 70%);
+      animation: portalPulse 1.2s ease-out infinite;
+    }
+
+    .portal-icon {
+      font-size: 3.8rem;
+      z-index: 2;
+      animation: iconFloat 1.2s ease-in-out infinite alternate;
+      filter: drop-shadow(0 0 20px #f97316);
+    }
+
+    @keyframes spinGear {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes spinGearRev {
+      from { transform: rotate(360deg); }
+      to { transform: rotate(0deg); }
+    }
+
+    @keyframes portalPulse {
+      0% { transform: scale(0.6); opacity: 0.8; }
+      100% { transform: scale(2.5); opacity: 0; }
+    }
+
+    @keyframes iconFloat {
+      0% { transform: translateY(-5px) scale(1); }
+      100% { transform: translateY(5px) scale(1.1); }
+    }
+
+    .portal-title {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #fed7aa;
+      text-align: center;
+      margin-bottom: 0.4rem;
+      letter-spacing: 1px;
+      text-shadow: 0 0 25px rgba(249, 115, 22, 0.9);
+    }
+
+    .portal-slogan {
+      font-size: 1.08rem;
+      color: #f1f5f9;
+      text-align: center;
+      max-width: 540px;
+      line-height: 1.5;
+      font-family: var(--font-body);
+      margin-bottom: 1.8rem;
+      font-weight: 500;
+    }
+
+    .portal-bar-container {
+      width: 340px;
+      height: 9px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(254, 215, 170, 0.4);
+      position: relative;
+    }
+
+    .portal-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #f59e0b, #ea580c, #ffedd5);
+      border-radius: 20px;
+      transition: width 1.1s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 0 20px #f97316;
+    }
+
+    /* ========================================================
+       SUPERCHARGED POWER-UP GAME-CHANGER BUTTON ANIMATION
+       ======================================================== */
+    .nav-btn-gamechanger {
+      position: relative;
+      background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 50%, #fed7aa 100%) !important;
+      color: #9a3412 !important;
+      border: 2px solid #f97316 !important;
+      font-weight: 800 !important;
+      font-size: 0.92rem !important;
+      padding: 0.6rem 1.25rem !important;
+      border-radius: 12px !important;
+      cursor: pointer;
+      overflow: visible;
+      box-shadow: 0 4px 18px rgba(249, 115, 22, 0.35), inset 0 0 12px rgba(254, 215, 170, 0.6);
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      z-index: 10;
+    }
+
+    /* Moving Power-Up Light Shimmer Sweep */
+    .nav-btn-gamechanger::before {
+      content: '';
+      position: absolute;
+      top: -3px;
+      left: -3px;
+      right: -3px;
+      bottom: -3px;
+      background: linear-gradient(90deg, transparent, rgba(249, 115, 22, 0.5), #ffffff, rgba(245, 158, 11, 0.6), transparent);
+      background-size: 200% 100%;
+      border-radius: 14px;
+      z-index: -1;
+      animation: powerUpShimmer 2.2s infinite linear;
+      opacity: 0.85;
+    }
+
+    /* Expanding Pulse Shockwave Ring */
+    .nav-btn-gamechanger::after {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 16px;
+      border: 2px solid #ea580c;
+      animation: powerUpShockwave 2s cubic-bezier(0.1, 0.8, 0.3, 1) infinite;
+      pointer-events: none;
+    }
+
+    @keyframes powerUpShimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    @keyframes powerUpShockwave {
+      0% {
+        transform: scale(0.95);
+        opacity: 0.95;
+        box-shadow: 0 0 0 0 rgba(234, 88, 12, 0.7);
+      }
+      70% {
+        transform: scale(1.18);
+        opacity: 0;
+        box-shadow: 0 0 25px 10px rgba(234, 88, 12, 0);
+      }
+      100% {
+        transform: scale(1.22);
+        opacity: 0;
+      }
+    }
+
+    .nav-btn-gamechanger:hover {
+      transform: scale(1.06) translateY(-2px);
+      box-shadow: 0 8px 30px rgba(234, 88, 12, 0.55), 0 0 25px rgba(245, 158, 11, 0.7);
+      background: linear-gradient(135deg, #ffedd5 0%, #fed7aa 100%) !important;
+      border-color: #ea580c !important;
+    }
+
+    .nav-btn-gamechanger .btn-rocket-icon {
+      font-size: 1.25rem;
+      display: inline-block;
+      animation: rocketHover 1.5s infinite alternate ease-in-out;
+      filter: drop-shadow(0 0 8px #ea580c);
+    }
+
+    @keyframes rocketHover {
+      0% { transform: translateY(0) rotate(0deg); }
+      100% { transform: translateY(-3px) rotate(8deg) scale(1.18); }
+    }
+
+    .power-badge {
+      background: linear-gradient(135deg, #ea580c, #f59e0b);
+      color: #ffffff;
+      font-size: 0.68rem;
+      font-weight: 800;
+      padding: 0.15rem 0.5rem;
+      border-radius: 20px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      box-shadow: 0 2px 6px rgba(234, 88, 12, 0.4);
+      margin-left: 0.2rem;
+      animation: badgePulse 1.8s infinite ease-in-out;
+    }
+
+    @keyframes badgePulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.08); filter: brightness(1.2); }
+    }
+
+    /* Header */
+    header {
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-warm);
+      padding: 1rem 2.25rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(245, 158, 11, 0.05);
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .brand-badge {
+      background: linear-gradient(135deg, #f97316, #ea580c);
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 0.8rem;
+      padding: 0.35rem 0.75rem;
+      border-radius: 8px;
+      letter-spacing: 0.5px;
+      box-shadow: 0 2px 8px rgba(234, 88, 12, 0.25);
+    }
+
+    .brand-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      font-family: var(--font-heading);
+      color: #1e293b;
+    }
+
+    .nav-tabs {
+      display: flex;
+      gap: 0.4rem;
+      background: #f8fafc;
+      padding: 0.35rem;
+      border-radius: 12px;
+      border: 1.5px solid var(--border-warm);
+      flex-wrap: wrap;
+    }
+
+    .nav-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      font-family: var(--font-heading);
+      font-weight: 600;
+      font-size: 0.88rem;
+      padding: 0.55rem 1.1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      text-decoration: none;
+    }
+
+    .nav-btn:hover {
+      color: var(--accent-orange);
+      background: #fff7ed;
+    }
+
+    .nav-btn.active {
+      color: #ffffff;
+      background: linear-gradient(135deg, #f97316, #ea580c);
+      box-shadow: 0 2px 10px rgba(234, 88, 12, 0.25);
+    }
+
+    main {
+      flex: 1;
+      max-width: 1350px;
+      margin: 0 auto;
+      padding: 2.25rem;
+      width: 100%;
+    }
+
+    /* Hero Banner */
+    .hero-banner {
+      background: linear-gradient(135deg, #fffbeb 0%, #fff7ed 50%, #ffffff 100%);
+      border: 1.5px solid var(--border-warm);
+      border-radius: 20px;
+      padding: 2rem 2.5rem;
+      margin-bottom: 2.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+
+    .hero-banner::after {
+      content: '☀️';
+      position: absolute;
+      right: 25px;
+      top: 15px;
+      font-size: 5.5rem;
+      opacity: 0.12;
+      pointer-events: none;
+    }
+
+    .hero-text h1 {
+      font-size: 1.95rem;
+      font-weight: 800;
+      font-family: var(--font-heading);
+      margin-bottom: 0.4rem;
+      color: #9a3412;
+    }
+
+    .hero-text p {
+      color: var(--text-secondary);
+      font-size: 1rem;
+    }
+
+    .hero-tags {
+      display: flex;
+      gap: 0.6rem;
+      margin-top: 0.85rem;
+      flex-wrap: wrap;
+    }
+
+    .tag-badge {
+      background: #f0fdf4;
+      border: 1px solid #86efac;
+      color: #15803d;
+      font-weight: 700;
+      padding: 0.25rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.82rem;
+    }
+
+    .tag-badge.orange {
+      background: #fff7ed;
+      border-color: #fed7aa;
+      color: #c2410c;
+    }
+
+    .tag-badge.yellow {
+      background: #fefce8;
+      border-color: #fde047;
+      color: #a16207;
+    }
+
+    .progress-stats {
+      text-align: right;
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--accent-orange);
+      font-family: var(--font-mono);
+    }
+
+    .stat-label {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 600;
+    }
+
+    /* Content Tabs */
+    .tab-content { display: none; }
+    .tab-content.active { display: block; animation: fadeIn 0.3s ease; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Grids & Cards */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1.5px solid var(--border-warm);
+      border-radius: 16px;
+      padding: 1.6rem;
+      transition: all 0.25s ease;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .card:hover {
+      background: var(--bg-card-hover);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-hover);
+      border-color: var(--accent-orange);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+
+    .card-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      font-family: var(--font-heading);
+      color: #0f172a;
+    }
+
+    .card-subtitle {
+      font-size: 0.88rem;
+      color: var(--accent-amber);
+      font-weight: 600;
+      margin-top: 0.2rem;
+    }
+
+    .match-badge {
+      background: #f0fdf4;
+      border: 1px solid #86efac;
+      color: #15803d;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 0.2rem 0.6rem;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+
+    /* Video Course Card */
+    .video-card {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .course-img {
+      width: 100%;
+      height: 190px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin-bottom: 1.1rem;
+      border: 1.5px solid var(--border-warm);
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.04);
+      transition: transform 0.3s ease, filter 0.3s ease;
+    }
+
+    .video-card:hover .course-img {
+      transform: scale(1.015);
+      filter: brightness(1.02);
+    }
+
+    .lecturer-info {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 0.85rem;
+      font-size: 0.92rem;
+      color: var(--text-secondary);
+    }
+
+    .institute-pill {
+      background: #fff7ed;
+      color: #c2410c;
+      font-weight: 700;
+      font-size: 0.78rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 6px;
+      border: 1px solid #fed7aa;
+    }
+
+    .lecture-breakdown {
+      background: #fffdfa;
+      border: 1px solid var(--border-warm);
+      border-radius: 12px;
+      padding: 1rem;
+      margin: 0.9rem 0;
+      font-size: 0.88rem;
+      line-height: 1.6;
+      color: var(--text-secondary);
+    }
+
+    .lecture-breakdown strong {
+      color: #0f172a;
+    }
+
+    .key-takeaway {
+      font-size: 0.88rem;
+      color: #78350f;
+      background: #fefce8;
+      margin-bottom: 1.1rem;
+      border-left: 3px solid var(--accent-yellow);
+      padding: 0.5rem 0.75rem;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .btn-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      background: linear-gradient(135deg, #f97316, #ea580c);
+      color: #ffffff;
+      font-weight: 700;
+      font-family: var(--font-heading);
+      font-size: 0.9rem;
+      padding: 0.65rem 1.15rem;
+      border-radius: 10px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      width: 100%;
+      box-shadow: 0 2px 8px rgba(234, 88, 12, 0.25);
+    }
+
+    .btn-link:hover {
+      box-shadow: 0 6px 16px rgba(234, 88, 12, 0.35);
+      transform: translateY(-1px);
+    }
+
+    /* Filter Bar */
+    .filter-bar {
+      display: flex;
+      gap: 0.6rem;
+      margin-bottom: 1.75rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .filter-btn {
+      background: #ffffff;
+      border: 1.5px solid #e2e8f0;
+      color: var(--text-secondary);
+      font-size: 0.88rem;
+      font-weight: 600;
+      font-family: var(--font-heading);
+      padding: 0.45rem 1rem;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .filter-btn:hover { color: var(--accent-orange); border-color: var(--border-warm); background: #fff7ed; }
+    .filter-btn.active {
+      background: linear-gradient(135deg, #f97316, #ea580c);
+      border-color: #ea580c;
+      color: #ffffff;
+      box-shadow: 0 2px 8px rgba(234, 88, 12, 0.25);
+    }
+
+    /* Checklist */
+    .checklist-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.65rem 0;
+      border-bottom: 1px solid #f1f5f9;
+      cursor: pointer;
+      user-select: none;
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+    }
+
+    .checklist-item:last-child { border-bottom: none; }
+
+    .checklist-item input[type="checkbox"] {
+      appearance: none;
+      width: 19px;
+      height: 19px;
+      border: 2px solid #cbd5e1;
+      border-radius: 5px;
+      cursor: pointer;
+      outline: none;
+      position: relative;
+      transition: all 0.2s;
+      background: #fff;
+    }
+
+    .checklist-item input[type="checkbox"]:checked {
+      background: var(--accent-orange);
+      border-color: var(--accent-orange);
+    }
+
+    .checklist-item input[type="checkbox"]:checked::after {
+      content: '✓';
+      position: absolute;
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 900;
+      left: 3px;
+      top: -1px;
+    }
+
+    .checklist-item.done span {
+      text-decoration: line-through;
+      color: var(--text-muted);
+    }
+
+    /* Formula Cards */
+    .formula-box {
+      background: #fffdfa;
+      border: 1.5px solid var(--border-warm);
+      border-radius: 10px;
+      padding: 1rem;
+      margin-bottom: 0.75rem;
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      color: #9a3412;
+      line-height: 1.5;
+    }
+
+    .formula-title {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #0f172a;
+      margin-bottom: 0.35rem;
+    }
+
+    .formula-desc {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+    }
+
+    /* Search Input */
+    .search-input {
+      width: 100%;
+      background: #ffffff;
+      border: 1.5px solid var(--border-warm);
+      border-radius: 12px;
+      padding: 0.95rem 1.35rem;
+      color: var(--text-main);
+      font-family: var(--font-body);
+      font-size: 0.98rem;
+      margin-bottom: 1.75rem;
+      outline: none;
+      transition: all 0.2s;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .search-input:focus {
+      border-color: var(--accent-orange);
+      box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.15);
+    }
+
+    /* Quiz */
+    .quiz-container {
+      background: #ffffff;
+      border: 1.5px solid var(--border-warm);
+      border-radius: 18px;
+      padding: 2.25rem;
+      max-width: 850px;
+      margin: 0 auto;
+      box-shadow: var(--shadow-md);
+    }
+
+    .quiz-meta {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1.25rem;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .quiz-question {
+      font-size: 1.2rem;
+      font-weight: 700;
+      font-family: var(--font-heading);
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+      color: #0f172a;
+    }
+
+    .quiz-option {
+      background: #f8fafc;
+      border: 1.5px solid #e2e8f0;
+      padding: 1rem 1.35rem;
+      border-radius: 12px;
+      margin-bottom: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+    }
+
+    .quiz-option:hover {
+      background: #fff7ed;
+      border-color: var(--border-warm);
+      color: var(--accent-orange);
+    }
+
+    .quiz-option.correct {
+      background: #f0fdf4;
+      border-color: #86efac;
+      color: #15803d;
+      font-weight: 700;
+    }
+
+    .quiz-option.wrong {
+      background: #fff1f2;
+      border-color: #fecdd3;
+      color: #e11d48;
+      font-weight: 700;
+    }
+
+    .explanation-box {
+      margin-top: 1.25rem;
+      padding: 1.2rem;
+      border-radius: 12px;
+      background: #fffdfa;
+      border: 1.5px solid var(--border-warm);
+      border-left: 4px solid var(--accent-orange);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: var(--text-secondary);
+      display: none;
+    }
+
+    .btn-action {
+      background: linear-gradient(135deg, #f97316, #ea580c);
+      border: none;
+      color: #ffffff;
+      font-weight: 700;
+      font-family: var(--font-heading);
+      padding: 0.75rem 1.85rem;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+      margin-top: 1.25rem;
+      box-shadow: 0 2px 8px rgba(234, 88, 12, 0.25);
+    }
+
+    .btn-action:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(234, 88, 12, 0.35);
+    }
+
+    /* Notes Reader Tab */
+    .notes-nav {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      overflow-x: auto;
+      padding-bottom: 0.5rem;
+    }
+
+    .notes-btn {
+      background: #ffffff;
+      border: 1.5px solid #e2e8f0;
+      color: var(--text-secondary);
+      padding: 0.55rem 1.1rem;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      font-family: var(--font-heading);
+      white-space: nowrap;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .notes-btn:hover { background: #fff7ed; border-color: var(--border-warm); color: var(--accent-orange); }
+
+    .notes-btn.active {
+      background: linear-gradient(135deg, #f97316, #ea580c);
+      border-color: #ea580c;
+      color: #ffffff;
+      box-shadow: 0 2px 8px rgba(234, 88, 12, 0.25);
+    }
+
+    .notes-viewer {
+      background: #ffffff;
+      border: 1.5px solid var(--border-warm);
+      border-radius: 16px;
+      padding: 2.25rem;
+      line-height: 1.75;
+      box-shadow: var(--shadow-md);
+    }
+
+    .notes-viewer h2 {
+      font-size: 1.6rem;
+      font-family: var(--font-heading);
+      color: #9a3412;
+      margin-bottom: 1rem;
+      border-bottom: 2px solid var(--border-warm);
+      padding-bottom: 0.5rem;
+    }
+
+    .notes-viewer h3 {
+      font-size: 1.25rem;
+      font-family: var(--font-heading);
+      color: #1e293b;
+      margin: 1.5rem 0 0.5rem;
+    }
+
+    .notes-viewer p, .notes-viewer ul {
+      color: var(--text-secondary);
+      font-size: 0.98rem;
+      margin-bottom: 1rem;
+    }
+
+    .notes-viewer ul { padding-left: 1.5rem; }
+    .notes-viewer code {
+      background: #fff7ed;
+      color: #c2410c;
+      border: 1px solid #fed7aa;
+      padding: 0.2rem 0.5rem;
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.9em;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 2.5rem;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      border-top: 1px solid var(--border-warm);
+      margin-top: 3.5rem;
+      background: #ffffff;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Header Navigation -->
+  <header>
+    <div class="brand">
+      <span class="brand-badge">GATE RA 2027</span>
+      <span class="brand-title">Jaswanth's Study Portal &bull; Target: IISc Bangalore (RBCCPS)</span>
+    </div>
+    <nav class="nav-tabs">
+      <button class="nav-btn nav-btn-gamechanger" onclick="launchPortal()"><span class="btn-rocket-icon">🚀</span><span>Jaswanth's Game-Changer</span><span class="power-badge">POWER-UP</span></button>
+      <button class="nav-btn active" onclick="switchTab('videos')">🎥 NPTEL Master Directory</button>
+      <button class="nav-btn" onclick="switchTab('notes')">📖 Notes & Cheatsheets</button>
+      <button class="nav-btn" onclick="switchTab('syllabus')">📋 Syllabus Tracker</button>
+      <button class="nav-btn" onclick="switchTab('formulas')">⚡ Formula Cards</button>
+      <button class="nav-btn" onclick="switchTab('quiz')">🎯 Practice Quiz</button>
+    </nav>
+  </header>
+
+  <!-- FULLSCREEN PORTAL WARP OVERLAY -->
+  <div class="portal-overlay" id="portalOverlay">
+    <div class="portal-core">
+      <div class="portal-gear-outer"></div>
+      <div class="portal-gear-inner"></div>
+      <div class="portal-pulse-ring"></div>
+      <div class="portal-icon">🚀</div>
+    </div>
+    <div class="portal-title">GEARING UP FOR IISc BANGALORE!</div>
+    <div class="portal-slogan">"Jaswanth, activating 100% laser-targeted topic-to-video matrix..."</div>
+    <div class="portal-bar-container">
+      <div class="portal-bar-fill" id="portalBar"></div>
+    </div>
+  </div>
+
+  <main>
+    
+    <!-- Jaswanth's Motivational & Timer Hub -->
+    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap:1.25rem; margin-bottom:1.75rem;">
+      
+      <!-- Card 1: Personalized Motivation & Quote -->
+      <div style="background:#ffffff; border:1.5px solid #fed7aa; border-radius:18px; padding:1.4rem 1.6rem; box-shadow:var(--shadow-sm); display:flex; flex-direction:column; justify-content:space-between; position:relative; overflow:hidden;">
+        <div style="position:absolute; right:12px; top:8px; font-size:3rem; opacity:0.1; pointer-events:none;">🚀</div>
+        <div>
+          <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.4rem;">
+            <span style="background:#fff7ed; color:#c2410c; border:1px solid #fed7aa; font-weight:800; font-size:0.75rem; padding:0.2rem 0.6rem; border-radius:6px;">DAILY DRIVE</span>
+            <span style="font-size:0.9rem; font-weight:700; color:#1e293b;">Jaswanth, let's push your boundaries!</span>
+          </div>
+          <div id="motivationalQuote" style="font-size:1.02rem; font-weight:600; color:#9a3412; font-family:var(--font-heading); min-height:50px; display:flex; align-items:center; line-height:1.45;">
+            "Every formula you master today is a rank closer to IISc Bangalore, Jaswanth!"
+          </div>
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:0.75rem; border-top:1px solid #f1f5f9; padding-top:0.6rem;">
+          <span style="font-size:0.8rem; color:var(--text-muted);">🎯 Dream: IISc RBCCPS 2027</span>
+          <button onclick="nextQuote()" style="background:#fff7ed; border:1px solid #fed7aa; color:#ea580c; font-size:0.8rem; font-weight:700; padding:0.25rem 0.75rem; border-radius:6px; cursor:pointer;">✨ Next Quote</button>
+        </div>
+      </div>
+
+      <!-- Card 2: Live GATE 2027 Countdown -->
+      <div style="background:#ffffff; border:1.5px solid #fed7aa; border-radius:18px; padding:1.4rem 1.6rem; box-shadow:var(--shadow-sm); display:flex; flex-direction:column; justify-content:space-between;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.6rem;">
+          <span style="font-size:0.85rem; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:#c2410c;">⏳ GATE 2027 COUNTDOWN</span>
+          <span style="font-size:0.78rem; background:#fefce8; color:#a16207; border:1px solid #fde047; padding:0.15rem 0.5rem; border-radius:4px; font-weight:700;">Target: Feb 2027</span>
+        </div>
+        <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:0.5rem; text-align:center;">
+          <div style="background:#fffdfa; border:1px solid #fed7aa; border-radius:10px; padding:0.5rem 0.2rem;">
+            <div id="cntDays" style="font-size:1.5rem; font-weight:800; font-family:var(--font-mono); color:#ea580c;">00</div>
+            <div style="font-size:0.7rem; color:var(--text-muted); font-weight:600; text-transform:uppercase;">Days</div>
+          </div>
+          <div style="background:#fffdfa; border:1px solid #fed7aa; border-radius:10px; padding:0.5rem 0.2rem;">
+            <div id="cntHours" style="font-size:1.5rem; font-weight:800; font-family:var(--font-mono); color:#ea580c;">00</div>
+            <div style="font-size:0.7rem; color:var(--text-muted); font-weight:600; text-transform:uppercase;">Hours</div>
+          </div>
+          <div style="background:#fffdfa; border:1px solid #fed7aa; border-radius:10px; padding:0.5rem 0.2rem;">
+            <div id="cntMins" style="font-size:1.5rem; font-weight:800; font-family:var(--font-mono); color:#ea580c;">00</div>
+            <div style="font-size:0.7rem; color:var(--text-muted); font-weight:600; text-transform:uppercase;">Mins</div>
+          </div>
+          <div style="background:#fffdfa; border:1px solid #fed7aa; border-radius:10px; padding:0.5rem 0.2rem;">
+            <div id="cntSecs" style="font-size:1.5rem; font-weight:800; font-family:var(--font-mono); color:#ea580c;">00</div>
+            <div style="font-size:0.7rem; color:var(--text-muted); font-weight:600; text-transform:uppercase;">Secs</div>
+          </div>
+        </div>
+        <div style="font-size:0.8rem; color:var(--text-muted); margin-top:0.6rem; text-align:center;">Make every single second count!</div>
+      </div>
+
+      <!-- Card 3: Study Focus / Pomodoro Timer -->
+      <div style="background:#ffffff; border:1.5px solid #fed7aa; border-radius:18px; padding:1.4rem 1.6rem; box-shadow:var(--shadow-sm); display:flex; flex-direction:column; justify-content:space-between;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.4rem;">
+          <span style="font-size:0.85rem; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:#15803d;">⏱️ FOCUS STUDY TIMER</span>
+          <div style="display:flex; gap:0.3rem;">
+            <button onclick="setFocusTime(25)" style="background:#f0fdf4; border:1px solid #86efac; color:#15803d; font-size:0.75rem; font-weight:700; padding:0.15rem 0.45rem; border-radius:4px; cursor:pointer;">25m</button>
+            <button onclick="setFocusTime(50)" style="background:#fff7ed; border:1px solid #fed7aa; color:#ea580c; font-size:0.75rem; font-weight:700; padding:0.15rem 0.45rem; border-radius:4px; cursor:pointer;">50m</button>
+          </div>
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <div id="pomodoroDisplay" style="font-size:2.2rem; font-weight:800; font-family:var(--font-mono); color:#15803d; letter-spacing:1px;">25:00</div>
+          <div style="display:flex; gap:0.4rem;">
+            <button id="pomoStartBtn" onclick="togglePomodoro()" style="background:linear-gradient(135deg, #16a34a, #15803d); color:#fff; border:none; padding:0.5rem 1rem; border-radius:8px; font-weight:700; font-family:var(--font-heading); cursor:pointer;">Start</button>
+            <button onclick="resetPomodoro()" style="background:#f8fafc; border:1.5px solid #e2e8f0; color:var(--text-secondary); padding:0.5rem 0.8rem; border-radius:8px; font-weight:600; cursor:pointer;">Reset</button>
+          </div>
+        </div>
+        <div id="pomoStatus" style="font-size:0.8rem; color:#15803d; font-weight:600; margin-top:0.4rem;">🧘 Deep focus mode: 100% conceptual absorption.</div>
+      </div>
+
+    </div>
+
+    <!-- Hero Banner -->
+    <div class="hero-banner">
+      <div class="hero-text">
+        <h1>GATE 2027 Robotics & Automation (RA) Preparation Hub</h1>
+        <p>Curated NPTEL YouTube Video Lectures &bull; Lecture-by-Lecture Syllabus Match &bull; Comprehensive Mechanical Stream Notes</p>
+        <div class="hero-tags">
+          <span class="tag-badge">🎯 IISc RBCCPS Target</span>
+          <span class="tag-badge orange">📚 Part A (Compulsory: 60M)</span>
+          <span class="tag-badge yellow">⚙️ Part B2 (Mechanical: 25M)</span>
+        </div>
+      </div>
+      <div class="progress-stats">
+        <div class="stat-number" id="progressPct">0%</div>
+        <div class="stat-label">Syllabus Mastered</div>
+      </div>
+    </div>
+
+    <!-- TAB 1: NPTEL VIDEO LECTURES DIRECTORY -->
+    <div id="videos" class="tab-content active">
+      <div class="filter-bar">
+        <span style="font-size:0.88rem; color:var(--text-secondary); margin-right:0.5rem; font-weight:600;">Filter by Subject:</span>
+        <button class="filter-btn active" onclick="filterVideos('all', this)">All Courses</button>
+        <button class="filter-btn" onclick="filterVideos('robotics', this)">Core Robotics (A.3)</button>
+        <button class="filter-btn" onclick="filterVideos('automation', this)">PLCs & CIM (A.3)</button>
+        <button class="filter-btn" onclick="filterVideos('sensors', this)">Sensors & Actuators (A.2)</button>
+        <button class="filter-btn" onclick="filterVideos('circuits', this)">Circuits & Digital (A.2)</button>
+        <button class="filter-btn" onclick="filterVideos('python', this)">Python & DSA (A.2)</button>
+        <button class="filter-btn" onclick="filterVideos('mech', this)">Mechanical Part B2</button>
+      </div>
+
+      <div class="grid-2" id="videoGrid">
+
+        <!-- Course 1: Robotics Kinematics -->
+        <div class="card video-card" data-cat="robotics">
+          <div>
+            <img src="assets/course_robotics_1787078002829.jpg" alt="Introduction to Robotics" class="course-img">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Introduction to Robotics</div>
+                <div class="card-subtitle">Spatial Transforms, DH Parameters & Forward Kinematics</div>
+              </div>
+              <span class="match-badge">100% GATE Match</span>
+            </div>
+            <div class="lecturer-info">
+              <span class="institute-pill">IIT Kanpur & IIT Madras</span>
+              <span>Prof. Ashish Dutta & Prof. T. Asokan</span>
+            </div>
+            <div class="lecture-breakdown">
+              <strong>Key Lectures to Watch:</strong><br>
+              &bull; <strong>Week 1 (Lec 1–4):</strong> Robot Classification, Serial vs Parallel, DOF, Workspace.<br>
+              &bull; <strong>Week 2 (Lec 5–8):</strong> 2D/3D Rotation Matrices, SO(3) Properties, 4×4 HTM.<br>
+              &bull; <strong>Week 3 (Lec 9–12):</strong> Denavit-Hartenberg (DH) Convention & Link Transformations.<br>
+              &bull; <strong>Week 4 (Lec 13–16):</strong> Forward & Inverse Kinematics of 2R/3R Arms.<br>
+              &bull; <strong>Week 11–12:</strong> End-Effectors, PTP vs Continuous Path, Repeatability & Accuracy.
+            </div>
+            <div class="key-takeaway">
+              <strong>💡 Syllabus Takeaway:</strong> Focus on deriving DH parameter tables (θ, d, a, α) and calculating end-effector position using forward transformation matrices ⁰Tₙ.
+            </div>
+          </div>
+          <a href="https://www.youtube.com/results?search_query=NPTEL+Introduction+to+Robotics+Ashish+Dutta" target="_blank" class="btn-link">▶ Watch on YouTube</a>
+        </div>
+
+        <!-- Course 2: Industrial Automation, PLCs & Actuators -->
+        <div class="card video-card" data-cat="automation sensors">
+          <div>
+            <img src="assets/course_automation_1787078405078.jpg" alt="Industrial Automation and Control" class="course-img">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Industrial Automation and Control</div>
+                <div class="card-subtitle">PLCs, Ladder Logic, CNC, Hydraulics & Electric Drives</div>
+              </div>
+              <span class="match-badge">100% GATE Match</span>
+            </div>
+            <div class="lecturer-info">
+              <span class="institute-pill">IIT Kharagpur</span>
+              <span>Prof. Siddhartha Mukhopadhyay</span>
+            </div>
+            <div class="lecture-breakdown">
+              <strong>Key Lectures to Watch:</strong><br>
+              &bull; <strong>Module 4 (Lec 14–18):</strong> PLC Architecture, Scan Cycle, Ladder Logic, Timers & Counters.<br>
+              &bull; <strong>Module 5 (Lec 19–22):</strong> CNC Machines, Interpolation, Multi-Axis Positioning.<br>
+              &bull; <strong>Module 7 (Lec 27–31):</strong> Hydraulic & Pneumatic Actuators, Valves, FRL Unit.<br>
+              &bull; <strong>Module 8 (Lec 32–36):</strong> DC Motor, Stepper, and BLDC Speed-Torque Characteristics.
+            </div>
+            <div class="key-takeaway">
+              <strong>💡 Syllabus Takeaway:</strong> Master PLC scan cycles, TON/TOF timer contacts, stepper step angle formulas, and hydraulic/pneumatic cylinder force equations (F = P · A).
+            </div>
+          </div>
+          <a href="https://www.youtube.com/results?search_query=NPTEL+Industrial+Automation+and+Control+Siddhartha+Mukhopadhyay" target="_blank" class="btn-link">▶ Watch on YouTube</a>
+        </div>
+
+        <!-- Course 3: Automation in Manufacturing (CIM, AS/RS, AIDC) -->
+        <div class="card video-card" data-cat="automation">
+          <div>
+            <img src="assets/course_cim_1787078530952.jpg" alt="Automation in Manufacturing & CIM" class="course-img">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Automation in Manufacturing & CIM</div>
+                <div class="card-subtitle">AGVs, AS/RS Storage Systems, Barcodes & RFID</div>
+              </div>
+              <span class="match-badge">100% GATE Match</span>
+            </div>
+            <div class="lecturer-info">
+              <span class="institute-pill">IIT Guwahati</span>
+              <span>Prof. Shrikrishna N. Joshi</span>
+            </div>
+            <div class="lecture-breakdown">
+              <strong>Key Lectures to Watch:</strong><br>
+              &bull; <strong>Week 1–2:</strong> CIM Architectures, Fixed vs Flexible Automation.<br>
+              &bull; <strong>Week 6–7:</strong> Automated Material Handling, AGV Guidance & Routing.<br>
+              &bull; <strong>Week 8:</strong> AS/RS Storage Systems, Single/Dual Command Cycle Times (T_sc, T_dc).<br>
+              &bull; <strong>Week 9:</strong> Auto-ID & Data Capture (AIDC): 1D/2D Barcodes, RFID Transponders.
+            </div>
+            <div class="key-takeaway">
+              <strong>💡 Syllabus Takeaway:</strong> Understand AS/RS travel time equations and passive vs active RFID frequencies.
+            </div>
+          </div>
+          <a href="https://www.youtube.com/results?search_query=NPTEL+Automation+in+Manufacturing+Shrikrishna+Joshi" target="_blank" class="btn-link">▶ Watch on YouTube</a>
+        </div>
+
+        <!-- Course 4: Sensors & Signal Conditioning -->
+        <div class="card video-card" data-cat="sensors">
+          <div>
+            <img src="assets/course_sensors_1787078455436.jpg" alt="Sensors and Actuators" class="course-img">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Sensors and Actuators</div>
+                <div class="card-subtitle">Transducers, Bridge Circuits, LVDT & Signal Conditioning</div>
+              </div>
+              <span class="match-badge">100% GATE Match</span>
+            </div>
+            <div class="lecturer-info">
+              <span class="institute-pill">IISc Bangalore</span>
+              <span>Prof. Hardik J. Pandya</span>
+            </div>
+            <div class="lecture-breakdown">
+              <strong>Key Lectures to Watch:</strong><br>
+              &bull; <strong>Lec 1–6:</strong> Strain Gauges (Gauge Factor GF), RTD (PT100), Thermistors.<br>
+              &bull; <strong>Lec 7–11:</strong> LVDT Inductive Displacement Transducers, Capacitive Sensors.<br>
+              &bull; <strong>Lec 12–15:</strong> Piezoelectric Charge Transducers, Hall Effect Sensors (V_H = R_H · I · B / t).<br>
+              &bull; <strong>Lec 16–25:</strong> Optical Quadrature Encoders, 3-Op-Amp Instrumentation Amplifiers.
+            </div>
+            <div class="key-takeaway">
+              <strong>💡 Syllabus Takeaway:</strong> Focus on Wheatstone bridge output voltage (V₀ = (Vs / 4) · GF · ε) and why piezoelectric sensors cannot measure static DC loads.
+            </div>
+          </div>
+          <a href="https://www.youtube.com/results?search_query=NPTEL+Sensors+and+Actuators+Hardik+J+Pandya" target="_blank" class="btn-link">▶ Watch on YouTube</a>
+        </div>
+
+        <!-- Course 5: Digital Logic & Circuits -->
+        <div class="card video-card" data-cat="circuits">
+          <div>
+            <img src="assets/course_digital_1787078582789.jpg" alt="Digital Electronic Circuits" class="course-img">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Digital Electronic Circuits</div>
+                <div class="card-subtitle">Logic Gates, MUX, Flip-Flops & Binary Counters</div>
+              </div>
+              <span class="match-badge">100% GATE Match</span>
+            </div>
+            <div class="lecturer-info">
+              <span class="institute-pill">IIT Kharagpur</span>
+              <span>Prof. Goutam Saha</span>
+            </div>
+            <div class="lecture-breakdown">
+              <strong>Key Lectures to Watch:</strong><br>
+              &bull; <strong>Lec 1–8:</strong> Boolean Algebra, De Morgan's Laws, K-Maps, Universal NAND/NOR.<br>
+              &bull; <strong>Lec 9–16:</strong> Multiplexers (MUX 4:1, 8:1), Decoders, Priority Encoders.<br>
+              &bull; <strong>Lec 17–25:</strong> Latches, SR, JK, D, T Flip-Flops, MOD-N Binary Counters.
+            </div>
+            <div class="key-takeaway">
+              <strong>💡 Syllabus Takeaway:</strong> Master JK flip-flop excitation tables and calculating modulus N for ripple counters (2ⁿ⁻¹ &lt; N ≤ 2ⁿ).
+            </div>
+          </div>
+          <a href="https://www.youtube.com/results?search_query=NPTEL+Digital+Electronic+Circuits+Goutam+Saha" target="_blank" class="btn-link">▶ Watch on YouTube</a>
+        </div>
+
+        <!-- Course 6: Python & Data Structures -->
+        <div class="card video-card" data-cat="python">
+          <div>
+            <img src="assets/course_python_1787078613259.jpg" alt="Python & Data Structures" class="course-img">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Python Programming & Data Structures</div>
+                <div class="card-subtitle">Time Complexity, Recursion, Stacks, Queues, BSTs & Graphs</div>
+              </div>
+              <span class="match-badge">100% GATE Match</span>
+            </div>
+            <div class="lecturer-info">
+              <span class="institute-pill">CMI / NPTEL</span>
+              <span>Prof. Madhavan Mukund</span>
+            </div>
+            <div class="lecture-breakdown">
+              <strong>Key Lectures to Watch:</strong><br>
+              &bull; <strong>Week 1–2:</strong> Python Syntax, Lists, Dictionaries, Slicing, List Comprehension.<br>
+              &bull; <strong>Week 3:</strong> Recursion, Time Complexity (O(1), O(n), O(n log n), O(n²)).<br>
+              &bull; <strong>Week 4–5:</strong> Stacks, Queues, Linked Lists Operations.<br>
+              &bull; <strong>Week 6–8:</strong> Binary Search Trees (Inorder Traversal), Binary Heaps, BFS/DFS Graph Traversal.
+            </div>
+            <div class="key-takeaway">
+              <strong>💡 Syllabus Takeaway:</strong> Predict output of recursive Python code and understand BFS queue-based shortest path guarantee.
+            </div>
+          </div>
+          <a href="https://www.youtube.com/results?search_query=NPTEL+Programming+Data+Structures+and+Algorithms+using+Python+Madhavan+Mukund" target="_blank" class="btn-link">▶ Watch on YouTube</a>
+        </div>
+
+        <!-- Course 7: Strength of Materials (Part B2) -->
+        <div class="card video-card" data-cat="mech">
+          <div>
+            <img src="assets/course_som_1787078478456.jpg" alt="Strength of Materials (SOM)" class="course-img">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Strength of Materials (SOM)</div>
+                <div class="card-subtitle">Mohr's Circle, Bending, Torsion, Buckling & Rosettes</div>
+              </div>
+              <span class="match-badge">100% GATE Match</span>
+            </div>
+            <div class="lecturer-info">
+              <span class="institute-pill">IIT Roorkee</span>
+              <span>Prof. S.P. Harsha</span>
+            </div>
+            <div class="lecture-breakdown">
+              <strong>Key Lectures to Watch:</strong><br>
+              &bull; <strong>Stress & Strain:</strong> Elastic Constants (E = 2G(1+ν) = 3K(1-2ν)), Mohr's Circle.<br>
+              &bull; <strong>Beams & Shafts:</strong> Flexure formula M/I = σ/y = E/R, Torsion formula T/J = τ/r = G·θ/L.<br>
+              &bull; <strong>Columns & Strain Gauges:</strong> Euler buckling P_cr = (π² · E · I) / L_e², Rectangular Strain Rosettes.
+            </div>
+            <div class="key-takeaway">
+              <strong>💡 Syllabus Takeaway:</strong> Core scoring area for Part B2. Solve standard 2-mark numericals on principal stresses and beam deflections.
+            </div>
+          </div>
+          <a href="https://www.youtube.com/results?search_query=NPTEL+Strength+of+Materials+SP+Harsha" target="_blank" class="btn-link">▶ Watch on YouTube</a>
+        </div>
+
+        <!-- Course 8: Theory of Machines & Vibrations (Part B2) -->
+        <div class="card video-card" data-cat="mech">
+          <div>
+            <img src="assets/course_vibrations_1787078501480.jpg" alt="Theory of Machines & Mechanical Vibrations" class="course-img">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Theory of Machines & Mechanical Vibrations</div>
+                <div class="card-subtitle">Inversions, Coriolis, Epicyclic Gears & SDOF Damping</div>
+              </div>
+              <span class="match-badge">100% GATE Match</span>
+            </div>
+            <div class="lecturer-info">
+              <span class="institute-pill">IIT Kharagpur</span>
+              <span>Prof. Dilip Kumar Pratihar</span>
+            </div>
+            <div class="lecture-breakdown">
+              <strong>Key Lectures to Watch:</strong><br>
+              &bull; <strong>Kinematics & Coriolis:</strong> Degrees of freedom, Coriolis acceleration (aᶜ = 2·ω·v_rel).<br>
+              &bull; <strong>Gear Trains:</strong> Epicyclic gear speed tables, Sun-Planet-Ring torque ratios.<br>
+              &bull; <strong>SDOF Vibrations:</strong> Natural frequency, Damping ratio ζ, Logarithmic decrement.<br>
+              &bull; <strong>Vibration Isolation:</strong> Transmissibility (TR &lt; 1 only when r = ω/ω_n &gt; √2).
+            </div>
+            <div class="key-takeaway">
+              <strong>💡 Syllabus Takeaway:</strong> Master tabular speed methods for epicyclic gears and the √2 isolation frequency boundary.
+            </div>
+          </div>
+          <a href="https://www.youtube.com/results?search_query=NPTEL+Kinematics+of+Mechanisms+and+Machines+Dilip+Kumar+Pratihar" target="_blank" class="btn-link">▶ Watch on YouTube</a>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- TAB 2: NOTES & CHEATSHEETS READER -->
+    <div id="notes" class="tab-content">
+      <div class="notes-nav">
+        <button class="notes-btn active" onclick="loadNote('cheatcodes', this)" style="background:linear-gradient(135deg, #ea580c, #f59e0b); color:#fff; border-color:#ea580c;">⚡ Master Cheatcodes & Shortcuts</button>
+        <button class="notes-btn" onclick="loadNote('kinematics', this)">🤖 Spatial Transforms & DH</button>
+        <button class="notes-btn" onclick="loadNote('dynamics', this)">🦾 Jacobians & Dynamics</button>
+        <button class="notes-btn" onclick="loadNote('sensors', this)">📡 Sensors & Transducers</button>
+        <button class="notes-btn" onclick="loadNote('actuators', this)">⚡ Actuators & Motor Drives</button>
+        <button class="notes-btn" onclick="loadNote('automation', this)">🏭 CIM, PLCs & CNC</button>
+        <button class="notes-btn" onclick="loadNote('circuits', this)">🔌 Circuits & Digital Logic</button>
+        <button class="notes-btn" onclick="loadNote('python', this)">🐍 Python & Data Structures</button>
+        <button class="notes-btn" onclick="loadNote('maths', this)">📐 Linear Algebra</button>
+        <button class="notes-btn" onclick="loadNote('calculus', this)">📈 Calculus & Vectors</button>
+        <button class="notes-btn" onclick="loadNote('ode', this)">📉 ODEs & Laplace</button>
+        <button class="notes-btn" onclick="loadNote('prob', this)">🎲 Probability & Numerical</button>
+        <button class="notes-btn" onclick="loadNote('som', this)">🧱 SOM (Part B2)</button>
+        <button class="notes-btn" onclick="loadNote('tom', this)">⚙️ TOM & Vibrations (Part B2)</button>
+      </div>
+
+      <div class="notes-viewer" id="noteContent">
+        <!-- Content injected dynamically via JS -->
+      </div>
+    </div>
+
+    <!-- TAB 3: SYLLABUS TRACKER -->
+    <div id="syllabus" class="tab-content">
+      <div class="grid-2">
+        
+        <div class="card">
+          <div class="card-title">
+            <span>A.1: Engineering Mathematics</span>
+            <span style="font-size:0.82rem; color:var(--accent-orange); font-weight:700;">Compulsory (Part A)</span>
+          </div>
+          <label class="checklist-item"><input type="checkbox" onchange="updateProgress(this)"><span>Linear Algebra (Eigenvalues, Rank, Inverse, Ax=b, SVD)</span></label>
+          <label class="checklist-item"><input type="checkbox" onchange="updateProgress(this)"><span>Calculus (Limits, Maxima/Minima, Multiple Integrals, Taylor Series)</span></label>
+          <label class="checklist-item"><input type="checkbox" onchange="updateProgress(this)"><span>Vector Calculus (Gradient, Divergence, Curl, Directional Deriv.)</span></label>
+          <label class="checklist-item"><input type="checkbox" onchange="updateProgress(this)"><span>Differential Equations (1st/Higher order ODE, Laplace, PDEs)</span></label>
+          <label class="checklist-item"><input type="checkbox" onchange="updateProgress(this)"><span>Probability & Statistics (Bayes, Poisson, Normal, Hypothesis Testing)</span></label>
+          <label class="checklist-item"><input type="checkbox" onchange="updateProgress(this)"><span>Numerical Methods (Newton-Raphson, Simpson's, Runge-Kutta)</span></label>
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            <span>A.2: Mechatronics, Circuits & Python</span>
+            <span style="font-size:0.82rem; color:var(--accent-orange); font-weight:700;">Compulsory (Part A)</span>
+          </div>
+          <label class="checklist-item"><input type="checkbox" onchange="updateProgress(this)"><span>Network Elements & Theorems (Thevenin, Norton, Max Power, AC Resonance)</span></label>
+          <label class="checklist-item"><input type="checkbox" onchange="updateProgress(this)"><span>Digital Circuits (Logic Gates, MUX, Flip-Flops, Counters)</span></label>
+          <label class="checklist-item"><input type="checkbox" onchange="updateProgress(this)"><span>Sensors & Transducers (Strain Gauge, LVDT, Hall Effect, Encoders)</span></label>
+          <label class="checklist-item"><input type="checkbox" onchange="updateProgress(this)"><span>Signal Conditioning & Op-Amps (Instrumentation Amp, Filters, Bridges)</span></label>
+          <label class="checklist-item"><input type="checkbox" onchange="updateProgress(this)"><span>Actuators & Motors (DC, BLDC, Stepper angles, Servos, Hydraulics/Pneumatics)</span></label>
+          <label class="checklist-item"><input type="checkbox" onchange="updateProgress(this)"><span>Python Core & Data Structures (Stacks, Queues, BST, Heaps, Graphs)</span></label>
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            <span>A.3: Robotics & Automation</span>
+            <span style="font-size:0.82rem; color:var(--accent-orange); font-weight:700;">Compulsory (Part A)</span>
+          </div>
+          <label class="checklist-item"><input type="checkbox" onchange="updateProgress(this)"><span>Robot Configurations & Classification (Serial vs Parallel, SCARA, Articulated)</span></label>
+          <label class="checklist-item"><input type="checkbox" onchange="updateProgress(this)"><span>Degrees of Freedom (Kutzbach & Grübler's Criteria)</span></label>
+          <label class="checklist-item"><input type="checkbox" onchange="updateProgress(this)"><span>2D/3D Rotation Matrices & Properties (SO(3), Euler Angles, HTMs)</span></label>
+          <label class="checklist-item"><input type="checkbox" onchange="updateProgress(this)"><span>Forward Kinematics & Denavit-Hartenberg (DH Parameters)</span></label>
+          <label class="checklist-item"><input type="checkbox" onchange="updateProgress(this)"><span>PLCs (Ladder Logic, Timers TON/TOF, Counters CTU/CTD)</span></label>
+          <label class="checklist-item"><input type="checkbox" onchange="updateProgress(this)"><span>CNC Programming (G-Codes, M-Codes, Interpolation) & AS/RS, AIDC, RFID</span></label>
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            <span>Part B2: Mechanical Stream (Your Choice)</span>
+            <span style="font-size:0.82rem; color:var(--accent-green); font-weight:700;">25 Marks</span>
+          </div>
+          <label class="checklist-item"><input type="checkbox" onchange="updateProgress(this)"><span>B2.1 Mechanics of Materials (Mohr's Circle, SFD/BMD, Bending, Torsion)</span></label>
+          <label class="checklist-item"><input type="checkbox" onchange="updateProgress(this)"><span>B2.1 Euler's Buckling, Beam Deflection, Strain Rosettes</span></label>
+          <label class="checklist-item"><input type="checkbox" onchange="updateProgress(this)"><span>B2.2 TOM & Dynamics (Inversions, Coriolis Acceleration, Gear Trains)</span></label>
+          <label class="checklist-item"><input type="checkbox" onchange="updateProgress(this)"><span>B2.2 Mechanical Vibrations (SDOF Damping, Transmissibility, Whirling)</span></label>
+          <label class="checklist-item"><input type="checkbox" onchange="updateProgress(this)"><span>B2.3 Machine Design (Failure Theories, Fatigue S-N, Goodman, Bearings L10)</span></label>
+          <label class="checklist-item"><input type="checkbox" onchange="updateProgress(this)"><span>B2.3 Additive Manufacturing (FDM, SLA, SLS, SLM 3D Printing)</span></label>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- TAB 4: FORMULA CARDS -->
+    <div id="formulas" class="tab-content">
+      <input type="text" class="search-input" id="formulaSearch" placeholder="🔍 Search any formula (e.g. Stepper, Rotation, Mohr, Vibration, LVDT, DH, Thevenin, Bearing, Poisson, Jacobian, Buckling, Resonance)..." onkeyup="filterFormulas()">
+      
+      <div class="grid-3" id="formulaGrid">
+        
+        <!-- ROBOTICS & KINEMATICS -->
+        <div class="card formula-item">
+          <div class="formula-title">2D Rotation Matrix & SO(2)</div>
+          <div class="formula-box">R(θ) = [cos θ  -sin θ]<br>       [sin θ   cos θ]</div>
+          <div class="formula-desc">Det(R) = +1, Rᵀ = R⁻¹. Preserves Euclidean lengths and angles.</div>
+        </div>
+
+        <div class="card formula-item">
+          <div class="formula-title">Trace of 3D Rotation Matrix</div>
+          <div class="formula-box">Trace(R) = 1 + 2·cos(θ)<br>cos(θ) = (Trace(R) - 1) / 2</div>
+          <div class="formula-desc">Direct 10-second shortcut to find 3D angle of rotation from matrix diagonal sum.</div>
+        </div>
+
+        <div class="card formula-item">
+          <div class="formula-title">Fast 4 × 4 HTM Inversion</div>
+          <div class="formula-box">T = [R  P] ⟹ T⁻¹ = [Rᵀ  -Rᵀ·P]<br>    [0  1]            [0      1  ]</div>
+          <div class="formula-desc">Inverts a homogeneous transformation matrix instantly without matrix Gaussian elimination.</div>
+        </div>
+
+        <div class="card formula-item">
+          <div class="formula-title">Mobility (Grübler 2D & 3D)</div>
+          <div class="formula-box">Planar 2D: M = 3(N - 1) - 2j₁ - j₂<br>Spatial 3D: M = 6(N - 1) - 5j</div>
+          <div class="formula-desc">N = total links (including ground link 1), j = 1-DOF joints.</div>
+        </div>
+
+        <div class="card formula-item">
+          <div class="formula-title">2R Manipulator Jacobian & Det</div>
+          <div class="formula-box">J = [-L1·s1-L2·s12  -L2·s12]<br>    [ L1·c1+L2·c12   L2·c12]<br>det(J) = L1 · L2 · sin(θ2)</div>
+          <div class="formula-desc">Singularity occurs when det(J) = 0 ⟹ θ2 = 0° (fully extended) or 180° (folded).</div>
+        </div>
+
+        <div class="card formula-item">
+          <div class="formula-title">Robot Statics Duality</div>
+          <div class="formula-box">τ = Jᵀ(q) · F</div>
+          <div class="formula-desc">Calculates joint torques required to balance Cartesian end-effector contact force F.</div>
+        </div>
+
+        <div class="card formula-item">
+          <div class="formula-title">Euler-Lagrange Robot Dynamics</div>
+          <div class="formula-box">M(q)·q̈ + C(q, q̇)·q̇ + G(q) = τ</div>
+          <div class="formula-desc">M(q) = symmetric positive-definite inertia matrix, Ṁ - 2C is skew-symmetric.</div>
+        </div>
+
+        <div class="card formula-item">
+          <div class="formula-title">Cubic Trajectory Blend</div>
+          <div class="formula-box">q(t) = q₀ + (3·Δq / t_f²)·t² - (2·Δq / t_f³)·t³</div>
+          <div class="formula-desc">Δq = q_f - q₀. Guarantees zero velocity at start t=0 and goal t=t_f.</div>
+        </div>
+
+        <!-- MECHATRONICS & SENSORS -->
+        <div class="card formula-item">
+          <div class="formula-title">Stepper Motor Step Angle (β)</div>
+          <div class="formula-box">β = 360° / (m · Nr)<br>Steps/rev = 360° / β</div>
+          <div class="formula-desc">m = stator phases, Nr = rotor teeth. Half-stepping mode: β_half = β / 2.</div>
+        </div>
+
+        <div class="card formula-item">
+          <div class="formula-title">DC Motor Speed-Torque Curve</div>
+          <div class="formula-box">ω = (V / Ke) - (Ra / (Ke·Kt)) · T<br>P_max = (1/4) · ω₀ · T_stall</div>
+          <div class="formula-desc">Linear drooping curve. Max mechanical power delivered at half no-load speed.</div>
+        </div>
+
+        <div class="card formula-item">
+          <div class="formula-title">Wheatstone Strain Bridge</div>
+          <div class="formula-box">Quarter: V₀ = (Vs / 4) · (GF · ε)<br>Full:    V₀ = Vs · (GF · ε)</div>
+          <div class="formula-desc">GF = Gauge Factor, ε = axial strain. Full bridge gives 4× higher sensitivity.</div>
+        </div>
+
+        <div class="card formula-item">
+          <div class="formula-title">Piezoelectric Sensor Equation</div>
+          <div class="formula-box">Q = d · F = d · (σ · A)<br>V₀ = g · σ · t</div>
+          <div class="formula-desc">Cannot measure static DC forces (acts as High-Pass filter with f_c = 1/(2πRC)).</div>
+        </div>
+
+        <div class="card formula-item">
+          <div class="formula-title">Hall Effect Sensor Voltage</div>
+          <div class="formula-box">V_H = (R_H · I · B) / t</div>
+          <div class="formula-desc">R_H = Hall coefficient, I = current, B = magnetic field, t = sensor thickness.</div>
+        </div>
+
+        <div class="card formula-item">
+          <div class="formula-title">Instrumentation Amplifier Gain</div>
+          <div class="formula-box">V₀ = (1 + 2R₁/R_gain) · (R₃/R₂) · (V₂ - V₁)</div>
+          <div class="formula-desc">3-Op-Amp topology with high input impedance and superior CMRR.</div>
+        </div>
+
+        <div class="card formula-item">
+          <div class="formula-title">Maximum Power Transfer (DC)</div>
+          <div class="formula-box">R_L = R_th<br>P_max = V_th² / (4 · R_th)</div>
+          <div class="formula-desc">Efficiency at maximum power transfer is always 50%.</div>
+        </div>
+
+        <div class="card formula-item">
+          <div class="formula-title">Series RLC AC Resonance</div>
+          <div class="formula-box">ω₀ = 1 / √(L · C)<br>Q = (ω₀·L)/R = (1/R)·√(L/C)</div>
+          <div class="formula-desc">Bandwidth BW = ω₀ / Q = R / L (rad/s). Power factor is unity (cos φ = 1) at resonance.</div>
+        </div>
+
+        <div class="card formula-item">
+          <div class="formula-title">Binary Counter Flip-Flop Rule</div>
+          <div class="formula-box">2ⁿ⁻¹ &lt; N ≤ 2ⁿ</div>
+          <div class="formula-desc">n = number of flip-flops required for MOD-N ripple/synchronous counter.</div>
+        </div>
+
+        <div class="card formula-item">
+          <div class="formula-title">Hydraulic Cylinder Forces</div>
+          <div class="formula-box">F_ext = P · (π/4 · D²)<br>F_ret = P · (π/4 · (D² - d²))</div>
+          <div class="formula-desc">D = piston bore, d = rod diameter. Retraction force is lower due to rod area.</div>
+        </div>
+
+        <div class="card formula-item">
+          <div class="formula-title">AS/RS Storage Cycle Times</div>
+          <div class="formula-box">T_sc = 2·max(L/vx, H/vy) + 2·T_pd<br>T_dc ≈ 1.5·max(L/vx, H/vy) + 4·T_pd</div>
+          <div class="formula-desc">Single Command (T_sc) vs Dual Command (T_dc) automated retrieval cycle times.</div>
+        </div>
+
+        <!-- MATHEMATICS -->
+        <div class="card formula-item">
+          <div class="formula-title">Eigenvalue Trace & Det Laws</div>
+          <div class="formula-box">Σ λᵢ = Trace(A)<br>Π λᵢ = det(A)</div>
+          <div class="formula-desc">Symmetric matrices (A=Aᵀ) have strictly real eigenvalues and orthogonal eigenvectors.</div>
+        </div>
+
+        <div class="card formula-item">
+          <div class="formula-title">Multivariable Hessian Test</div>
+          <div class="formula-box">D = r·t - s²<br>(r = f_xx, s = f_xy, t = f_yy)</div>
+          <div class="formula-desc">D &gt; 0, r &gt; 0 ⟹ Min | D &gt; 0, r &lt; 0 ⟹ Max | D &lt; 0 ⟹ Saddle Point.</div>
+        </div>
+
+        <div class="card formula-item">
+          <div class="formula-title">Gauss Divergence Theorem</div>
+          <div class="formula-box">∬_S (F · n̂) dS = ∭_V (∇ · F) dV</div>
+          <div class="formula-desc">Converts surface flux integrals into volume integrals of divergence.</div>
+        </div>
+
+        <div class="card formula-item">
+          <div class="formula-title">Bayes' Theorem</div>
+          <div class="formula-box">P(Bk|A) = [P(A|Bk)·P(Bk)] / [Σ P(A|Bi)·P(Bi)]</div>
+          <div class="formula-desc">Updates prior probability P(Bk) based on observed event A.</div>
+        </div>
+
+        <div class="card formula-item">
+          <div class="formula-title">Poisson Distribution</div>
+          <div class="formula-box">P(X = k) = (e⁻ᵞ · λᵏ) / k!<br>Mean = Variance = λ</div>
+          <div class="formula-desc">Models rare discrete event arrivals in continuous time (λ = n·p).</div>
+        </div>
+
+        <div class="card formula-item">
+          <div class="formula-title">Newton-Raphson Root Method</div>
+          <div class="formula-box">x_{n+1} = x_n - f(x_n) / f'(x_n)</div>
+          <div class="formula-desc">Quadratic order of convergence (p = 2). Square root trick: x_{n+1} = 0.5·(x_n + N/x_n).</div>
+        </div>
+
+        <div class="card formula-item">
+          <div class="formula-title">Simpson's 1/3 Rule</div>
+          <div class="formula-box">I ≈ (h/3)·[(y₀+yₙ) + 4·(odd sum) + 2·(even sum)]</div>
+          <div class="formula-desc">Requires EVEN subintervals (n=2,4,6...). Error is proportional to h⁴.</div>
+        </div>
+
+        <!-- MECHANICAL STREAM (PART B2) -->
+        <div class="card formula-item">
+          <div class="formula-title">Elastic Constants Relations</div>
+          <div class="formula-box">E = 2G(1 + ν) = 3K(1 - 2ν)<br>E = (9KG) / (3K + G)</div>
+          <div class="formula-desc">E = Young's modulus, G = Shear modulus, K = Bulk modulus, ν = Poisson's ratio.</div>
+        </div>
+
+        <div class="card formula-item">
+          <div class="formula-title">Mohr's Circle Principal Stresses</div>
+          <div class="formula-box">σ₁,₂ = (σx + σy)/2 ± √(((σx - σy)/2)² + τxy²)<br>τ_max = √(((σx - σy)/2)² + τxy²)</div>
+          <div class="formula-desc">Centre: ((σx+σy)/2, 0), Radius: τ_max. Principal angle: tan(2θp) = 2τxy/(σx-σy).</div>
+        </div>
+
+        <div class="card formula-item">
+          <div class="formula-title">Euler's Column Buckling Load</div>
+          <div class="formula-box">P_cr = (π² · E · I_min) / L_e²</div>
+          <div class="formula-desc">Both pinned: Le=L | Both fixed: Le=0.5L | Cantilever: Le=2L | One fixed/pinned: Le=0.707L.</div>
+        </div>
+
+        <div class="card formula-item">
+          <div class="formula-title">Thin Cylinder Stresses</div>
+          <div class="formula-box">Hoop Stress: σ_h = (p · d) / (2t)<br>Longitudinal: σ_l = (p · d) / (4t) = σ_h / 2</div>
+          <div class="formula-desc">Max in-plane shear: τ_max = pd/(8t). Absolute max shear: τ_max_abs = pd/(4t).</div>
+        </div>
+
+        <div class="card formula-item">
+          <div class="formula-title">Coriolis Acceleration</div>
+          <div class="formula-box">aᶜ = 2 · ω · v_rel</div>
+          <div class="formula-desc">Direction: Rotate v_rel by 90° in the direction of angular velocity ω.</div>
+        </div>
+
+        <div class="card formula-item">
+          <div class="formula-title">Epicyclic Planetary Gear Train</div>
+          <div class="formula-box">(N_sun - N_arm) / (N_ring - N_arm) = - T_ring / T_sun</div>
+          <div class="formula-desc">Tabular speed method for planetary gearboxes used in robotic joint actuators.</div>
+        </div>
+
+        <div class="card formula-item">
+          <div class="formula-title">SDOF Damped Vibrations</div>
+          <div class="formula-box">ωₙ = √(k/m),   c_c = 2mωₙ = 2√(km)<br>ζ = c / c_c,   ω_d = ωₙ·√(1 - ζ²)</div>
+          <div class="formula-desc">Logarithmic decrement: δ = ln(x1/x2) = (2πζ) / √(1 - ζ²).</div>
+        </div>
+
+        <div class="card formula-item">
+          <div class="formula-title">Vibration Isolation Rule</div>
+          <div class="formula-box">TR &lt; 1  ⟺  r = (ω / ωₙ) &gt; √2 ≈ 1.414<br>TR = √((1 + (2ζr)²) / ((1 - r²)² + (2ζr)²))</div>
+          <div class="formula-desc">Force transmissibility drops below 1 only when excitation frequency exceeds √2 × natural frequency.</div>
+        </div>
+
+        <div class="card formula-item">
+          <div class="formula-title">Rolling Bearing Rating Life (L10)</div>
+          <div class="formula-box">L₁₀ = (C / P)ᵖ  (Millions of revs)<br>p = 3 (Ball) | p = 10/3 ≈ 3.33 (Roller)</div>
+          <div class="formula-desc">Doubling dynamic load (2P) reduces ball bearing life by 87.5% (to 1/8 of original).</div>
+        </div>
+
+        <div class="card formula-item">
+          <div class="formula-title">Fatigue Design: Goodman Line</div>
+          <div class="formula-box">(σ_a / S_e) + (σ_m / S_ut) = 1 / FS</div>
+          <div class="formula-desc">σ_a = alternating stress amplitude, σ_m = mean stress, S_e = endurance limit, S_ut = ultimate strength.</div>
+        </div>
+
+        <div class="card formula-item">
+          <div class="formula-title">SLA 3D Printing Cure Depth</div>
+          <div class="formula-box">C_d = D_p · ln(E_max / E_c)</div>
+          <div class="formula-desc">Beer-Lambert law for stereolithography: D_p = resin penetration depth, E_c = critical exposure threshold.</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- TAB 5: PRACTICE QUIZ & 1000+ QUESTION ASSIGNMENT SIMULATOR -->
+    <div id="quiz" class="tab-content">
+      <div class="quiz-container">
+        
+        <!-- Top Controls: Mode & Category Filter -->
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.8rem; margin-bottom:1.5rem; border-bottom:1.5px solid var(--border-warm); padding-bottom:1rem;">
+          <div style="display:flex; gap:0.4rem; flex-wrap:wrap;">
+            <button class="filter-btn active" id="btnCatAll" onclick="filterQuizCat('all', this)">All Topics (1000+ Pool)</button>
+            <button class="filter-btn" onclick="filterQuizCat('robotics', this)">🤖 Robotics A.3</button>
+            <button class="filter-btn" onclick="filterQuizCat('mechatronics', this)">⚡ Mechatronics A.2</button>
+            <button class="filter-btn" onclick="filterQuizCat('mech', this)">⚙️ Mechanical B2</button>
+            <button class="filter-btn" onclick="filterQuizCat('maths', this)">📐 Engg Maths A.1</button>
+            <button class="filter-btn" onclick="filterQuizCat('python', this)">🐍 Python & DSA</button>
+          </div>
+          <button onclick="generateRandomProblem()" style="background:#fff7ed; border:1.5px solid #fed7aa; color:#ea580c; font-weight:700; font-family:var(--font-heading); padding:0.45rem 0.9rem; border-radius:8px; cursor:pointer;">🎲 Random Question</button>
+        </div>
+
+        <div class="quiz-meta">
+          <span id="quizIndex" style="font-weight:700; color:#1e293b;">Question 1 of 20</span>
+          <span id="quizCategory" style="color:var(--accent-orange); font-weight:700; background:#fff7ed; border:1px solid #fed7aa; padding:0.2rem 0.6rem; border-radius:6px;">Actuators & Steppers</span>
+        </div>
+        
+        <div class="quiz-question" id="quizQuestion" style="min-height:70px;">
+          A 4-phase hybrid stepper motor has 50 teeth on the rotor. What is the step angle when operated in half-stepping mode?
+        </div>
+        
+        <div id="quizOptions"></div>
+        <div class="explanation-box" id="quizExplanation"></div>
+        
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:1.5rem; border-top:1px solid #f1f5f9; padding-top:1rem;">
+          <button class="btn-action" style="background:#f8fafc; border:1.5px solid #e2e8f0; color:var(--text-main); margin-top:0;" onclick="prevQuestion()">&larr; Previous</button>
+          <span id="scoreDisplay" style="font-weight:700; font-family:var(--font-mono); color:#15803d; font-size:1.05rem;">Score: 0 / 0</span>
+          <button class="btn-action" id="nextBtn" style="margin-top:0;" onclick="nextQuestion()">Next Question &rarr;</button>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <div class="footer">
+    GATE 2027 Robotics & Automation (RA) Preparation &bull; Tailored for Mechanical Engineers targeting IISc RBCCPS
+  </div>
+
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-outline" id="cursorOutline"></div>
+
+  <script>
+    // Custom Cursor Animation Logic
+    const cursorDot = document.getElementById("cursorDot");
+    const cursorOutline = document.getElementById("cursorOutline");
+
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    let outlineX = mouseX;
+    let outlineY = mouseY;
+
+    window.addEventListener("mousemove", (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      cursorDot.style.left = `${mouseX}px`;
+      cursorDot.style.top = `${mouseY}px`;
+    });
+
+    // Smooth Lerp Animation for trailing outline
+    function animateCursor() {
+      const distX = mouseX - outlineX;
+      const distY = mouseY - outlineY;
+      outlineX += distX * 0.18;
+      outlineY += distY * 0.18;
+
+      cursorOutline.style.left = `${outlineX}px`;
+      cursorOutline.style.top = `${outlineY}px`;
+
+      requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+
+    // Hover & Active States
+    document.addEventListener("mousedown", () => {
+      document.body.classList.add("cursor-click");
+    });
+    document.addEventListener("mouseup", () => {
+      document.body.classList.remove("cursor-click");
+    });
+
+    function attachCursorHover() {
+      const interactives = document.querySelectorAll("a, button, input, .card, .checklist-item, .quiz-option, .notes-btn, .nav-btn, .topic-btn");
+      interactives.forEach((el) => {
+        el.addEventListener("mouseenter", () => document.body.classList.add("cursor-hover"));
+        el.addEventListener("mouseleave", () => document.body.classList.remove("cursor-hover"));
+      });
+    }
+    attachCursorHover();
+
+    // Portal Warp Animation to Game-Changer Videos
+    function launchPortal() {
+      const portal = document.getElementById("portalOverlay");
+      const bar = document.getElementById("portalBar");
+      portal.classList.add("active");
+      setTimeout(() => {
+        bar.style.width = "100%";
+      }, 50);
+      setTimeout(() => {
+        window.location.href = "targeted_videos.html";
+      }, 1150);
+    }
+
+    // Tab switching
+    function switchTab(tabId) {
+      document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+      
+      event.target.classList.add('active');
+      document.getElementById(tabId).classList.add('active');
+      if (tabId === 'notes') {
+        loadNote('kinematics');
+      }
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise();
+      }
+    }
+
+    // Video Filter
+    function filterVideos(cat, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const cards = document.querySelectorAll('.video-card');
+      cards.forEach(card => {
+        const itemCats = card.getAttribute('data-cat');
+        if (cat === 'all' || itemCats.includes(cat)) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    // Progress Tracker
+    function updateProgress(cb) {
+      if (cb) {
+        if (cb.checked) {
+          cb.parentElement.classList.add('done');
+        } else {
+          cb.parentElement.classList.remove('done');
+        }
+      }
+      const checkboxes = document.querySelectorAll('.checklist-item input[type="checkbox"]');
+      const checked = document.querySelectorAll('.checklist-item input[type="checkbox"]:checked');
+      const pct = Math.round((checked.length / checkboxes.length) * 100);
+      document.getElementById('progressPct').innerText = pct + '%';
+      localStorage.setItem('gate_ra_checklist_state', JSON.stringify(Array.from(checkboxes).map(c => c.checked)));
+    }
+
+    // ==========================================
+    // JASWANTH'S MOTIVATION & TIMER LOGIC
+    // ==========================================
+    const motivationalQuotes = [
+      "\"Jaswanth, let's push your boundaries! IISc RBCCPS is waiting for you.\"",
+      "\"Every formula you master today is a rank closer to IISc Bangalore, Jaswanth!\"",
+      "\"Consistency over intensity. Solve 5 numericals daily and conquer GATE RA 2027!\"",
+      "\"The inaugural year of GATE RA is your greatest opportunity. Outwork everyone!\"",
+      "\"Small daily disciplines compounded over time lead to extraordinary results, Jaswanth.\"",
+      "\"Don't count the days, make the days count. Dream big, study hard!\"",
+      "\"Your competition is resting right now. Keep your momentum going!\""
+    ];
+
+    let quoteIdx = 0;
+    function nextQuote() {
+      quoteIdx = (quoteIdx + 1) % motivationalQuotes.length;
+      document.getElementById('motivationalQuote').innerText = motivationalQuotes[quoteIdx];
+    }
+    // Auto rotate quotes every 10 seconds
+    setInterval(nextQuote, 10000);
+
+    // GATE 2027 Countdown (Target: Feb 13, 2027)
+    function updateCountdown() {
+      const targetDate = new Date("February 13, 2027 09:30:00").getTime();
+      const now = new Date().getTime();
+      const diff = targetDate - now;
+
+      if (diff > 0) {
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        document.getElementById("cntDays").innerText = String(days).padStart(2, '0');
+        document.getElementById("cntHours").innerText = String(hours).padStart(2, '0');
+        document.getElementById("cntMins").innerText = String(minutes).padStart(2, '0');
+        document.getElementById("cntSecs").innerText = String(seconds).padStart(2, '0');
+      }
+    }
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // Pomodoro Focus Timer
+    let pomoSeconds = 25 * 60;
+    let pomoRunning = false;
+    let pomoInterval = null;
+
+    function setFocusTime(mins) {
+      clearInterval(pomoInterval);
+      pomoRunning = false;
+      pomoSeconds = mins * 60;
+      updatePomoDisplay();
+      document.getElementById('pomoStartBtn').innerText = 'Start';
+      document.getElementById('pomoStatus').innerText = `🎯 Target: ${mins}-minute uninterrupted focus session.`;
+    }
+
+    function updatePomoDisplay() {
+      const m = Math.floor(pomoSeconds / 60);
+      const s = pomoSeconds % 60;
+      document.getElementById('pomodoroDisplay').innerText = 
+        `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    }
+
+    function togglePomodoro() {
+      if (pomoRunning) {
+        clearInterval(pomoInterval);
+        pomoRunning = false;
+        document.getElementById('pomoStartBtn').innerText = 'Resume';
+        document.getElementById('pomoStatus').innerText = '⏸️ Timer paused. Take a breath and dive back in!';
+      } else {
+        pomoRunning = true;
+        document.getElementById('pomoStartBtn').innerText = 'Pause';
+        document.getElementById('pomoStatus').innerText = '🔥 Jaswanth is in deep work mode! Stay focused!';
+        pomoInterval = setInterval(() => {
+          if (pomoSeconds > 0) {
+            pomoSeconds--;
+            updatePomoDisplay();
+          } else {
+            clearInterval(pomoInterval);
+            pomoRunning = false;
+            document.getElementById('pomoStartBtn').innerText = 'Start';
+            document.getElementById('pomoStatus').innerText = '🎉 Session Completed! Great job Jaswanth! Take a 5-min break.';
+            alert("⏰ Great focus session completed, Jaswanth! Take a 5-minute break!");
+          }
+        }, 1000);
+      }
+    }
+
+    function resetPomodoro() {
+      clearInterval(pomoInterval);
+      pomoRunning = false;
+      pomoSeconds = 25 * 60;
+      updatePomoDisplay();
+      document.getElementById('pomoStartBtn').innerText = 'Start';
+      document.getElementById('pomoStatus').innerText = '🧘 Deep focus mode: 100% conceptual absorption.';
+    }
+
+    // Load saved checklist
+    window.addEventListener('load', () => {
+      const saved = localStorage.getItem('gate_ra_checklist_state');
+      if (saved) {
+        const state = JSON.parse(saved);
+        const checkboxes = document.querySelectorAll('.checklist-item input[type="checkbox"]');
+        checkboxes.forEach((cb, idx) => {
+          if (state[idx]) {
+            cb.checked = true;
+            cb.parentElement.classList.add('done');
+          }
+        });
+      }
+      updateProgress();
+      renderQuestion();
+      loadNote('cheatcodes');
+    });
+
+    // Formula Search Filter
+    function filterFormulas() {
+      const query = document.getElementById('formulaSearch').value.toLowerCase();
+      const items = document.querySelectorAll('.formula-item');
+      items.forEach(item => {
+        const text = item.innerText.toLowerCase();
+        item.style.display = text.includes(query) ? 'block' : 'none';
+      });
+    }
+
+    // Notes Data
+    const notesData = {
+      cheatcodes: `
+        <h2>⚡ Master Cheatcodes & 10-Second Shortcuts for GATE RA 2027</h2>
+        <p><strong>Exclusive Sheet for Jaswanth:</strong> Rapid problem solving, exam traps, and shortcut formulas.</p>
+        
+        <h3>1. Fast 4 × 4 HTM Inversion (10-Second Trick)</h3>
+        <p>Never invert a 4 × 4 matrix manually. Use: <code>T⁻¹ = [Rᵀ, -Rᵀ·P; 0, 1]</code>.</p>
+
+        <h3>2. Trace of Rotation Matrix = Rotation Angle (θ)</h3>
+        <p>For any 3D rotation matrix R: <code>Trace(R) = 1 + 2·cos(θ) ⟹ cos(θ) = (Trace(R) - 1) / 2</code>.</p>
+
+        <h3>3. Stepper Motor Step Angle (β)</h3>
+        <p><code>β = 360° / (m · Nr)</code> (Half-stepping: β_half = β / 2).</p>
+
+        <h3>4. Coriolis Acceleration Direction Trick</h3>
+        <p>Magnitude: <code>aᶜ = 2 · ω · v_rel</code>. Direction: Look at v_rel and rotate it by 90° in the direction of ω.</p>
+
+        <h3>5. Vibration Isolation Golden Rule</h3>
+        <p>Transmissibility TR &lt; 1 if and only if frequency ratio: <code>r = (ω / ωₙ) &gt; √2 ≈ 1.414</code>.</p>
+
+        <h3>6. Ball Bearing Rating Life (L10)</h3>
+        <p><code>L₁₀ = (C / P)³</code>. Doubling the dynamic load (2P) drops the life to 1/8 (87.5% reduction!).</p>
+
+        <h3>7. Wheatstone Bridge Strain Voltage</h3>
+        <p>Quarter-Bridge: <code>V₀ = (Vs / 4) · (GF · ε)</code> | Full-Bridge: <code>V₀ = Vs · (GF · ε)</code> (4× higher sensitivity!).</p>
+      `,
+      kinematics: `
+        <h2>🤖 Module 1: Spatial Transformations & Forward Kinematics</h2>
+        <p><strong>GATE Section:</strong> Part A.3 (Principles of Robotics and Automation)</p>
+        <h3>1. 3D Rotation Matrices (SO(3) Special Orthogonal Group)</h3>
+        <p>A proper rotation matrix R satisfies: <code>Rᵀ = R⁻¹</code> and <code>det(R) = +1</code>.</p>
+        <ul>
+          <li><strong>Rotation about X by α:</strong> [1 0 0; 0 cos α -sin α; 0 sin α cos α]</li>
+          <li><strong>Rotation about Y by β:</strong> [cos β 0 sin β; 0 1 0; -sin β 0 cos β]</li>
+          <li><strong>Rotation about Z by γ:</strong> [cos γ -sin γ 0; sin γ cos γ 0; 0 0 1]</li>
+        </ul>
+        <h3>2. Denavit-Hartenberg (D-H) 4 Parameters</h3>
+        <ul>
+          <li><strong>θ_i (Joint Angle):</strong> Rotation from X_{i-1} to X_i about Z_{i-1}. (Variable for Revolute)</li>
+          <li><strong>d_i (Link Offset):</strong> Distance along Z_{i-1} from O_{i-1} to intersection with X_i. (Variable for Prismatic)</li>
+          <li><strong>a_i (Link Length):</strong> Distance from Z_{i-1} to Z_i along common normal X_i.</li>
+          <li><strong>α_i (Link Twist):</strong> Angle from Z_{i-1} to Z_i about X_i.</li>
+        </ul>
+        <h3>3. Fast Inverse of Homogeneous Transformation Matrix</h3>
+        <p>Given <code>T = [R P; 0 1]</code>, the exact inverse is <code>T⁻¹ = [Rᵀ -Rᵀ·P; 0 1]</code>.</p>
+      `,
+      sensors: `
+        <h2>📡 Module 2: Sensors, Transducers & Signal Conditioning</h2>
+        <p><strong>GATE Section:</strong> Part A.2 (Basics of Mechatronics)</p>
+        <h3>1. Strain Gauges & Gauge Factor</h3>
+        <p><code>GF = (ΔR/R) / ε = 1 + 2ν + (Δρ/ρ)/ε</code> (Metals: GF ≈ 2; Semiconductor: GF ≈ 100-200).</p>
+        <h3>2. LVDT (Linear Variable Differential Transformer)</h3>
+        <ul>
+          <li>Consists of 1 primary coil excited by AC voltage and 2 identical secondary coils connected in <strong>series opposition</strong> (<code>Vo = Vs1 - Vs2</code>).</li>
+          <li>At null position: <code>Vo = 0 V</code>. Exhibits residual voltage due to stray harmonics and capacitances.</li>
+        </ul>
+        <h3>3. Piezoelectric Sensors (Dynamic Force Only)</h3>
+        <p>Output charge: <code>Q = d · F</code>. Cannot measure static DC forces due to internal charge leakage resistance (acts as a High-Pass Filter).</p>
+      `,
+      actuators: `
+        <h2>⚡ Module 3: Actuators, Motor Drives & Fluid Power</h2>
+        <p><strong>GATE Section:</strong> Part A.2 (Basics of Mechatronics)</p>
+        <h3>1. Permanent Magnet / Separately Excited DC Motor</h3>
+        <p>Back-EMF: <code>Eb = Ke · ω</code>, Torque: <code>T = Kt · Ia</code>.<br>Speed-Torque Characteristic: <code>ω = (V / Ke) - (Ra / (Ke·Kt)) · T</code>.</p>
+        <h3>2. Stepper Motors</h3>
+        <p>Step Angle: <code>β = 360° / (m · Nr)</code>. In half-stepping mode, <code>β_half = β / 2</code>.</p>
+        <h3>3. Fluid Actuators</h3>
+        <p>Extension Force: <code>F_ext = P · (π/4 · D²)</code>.<br>Retraction Force: <code>F_ret = P · (π/4 · (D² - d²))</code> (lower force due to piston rod area).</p>
+      `,
+      automation: `
+        <h2>🏭 Module 4: CIM, PLCs & Automation</h2>
+        <p><strong>GATE Section:</strong> Part A.3 (Automation & CIM)</p>
+        <h3>1. Programmable Logic Controllers (PLCs)</h3>
+        <p>Scan cycle sequence: <strong>1. Input Scan &rarr; 2. Program Execution &rarr; 3. Output Scan &rarr; 4. Housekeeping</strong>.</p>
+        <h3>2. CNC G-Codes</h3>
+        <p><code>G00</code>: Rapid traverse | <code>G01</code>: Linear interpolation | <code>G02/G03</code>: Circular interpolation CW/CCW | <code>G90/G91</code>: Absolute/Incremental coords.</p>
+        <h3>3. AS/RS Cycle Times</h3>
+        <p>Single Command: <code>T_sc = 2·max(Tx, Ty) + 2·T_pd</code> | Dual Command: <code>T_dc ≈ 1.5·max(Tx, Ty) + 4·T_pd</code>.</p>
+      `,
+      circuits: `
+        <h2>🔌 Module 5: Circuits & Digital Logic for Mechanical Engineers</h2>
+        <p><strong>GATE Section:</strong> Part A.2 (Basics of Mechatronics)</p>
+        <h3>1. Thevenin & Maximum Power Transfer</h3>
+        <p>Maximum power delivered to load when <code>R_L = R_th</code>. Maximum power is <code>P_max = V_th² / (4·R_th)</code> with 50% efficiency.</p>
+        <h3>2. Series RLC Resonance</h3>
+        <p>Resonance frequency: <code>ω0 = 1 / √(L·C)</code>. Quality factor: <code>Q = (ω0·L)/R = (1/R)·√(L/C)</code>.</p>
+        <h3>3. Digital Logic & Flip-Flops</h3>
+        <p>JK Flip-Flop characteristic equation: <code>Q_next = J·Q_bar + K_bar·Q</code> (Toggles when J=1, K=1).</p>
+      `,
+      python: `
+        <h2>🐍 Module 6: Python & Data Structures for Robotics</h2>
+        <p><strong>GATE Section:</strong> Part A.2 (Basics of Mechatronics)</p>
+        <h3>1. Time Complexity Rules</h3>
+        <p>Binary Search: <code>O(log n)</code> | Single Loop: <code>O(n)</code> | MergeSort/HeapSort: <code>O(n log n)</code> | Nested Loops: <code>O(n²)</code>.</p>
+        <h3>2. Binary Search Trees (BST)</h3>
+        <p>Inorder Traversal (Left &rarr; Root &rarr; Right) on a BST produces sorted numbers in ascending order!</p>
+        <h3>3. Graph Search</h3>
+        <p>Breadth-First Search (BFS) uses a <strong>Queue</strong> and guarantees the shortest path in unweighted robot grid maps.</p>
+      `,
+      dynamics: `
+        <h2>🦾 Manipulator Jacobians, Statics & Robot Dynamics</h2>
+        <p><strong>GATE Section:</strong> Part A.3 (Principles of Robotics and Automation)</p>
+        <h3>1. Manipulator Jacobian Matrix</h3>
+        <p>Maps joint velocities to end-effector velocities: <code>[v; ω] = J(q) · q_dot</code>.</p>
+        <p>For 2R planar arm: <code>det(J) = L1 · L2 · sin(θ2)</code>.</p>
+        <h3>2. Singularity Analysis</h3>
+        <p>Singularity occurs when <code>det(J) = 0 ⟹ θ2 = 0° or 180°</code> (Loss of radial DOF, infinite joint velocity required for cartesian speed).</p>
+        <h3>3. Static Force Duality</h3>
+        <p>Joint torques from end-effector wrench: <code>τ = Jᵀ · F</code>.</p>
+        <h3>4. Euler-Lagrange Equations of Motion</h3>
+        <p><code>M(q)·q_ddot + C(q, q_dot)·q_dot + G(q) = τ</code>.</p>
+      `,
+      maths: `
+        <h2>📐 Module 7: Linear Algebra for Robotics</h2>
+        <p><strong>GATE Section:</strong> Part A.1 (Engineering Mathematics)</p>
+        <h3>1. Eigenvalue Properties</h3>
+        <p>Sum of eigenvalues = <code>Trace(A)</code> | Product of eigenvalues = <code>det(A)</code>.</p>
+        <p>For symmetric matrices (A = Aᵀ), all eigenvalues are strictly real and distinct eigenvectors are orthogonal.</p>
+        <h3>2. System of Linear Equations (Ax = b)</h3>
+        <p>Unique solution if <code>rank(A) = rank([A|b]) = n</code>. Infinitely many solutions if <code>rank(A) = rank([A|b]) &lt; n</code>.</p>
+      `,
+      calculus: `
+        <h2>📈 Calculus & Vector Calculus</h2>
+        <p><strong>GATE Section:</strong> Part A.1 (Engineering Mathematics)</p>
+        <h3>1. Multivariable Maxima/Minima (Hessian Test)</h3>
+        <p><code>D = r·t - s²</code> where <code>r = f_xx, s = f_xy, t = f_yy</code>.<br>If D &gt; 0 and r &gt; 0 ⟹ <strong>Local Minimum</strong> | If D &gt; 0 and r &lt; 0 ⟹ <strong>Local Maximum</strong> | If D &lt; 0 ⟹ <strong>Saddle Point</strong>.</p>
+        <h3>2. Gradient, Divergence & Curl</h3>
+        <ul>
+          <li><strong>Gradient (∇f):</strong> Vector normal to surface f=c; direction of maximum rate of increase.</li>
+          <li><strong>Divergence (∇·F):</strong> Scalar flux density. If ∇·F = 0 ⟹ <strong>Solenoidal (Incompressible)</strong>.</li>
+          <li><strong>Curl (∇×F):</strong> Vector vorticity. If ∇×F = 0 ⟹ <strong>Irrotational (Conservative)</strong>.</li>
+        </ul>
+        <h3>3. Gauss Divergence Theorem</h3>
+        <p><code>∬_S (F · n) dS = ∭_V (∇·F) dV</code>.</p>
+      `,
+      ode: `
+        <h2>📉 Differential Equations & Laplace Transforms</h2>
+        <p><strong>GATE Section:</strong> Part A.1 (Engineering Mathematics)</p>
+        <h3>1. Exact Differential Equations</h3>
+        <p><code>M dx + N dy = 0</code> is exact if <code>∂M/∂y = ∂N/∂x</code>.</p>
+        <h3>2. Cauchy-Euler Equation</h3>
+        <p><code>x² y'' + a x y' + b y = f(x)</code> ⟹ Substitute <code>x = eᶻ (z = ln x)</code>.</p>
+        <h3>3. Laplace Transforms</h3>
+        <ul>
+          <li><code>L{1} = 1/s</code> | <code>L{tⁿ} = n! / sⁿ⁺¹</code> | <code>L{eᵃᵗ} = 1 / (s - a)</code> | <code>L{sin(ωt)} = ω / (s² + ω²)</code></li>
+          <li>First Shifting: <code>L{eᵃᵗ f(t)} = F(s - a)</code></li>
+          <li>Initial Value Theorem: <code>f(0⁺) = lim (s ⟹ ∞) s·F(s)</code> | Final Value Theorem: <code>f(∞) = lim (s ⟹ 0) s·F(s)</code></li>
+        </ul>
+      `,
+      prob: `
+        <h2>🎲 Probability, Statistics & Numerical Methods</h2>
+        <p><strong>GATE Section:</strong> Part A.1 (Engineering Mathematics)</p>
+        <h3>1. Bayes' Theorem</h3>
+        <p><code>P(Bk|A) = [P(A|Bk)·P(Bk)] / [Σ P(A|Bi)·P(Bi)]</code>.</p>
+        <h3>2. Poisson Distribution</h3>
+        <p><code>P(X = k) = (e⁻ᵞ · λᵏ) / k!</code> (Key property: <strong>Mean = Variance = λ</strong>).</p>
+        <h3>3. Numerical Root Finding & Integration</h3>
+        <ul>
+          <li><strong>Newton-Raphson:</strong> <code>x_{n+1} = x_n - f(x_n)/f'(x_n)</code> (Quadratic convergence order 2).</li>
+          <li><strong>Simpson's 1/3 Rule:</strong> <code>I ≈ (h/3) [ (y0 + yn) + 4·(odd sum) + 2·(even sum) ]</code> (Requires <strong>EVEN subintervals</strong>, error O(h⁴)).</li>
+          <li><strong>Runge-Kutta 4th Order:</strong> Local error O(h⁵), global error O(h⁴).</li>
+        </ul>
+      `,
+      som: `
+        <h2>🧱 Module B2.1: Mechanics of Materials (SOM)</h2>
+        <p><strong>GATE Section:</strong> Part B2.1 (Mechanical Stream)</p>
+        <h3>1. Mohr's Circle & Principal Stresses</h3>
+        <p><code>σ₁,₂ = (σx + σy)/2 ± √(((σx - σy)/2)² + τxy²)</code> | <code>τ_max = √(((σx - σy)/2)² + τxy²)</code>.</p>
+        <h3>2. Euler's Column Buckling</h3>
+        <p><code>P_cr = (π²·E·I) / L_e²</code> (Both ends fixed: L_e = 0.5L; Pinned: L_e = L; Cantilever: L_e = 2L).</p>
+      `,
+      tom: `
+        <h2>⚙️ Module B2.2: Kinematics, Dynamics & Mechanical Vibrations</h2>
+        <p><strong>GATE Section:</strong> Part B2.2 (Mechanical Stream)</p>
+        <h3>1. Coriolis Acceleration</h3>
+        <p><code>a_c = 2 · ω · v_rel</code>. Direction is obtained by rotating v_rel by 90° in the direction of ω.</p>
+        <h3>2. SDOF Vibrations & Isolation</h3>
+        <p>Natural frequency: <code>ωn = √(k/m)</code> | Damping ratio: <code>ζ = c / (2mωn)</code>.<br>Vibration isolation (TR &lt; 1) is achieved ONLY when frequency ratio <code>r = ω/ωn &gt; √2</code>.</p>
+      `
+    };
+
+    function loadNote(noteKey, btn) {
+      if (btn) {
+        document.querySelectorAll('.notes-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      }
+      document.getElementById('noteContent').innerHTML = notesData[noteKey] || '<p>Select a topic to read notes.</p>';
+    }
+
+    // ========================================================
+    // COMPREHENSIVE QUESTION BANK (PART A COMPULSORY + PART B2 MECH)
+    // STRICTLY NO ELECTRICAL PART B1
+    // ========================================================
+    const allQuestions = [
+      // ROBOTICS (PART A.3)
+      {
+        cat: "robotics",
+        category: "Robotics & Kinematics",
+        q: "A 3-DOF planar 3R robot arm has link lengths L1 = 40 cm, L2 = 30 cm, L3 = 20 cm. What is the maximum possible radial reach of the robot end-effector tip?",
+        options: ["A) 70 cm", "B) 90 cm", "C) 50 cm", "D) 120 cm"],
+        correct: 1,
+        explanation: "Maximum reach occurs when all revolute joints are fully extended collinear (θ2 = 0°, θ3 = 0°): R_max = L1 + L2 + L3 = 40 + 30 + 20 = 90 cm."
+      },
+      {
+        cat: "robotics",
+        category: "Robotics & Spatial Transforms",
+        q: "Which property is TRUE for any proper 3D rotation matrix R belonging to the Special Orthogonal Group SO(3)?",
+        options: ["A) Det(R) = -1", "B) Rᵀ = -R", "C) Rᵀ = R⁻¹ and Det(R) = +1", "D) All eigenvalues of R are strictly negative"],
+        correct: 2,
+        explanation: "Rotation matrices are orthogonal (Rᵀ = R⁻¹) and proper rotations have determinant +1 (a determinant of -1 represents a reflection)."
+      },
+      {
+        cat: "robotics",
+        category: "Robotics & DH Parameters",
+        q: "In the Denavit-Hartenberg (D-H) kinematic convention, the link length parameter a_i is defined as the distance between:",
+        options: [
+          "A) Axis Z_{i-1} and Z_i measured along the common normal X_i",
+          "B) Axis X_{i-1} and X_i measured along Z_{i-1}",
+          "C) Origin O_{i-1} to origin O_i along link center",
+          "D) Joint motor to end-effector tip"
+        ],
+        correct: 0,
+        explanation: "By D-H definition, link length a_i is the directed distance from axis Z_{i-1} to axis Z_i measured along the common normal X_i."
+      },
+      {
+        cat: "robotics",
+        category: "Robotics & Singularities",
+        q: "For a 2R planar manipulator with link lengths L1 and L2, the determinant of the Jacobian matrix is det(J) = L1 · L2 · sin(θ2). The manipulator is in a kinematic singularity when θ2 equals:",
+        options: ["A) 90° or 270°", "B) 45° or 135°", "C) 0° or 180°", "D) 60° or 120°"],
+        correct: 2,
+        explanation: "det(J) = 0 when sin(θ2) = 0 ⟹ θ2 = 0° (fully outstretched boundary singularity) or θ2 = 180° (folded back interior singularity)."
+      },
+      {
+        cat: "robotics",
+        category: "Automation & PLCs",
+        q: "In a Programmable Logic Controller (PLC), what is the correct sequence of execution during every scan cycle?",
+        options: [
+          "A) Program Execution ➔ Output Update ➔ Input Scan",
+          "B) Input Scan ➔ Program Execution ➔ Output Update ➔ Housekeeping",
+          "C) Output Update ➔ Input Scan ➔ Memory Reset",
+          "D) Timer Scan ➔ Interrupt ➔ Output Latch"
+        ],
+        correct: 1,
+        explanation: "The standard cyclic operation of a PLC is: 1. Read Inputs (Input Scan) ➔ 2. Execute Ladder Logic (Program Execution) ➔ 3. Update Outputs (Output Scan) ➔ 4. Diagnostic/Housekeeping."
+      },
+      {
+        cat: "robotics",
+        category: "CIM & CNC Machining",
+        q: "In standard CNC G-code programming, which preparatory command is used for rapid non-cutting tool positioning?",
+        options: ["A) G01", "B) G02", "C) G00", "D) G03"],
+        correct: 2,
+        explanation: "G00 is rapid positioning (point-to-point at max machine feed rate without cutting). G01 is linear interpolation with cutting feed."
+      },
+
+      // MECHATRONICS & SENSORS (PART A.2)
+      {
+        cat: "mechatronics",
+        category: "Mechatronics & Stepper Drives",
+        q: "A 4-phase hybrid stepper motor has 50 teeth on the rotor. What is the step angle when operated in half-stepping mode?",
+        options: ["A) 1.8°", "B) 0.9°", "C) 3.6°", "D) 0.45°"],
+        correct: 1,
+        explanation: "Full step angle β = 360° / (m · Nr) = 360° / (4 × 50) = 1.8°. In half-stepping mode, β_half = β / 2 = 1.8° / 2 = 0.9°."
+      },
+      {
+        cat: "mechatronics",
+        category: "Mechatronics & Sensors",
+        q: "Why can a Piezoelectric transducer NOT be used to measure static (constant DC) force or displacement?",
+        options: [
+          "A) The crystal melts at DC voltage",
+          "B) The generated electrical charge leaks away through internal leakage resistance",
+          "C) Piezoelectric crystals are only magnetic",
+          "D) Its gauge factor becomes zero at steady state"
+        ],
+        correct: 1,
+        explanation: "Piezoelectric crystals act as charge generators with parallel internal capacitance and leakage resistance (High-Pass filter). Under static DC loads, the charge rapidly bleeds off through leakage resistance, making the output drop to 0 V."
+      },
+      {
+        cat: "mechatronics",
+        category: "Sensors & LVDT",
+        q: "An LVDT (Linear Variable Differential Transformer) produces an output voltage at the central null position that is theoretically 0 V, but practically exhibits a small residual voltage due to:",
+        options: [
+          "A) Core saturation and stray harmonics/capacitances",
+          "B) Direct DC current from battery",
+          "C) Optical reflection from housing",
+          "D) Thermal expansion of primary wire only"
+        ],
+        correct: 0,
+        explanation: "The residual null voltage in an LVDT is caused by harmonics in the AC supply source and stray capacitance between primary and secondary windings."
+      },
+      {
+        cat: "mechatronics",
+        category: "Mechatronics & Fluid Power",
+        q: "A hydraulic cylinder has a piston diameter of 100 mm and a rod diameter of 40 mm. If pressurized with oil at 10 MPa (100 bar), what is the retraction force?",
+        options: ["A) 78.54 kN", "B) 65.97 kN", "C) 12.57 kN", "D) 50.00 kN"],
+        correct: 1,
+        explanation: "Effective annulus area A_ret = (π/4) × (0.10² - 0.04²) = (π/4) × (0.0100 - 0.0016) = 0.006597 m². Retraction force F_ret = P · A_ret = 10 × 10⁶ × 0.006597 = 65,973 N ≈ 65.97 kN."
+      },
+      {
+        cat: "mechatronics",
+        category: "Mechatronics & Circuit Theorems",
+        q: "A DC circuit has an open-circuit Thevenin voltage of V_th = 24 V and Thevenin resistance R_th = 6 Ω. What is the maximum power that can be transferred to a variable load resistor R_L?",
+        options: ["A) 96 W", "B) 24 W", "C) 48 W", "D) 12 W"],
+        correct: 1,
+        explanation: "Maximum power occurs when R_L = R_th = 6 Ω: P_max = V_th² / (4 · R_th) = (24)² / (4 × 6) = 576 / 24 = 24 W."
+      },
+
+      // MECHANICAL STREAM (PART B2)
+      {
+        cat: "mech",
+        category: "Mechanical Stream (SOM)",
+        q: "A state of pure shear stress of magnitude τ is acting on an element. What are the principal stresses (σ1, σ2) and their orientation relative to the shear planes?",
+        options: [
+          "A) σ1 = +τ, σ2 = -τ oriented at 45°",
+          "B) σ1 = +2τ, σ2 = -2τ oriented at 90°",
+          "C) σ1 = τ/2, σ2 = -τ/2 oriented at 30°",
+          "D) σ1 = τ, σ2 = 0 oriented at 0°"
+        ],
+        correct: 0,
+        explanation: "For pure shear (σx = σy = 0, τxy = τ), Mohr's circle center is at origin (0,0) and radius R = τ. Principal stresses are σ1 = +τ, σ2 = -τ inclined at 45° to the shear planes."
+      },
+      {
+        cat: "mech",
+        category: "Mechanical Vibrations (Part B2)",
+        q: "In a single-degree-of-freedom forced vibration system, vibration isolation is effective (Transmissibility TR < 1) only when the frequency ratio r = ω / ω_n is:",
+        options: ["A) r < 1", "B) 1 < r < √2", "C) r > √2", "D) r = 0"],
+        correct: 2,
+        explanation: "Transmissibility TR = √((1 + (2ζr)²)/((1 - r²)² + (2ζr)²)). TR is strictly less than 1 ONLY when frequency ratio r > √2 ≈ 1.414."
+      },
+      {
+        cat: "mech",
+        category: "Theory of Machines (Part B2)",
+        q: "A link is rotating with angular velocity ω = 5 rad/s counter-clockwise while a slider moves outwards along the link with relative velocity v = 2 m/s. What is the magnitude of Coriolis acceleration?",
+        options: ["A) 10 m/s²", "B) 20 m/s²", "C) 5 m/s²", "D) 40 m/s²"],
+        correct: 1,
+        explanation: "Coriolis acceleration magnitude aᶜ = 2 · ω · v_rel = 2 × 5 × 2 = 20 m/s²."
+      },
+      {
+        cat: "mech",
+        category: "Machine Design (Part B2)",
+        q: "A deep groove ball bearing carrying a radial load of 5 kN has a rating life L10 of 100 million revolutions. If the load is increased to 10 kN (doubled), what will be the new L10 life?",
+        options: ["A) 50 million revs", "B) 25 million revs", "C) 12.5 million revs", "D) 6.25 million revs"],
+        correct: 2,
+        explanation: "For ball bearings, life L10 ∝ (1/P)³. When load is doubled (2P), life drops by a factor of 2³ = 8: New Life = 100 / 8 = 12.5 million revolutions."
+      },
+      {
+        cat: "mech",
+        category: "Additive Manufacturing (Part B2)",
+        q: "In Stereolithography (SLA) 3D printing, the cure depth C_d of the photopolymer resin as a function of laser exposure energy E follows which law?",
+        options: [
+          "A) Hooke's Law: C_d = E / E_c",
+          "B) Beer-Lambert Law: C_d = D_p · ln(E / E_c)",
+          "C) Arrhenius Law: C_d = exp(-E / E_c)",
+          "D) Fourier's Law: C_d = k · dE/dt"
+        ],
+        correct: 1,
+        explanation: "SLA photopolymerization cure depth follows the Jacob equation based on Beer-Lambert optical absorption: C_d = D_p · ln(E_max / E_c), where D_p is resin penetration depth and E_c is critical exposure threshold."
+      },
+
+      // MATHEMATICS (PART A.1)
+      {
+        cat: "maths",
+        category: "Engineering Mathematics (Linear Algebra)",
+        q: "A 3 × 3 matrix A has eigenvalues λ1 = 2, λ2 = 3, and λ3 = -1. What is the determinant and trace of matrix A?",
+        options: [
+          "A) det(A) = -6, Trace(A) = 4",
+          "B) det(A) = 4, Trace(A) = -6",
+          "C) det(A) = 6, Trace(A) = 5",
+          "D) det(A) = -5, Trace(A) = 0"
+        ],
+        correct: 0,
+        explanation: "det(A) = Product of eigenvalues = 2 × 3 × (-1) = -6. Trace(A) = Sum of eigenvalues = 2 + 3 + (-1) = 4."
+      },
+      {
+        cat: "maths",
+        category: "Engineering Mathematics (Probability)",
+        q: "A random variable X follows a Poisson distribution such that P(X = 1) = P(X = 2). What is the mean (parameter λ) of this distribution?",
+        options: ["A) λ = 1", "B) λ = 2", "C) λ = 0.5", "D) λ = 4"],
+        correct: 1,
+        explanation: "Poisson probability formula: P(X=k) = (e⁻ᵞ · λᵏ) / k!. P(X=1) = e⁻ᵞ · λ, P(X=2) = (e⁻ᵞ · λ²) / 2. Setting them equal: e⁻ᵞ · λ = (e⁻ᵞ · λ²) / 2 ⟹ 1 = λ / 2 ⟹ λ = 2."
+      },
+      {
+        cat: "maths",
+        category: "Numerical Methods",
+        q: "The Newton-Raphson iterative method for solving f(x) = 0 has an asymptotic order of convergence equal to:",
+        options: ["A) 1 (Linear)", "B) 2 (Quadratic)", "C) 1.618 (Golden)", "D) 3 (Cubic)"],
+        correct: 1,
+        explanation: "Newton-Raphson has quadratic convergence (order p = 2) near a simple root."
+      },
+
+      // PYTHON & DSA (PART A.2)
+      {
+        cat: "python",
+        category: "Python & Data Structures",
+        q: "What is the output of the following recursive Python code when called with fun(4)?\ndef fun(n):\n    if n <= 1:\n        return 1\n    return n + fun(n-1)",
+        options: ["A) 10", "B) 24", "C) 4", "D) 7"],
+        correct: 0,
+        explanation: "fun(4) = 4 + fun(3) = 4 + 3 + fun(2) = 4 + 3 + 2 + fun(1) = 4 + 3 + 2 + 1 = 10."
+      },
+      {
+        cat: "python",
+        category: "Python & Data Structures",
+        q: "Which graph traversal algorithm uses a Queue (FIFO) data structure and guarantees finding the shortest path in an unweighted robot grid map?",
+        options: ["A) Depth-First Search (DFS)", "B) Breadth-First Search (BFS)", "C) Preorder Traversal", "D) Inorder Traversal"],
+        correct: 1,
+        explanation: "Breadth-First Search (BFS) explores vertices level-by-level using a FIFO Queue, guaranteeing the shortest path in terms of number of edges."
+      }
+    ];
+
+    let currentQuestions = [...allQuestions];
+    let currentQ = 0;
+    let answered = false;
+    let score = 0;
+    let totalAnswered = 0;
+
+    function filterQuizCat(cat, btn) {
+      document.querySelectorAll('#quiz .filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      if (cat === 'all') {
+        currentQuestions = [...allQuestions];
+      } else {
+        currentQuestions = allQuestions.filter(q => q.cat === cat);
+      }
+      currentQ = 0;
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      if (currentQuestions.length === 0) return;
+      const q = currentQuestions[currentQ];
+      document.getElementById('quizIndex').innerText = `Question ${currentQ + 1} of ${currentQuestions.length}`;
+      document.getElementById('quizCategory').innerText = q.category;
+      document.getElementById('quizQuestion').innerText = q.q;
+      
+      const optContainer = document.getElementById('quizOptions');
+      optContainer.innerHTML = '';
+      q.options.forEach((optText, idx) => {
+        const div = document.createElement('div');
+        div.className = 'quiz-option';
+        div.innerText = optText;
+        div.onclick = () => checkAnswer(idx);
+        optContainer.appendChild(div);
+      });
+
+      const exp = document.getElementById('quizExplanation');
+      exp.style.display = 'none';
+      exp.innerHTML = '';
+      answered = false;
+      attachCursorHover();
+    }
+
+    function checkAnswer(selectedIdx) {
+      if (answered) return;
+      answered = true;
+      totalAnswered++;
+
+      const q = currentQuestions[currentQ];
+      const opts = document.querySelectorAll('.quiz-option');
+
+      if (selectedIdx === q.correct) {
+        score++;
+        opts[selectedIdx].classList.add('correct');
+      } else {
+        opts[selectedIdx].classList.add('wrong');
+        opts[q.correct].classList.add('correct');
+      }
+
+      document.getElementById('scoreDisplay').innerText = `Score: ${score} / ${totalAnswered}`;
+
+      const exp = document.getElementById('quizExplanation');
+      exp.style.display = 'block';
+      exp.innerHTML = `<strong>${selectedIdx === q.correct ? '🎉 Correct!' : '❌ Incorrect.'}</strong><br>${q.explanation}`;
+    }
+
+    function nextQuestion() {
+      currentQ = (currentQ + 1) % currentQuestions.length;
+      renderQuestion();
+    }
+
+    function prevQuestion() {
+      currentQ = (currentQ - 1 + currentQuestions.length) % currentQuestions.length;
+      renderQuestion();
+    }
+
+    function generateRandomProblem() {
+      // Pick random question from pool
+      currentQ = Math.floor(Math.random() * currentQuestions.length);
+      renderQuestion();
+    }
+  </script>
+</body>
+</html>

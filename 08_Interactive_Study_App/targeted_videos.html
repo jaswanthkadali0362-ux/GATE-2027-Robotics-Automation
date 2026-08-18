@@ -1,0 +1,1459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GATE RA 2027: Laser-Targeted NPTEL YouTube Video Navigator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <!-- MathJax Configuration -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      }
+    };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+  <style>
+    :root {
+      --bg-page: #fbfbfc;
+      --bg-card: #ffffff;
+      --bg-subtle: #fefce8;
+      --border-color: #f1f5f9;
+      --border-warm: #fed7aa;
+      --accent-orange: #ea580c;
+      --accent-orange-light: #fff7ed;
+      --accent-amber: #d97706;
+      --accent-yellow: #f59e0b;
+      --accent-yellow-light: #fef9c3;
+      --accent-green: #16a34a;
+      --accent-green-light: #f0fdf4;
+      --text-main: #0f172a;
+      --text-secondary: #334155;
+      --text-muted: #64748b;
+      --font-heading: 'Outfit', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03);
+      --shadow-md: 0 4px 16px -2px rgba(234, 88, 12, 0.08), 0 2px 6px rgba(0, 0, 0, 0.03);
+      --shadow-hover: 0 12px 24px -4px rgba(234, 88, 12, 0.14), 0 4px 10px rgba(0, 0, 0, 0.04);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* Custom Cursor Styles */
+    .cursor-dot {
+      width: 8px;
+      height: 8px;
+      background-color: #ea580c;
+      border-radius: 50%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 99999;
+      transition: transform 0.1s ease-out, opacity 0.2s ease;
+      box-shadow: 0 0 10px rgba(234, 88, 12, 0.6);
+      transform: translate(-50%, -50%);
+    }
+
+    .cursor-outline {
+      width: 34px;
+      height: 34px;
+      border: 2px solid rgba(249, 115, 22, 0.6);
+      background: rgba(254, 215, 170, 0.15);
+      border-radius: 50%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 99998;
+      transition: width 0.2s ease, height 0.2s ease, border-color 0.2s ease, background 0.2s ease, transform 0.08s ease-out;
+      transform: translate(-50%, -50%);
+    }
+
+    .cursor-hover .cursor-outline {
+      width: 52px;
+      height: 52px;
+      border-color: #ea580c;
+      background: rgba(249, 115, 22, 0.12);
+      backdrop-filter: blur(1px);
+    }
+
+    .cursor-hover .cursor-dot {
+      transform: translate(-50%, -50%) scale(1.4);
+      background-color: #d97706;
+    }
+
+    .cursor-click .cursor-outline {
+      transform: translate(-50%, -50%) scale(0.75);
+      background: rgba(234, 88, 12, 0.3);
+      border-color: #c2410c;
+    }
+
+    /* ========================================================
+       JASWANTH'S ROBUST PORTAL WARP ANIMATION
+       ======================================================== */
+    .portal-overlay {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at center, rgba(26, 18, 11, 0.96) 0%, rgba(15, 23, 42, 0.98) 100%);
+      backdrop-filter: blur(16px);
+      z-index: 100000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+      color: #ffffff;
+      font-family: var(--font-heading);
+    }
+
+    .portal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .portal-core {
+      position: relative;
+      width: 220px;
+      height: 220px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.8rem;
+    }
+
+    .portal-gear-outer {
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      border: 4px dashed #f97316;
+      border-radius: 50%;
+      animation: spinGear 3s linear infinite;
+      box-shadow: 0 0 40px rgba(249, 115, 22, 0.6), inset 0 0 25px rgba(249, 115, 22, 0.3);
+    }
+
+    .portal-gear-inner {
+      position: absolute;
+      width: 140px;
+      height: 140px;
+      border: 3px dashed #f59e0b;
+      border-radius: 50%;
+      animation: spinGearRev 2s linear infinite;
+      box-shadow: 0 0 25px rgba(245, 158, 11, 0.7);
+    }
+
+    .portal-pulse-ring {
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(234, 88, 12, 0.8) 0%, transparent 70%);
+      animation: portalPulse 1.2s ease-out infinite;
+    }
+
+    .portal-icon {
+      font-size: 3.8rem;
+      z-index: 2;
+      animation: iconFloat 1.2s ease-in-out infinite alternate;
+      filter: drop-shadow(0 0 20px #f97316);
+    }
+
+    @keyframes spinGear {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes spinGearRev {
+      from { transform: rotate(360deg); }
+      to { transform: rotate(0deg); }
+    }
+
+    @keyframes portalPulse {
+      0% { transform: scale(0.6); opacity: 0.8; }
+      100% { transform: scale(2.5); opacity: 0; }
+    }
+
+    @keyframes iconFloat {
+      0% { transform: translateY(-5px) scale(1); }
+      100% { transform: translateY(5px) scale(1.1); }
+    }
+
+    .portal-title {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #fed7aa;
+      text-align: center;
+      margin-bottom: 0.4rem;
+      letter-spacing: 1px;
+      text-shadow: 0 0 25px rgba(249, 115, 22, 0.9);
+    }
+
+    .portal-slogan {
+      font-size: 1.08rem;
+      color: #f1f5f9;
+      text-align: center;
+      max-width: 540px;
+      line-height: 1.5;
+      font-family: var(--font-body);
+      margin-bottom: 1.8rem;
+      font-weight: 500;
+    }
+
+    .portal-bar-container {
+      width: 340px;
+      height: 9px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(254, 215, 170, 0.4);
+      position: relative;
+    }
+
+    .portal-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #f59e0b, #ea580c, #ffedd5);
+      border-radius: 20px;
+      transition: width 1.1s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 0 20px #f97316;
+    }
+
+    body {
+      background: radial-gradient(circle at 10% 10%, #fffbeb 0%, #fbfbfc 60%, #fff7ed 100%);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid #fed7aa;
+      padding: 1rem 2.25rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(245, 158, 11, 0.05);
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .brand-badge {
+      background: linear-gradient(135deg, #f97316, #ea580c);
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 0.8rem;
+      padding: 0.35rem 0.75rem;
+      border-radius: 8px;
+      letter-spacing: 0.5px;
+      box-shadow: 0 2px 8px rgba(234, 88, 12, 0.25);
+    }
+
+    .brand-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      font-family: var(--font-heading);
+      color: #1e293b;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .btn-nav {
+      background: #ffffff;
+      border: 1.5px solid #fed7aa;
+      color: var(--accent-orange);
+      padding: 0.55rem 1.1rem;
+      border-radius: 10px;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      font-family: var(--font-heading);
+      transition: all 0.2s;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn-nav:hover {
+      background: var(--accent-orange-light);
+      border-color: var(--accent-orange);
+      transform: translateY(-1px);
+    }
+
+    main {
+      flex: 1;
+      max-width: 1350px;
+      margin: 0 auto;
+      padding: 2.25rem;
+      width: 100%;
+    }
+
+    .banner {
+      background: linear-gradient(135deg, #fffbeb 0%, #fff7ed 50%, #ffffff 100%);
+      border: 1.5px solid #fed7aa;
+      border-radius: 20px;
+      padding: 2rem 2.5rem;
+      margin-bottom: 2rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+    }
+
+    .banner::after {
+      content: '☀️';
+      position: absolute;
+      right: 20px;
+      top: 10px;
+      font-size: 5rem;
+      opacity: 0.15;
+      pointer-events: none;
+    }
+
+    .banner h1 {
+      font-size: 1.95rem;
+      font-weight: 800;
+      font-family: var(--font-heading);
+      margin-bottom: 0.4rem;
+      color: #9a3412;
+    }
+
+    .banner p {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    .filter-section {
+      background: #ffffff;
+      border: 1.5px solid #fed7aa;
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 2.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .search-input {
+      width: 100%;
+      background: #fffdfa;
+      border: 1.5px solid #fed7aa;
+      border-radius: 12px;
+      padding: 0.95rem 1.4rem;
+      color: var(--text-main);
+      font-family: var(--font-body);
+      font-size: 0.98rem;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .search-input:focus {
+      background: #ffffff;
+      border-color: var(--accent-orange);
+      box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.15);
+    }
+
+    .topic-buttons {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+
+    .topic-btn {
+      background: #f8fafc;
+      border: 1.5px solid #e2e8f0;
+      color: var(--text-secondary);
+      font-size: 0.88rem;
+      font-weight: 600;
+      font-family: var(--font-heading);
+      padding: 0.5rem 1.1rem;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .topic-btn:hover {
+      background: #fff7ed;
+      color: var(--accent-orange);
+      border-color: #fed7aa;
+    }
+
+    .topic-btn.active {
+      background: linear-gradient(135deg, #f97316, #ea580c);
+      border-color: #ea580c;
+      color: #ffffff;
+      box-shadow: 0 2px 10px rgba(234, 88, 12, 0.25);
+    }
+
+    /* Section Headers */
+    .section-title {
+      font-size: 1.4rem;
+      font-weight: 800;
+      font-family: var(--font-heading);
+      color: #7c2d12;
+      margin: 2.5rem 0 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      border-bottom: 2px solid #fed7aa;
+      padding-bottom: 0.6rem;
+    }
+
+    .topic-block {
+      background: var(--bg-card);
+      border: 1.5px solid #fed7aa;
+      border-radius: 16px;
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.25s ease;
+    }
+
+    .topic-block:hover {
+      box-shadow: var(--shadow-md);
+    }
+
+    .topic-header {
+      background: #fffdfa;
+      padding: 1.25rem 1.75rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #fed7aa;
+      transition: background 0.2s;
+    }
+
+    .topic-header:hover {
+      background: #fff7ed;
+    }
+
+    .topic-title-text {
+      font-size: 1.15rem;
+      font-weight: 700;
+      font-family: var(--font-heading);
+      color: #1e293b;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .syllabus-badge {
+      font-size: 0.78rem;
+      font-weight: 700;
+      background: #fff7ed;
+      color: #c2410c;
+      border: 1px solid #fed7aa;
+      padding: 0.25rem 0.65rem;
+      border-radius: 6px;
+    }
+
+    .topic-body {
+      padding: 1.5rem 1.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      background: #ffffff;
+    }
+
+    .topic-block.collapsed .topic-body {
+      display: none;
+    }
+
+    /* Video Item Card */
+    .video-item {
+      background: #ffffff;
+      border: 1.5px solid #f1f5f9;
+      border-radius: 14px;
+      padding: 1.35rem;
+      display: flex;
+      justify-content: space-between;
+      gap: 1.5rem;
+      transition: all 0.25s ease;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    }
+
+    .video-item:hover {
+      border-color: #f97316;
+      background: #fffdfa;
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .video-item.watched {
+      background: #f0fdf4;
+      border-color: #86efac;
+    }
+
+    .video-info {
+      flex: 1;
+      min-width: 320px;
+    }
+
+    .video-tagline {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 0.45rem;
+      font-size: 0.85rem;
+      flex-wrap: wrap;
+    }
+
+    .video-badge {
+      background: #fff1f2;
+      color: #e11d48;
+      border: 1px solid #fecdd3;
+      padding: 0.2rem 0.55rem;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .institute-tag {
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .video-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      font-family: var(--font-heading);
+      color: #0f172a;
+      margin-bottom: 0.4rem;
+    }
+
+    .video-summary {
+      font-size: 0.92rem;
+      color: var(--text-secondary);
+      line-height: 1.55;
+      margin-bottom: 0.5rem;
+    }
+
+    .omit-notice {
+      font-size: 0.82rem;
+      color: #b45309;
+      background: #fefce8;
+      border-left: 3px solid #f59e0b;
+      padding: 0.35rem 0.75rem;
+      border-radius: 0 6px 6px 0;
+      margin-top: 0.45rem;
+      font-weight: 500;
+    }
+
+    .video-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      min-width: 190px;
+      align-items: stretch;
+    }
+
+    .btn-yt {
+      background: linear-gradient(135deg, #f97316, #ea580c);
+      color: #ffffff;
+      font-weight: 700;
+      font-family: var(--font-heading);
+      font-size: 0.88rem;
+      padding: 0.65rem 1.15rem;
+      border-radius: 10px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      transition: all 0.2s;
+      box-shadow: 0 2px 8px rgba(234, 88, 12, 0.25);
+    }
+
+    .btn-yt:hover {
+      box-shadow: 0 6px 16px rgba(234, 88, 12, 0.35);
+      transform: translateY(-1px);
+    }
+
+    .btn-watched {
+      background: #f8fafc;
+      border: 1.5px solid #e2e8f0;
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      font-weight: 600;
+      font-family: var(--font-heading);
+      padding: 0.5rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-watched:hover {
+      background: #f1f5f9;
+      color: var(--text-main);
+    }
+
+    .btn-watched.active {
+      background: #f0fdf4;
+      border-color: #86efac;
+      color: #15803d;
+      font-weight: 700;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 2.5rem;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      border-top: 1px solid #fed7aa;
+      margin-top: 3.5rem;
+      background: #ffffff;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="brand">
+      <span class="brand-badge" style="background:linear-gradient(135deg, #f97316, #ea580c); box-shadow:0 2px 10px rgba(234, 88, 12, 0.3);">🚀 GAME-CHANGER</span>
+      <span class="brand-title">Jaswanth's Game-Changer Video Hub &bull; Target: IISc Bangalore</span>
+    </div>
+    <div class="header-actions">
+      <button class="btn-nav" onclick="returnPortal()" style="background:#ffffff; border:1.8px solid #f97316; color:#c2410c; font-weight:700; cursor:pointer;">🏠 Return to Master Study Hub</button>
+    </div>
+  </header>
+
+  <!-- FULLSCREEN RETURN PORTAL WARP OVERLAY -->
+  <div class="portal-overlay" id="portalOverlay">
+    <div class="portal-core">
+      <div class="portal-gear-outer"></div>
+      <div class="portal-gear-inner"></div>
+      <div class="portal-pulse-ring"></div>
+      <div class="portal-icon">🏠</div>
+    </div>
+    <div class="portal-title">RETURNING TO MASTER STUDY HUB!</div>
+    <div class="portal-slogan">"Jaswanth, syncing your progress & returning to study portal..."</div>
+    <div class="portal-bar-container">
+      <div class="portal-bar-fill" id="portalBar"></div>
+    </div>
+  </div>
+
+  <main>
+
+    <!-- Jaswanth's Motivational & Timer Hub -->
+    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap:1.25rem; margin-bottom:1.75rem;">
+      
+      <!-- Card 1: Personalized Motivation & Quote -->
+      <div style="background:#ffffff; border:1.5px solid #fed7aa; border-radius:18px; padding:1.4rem 1.6rem; box-shadow:var(--shadow-sm); display:flex; flex-direction:column; justify-content:space-between; position:relative; overflow:hidden;">
+        <div style="position:absolute; right:12px; top:8px; font-size:3rem; opacity:0.1; pointer-events:none;">🚀</div>
+        <div>
+          <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.4rem;">
+            <span style="background:#fff7ed; color:#c2410c; border:1px solid #fed7aa; font-weight:800; font-size:0.75rem; padding:0.2rem 0.6rem; border-radius:6px;">DAILY DRIVE</span>
+            <span style="font-size:0.9rem; font-weight:700; color:#1e293b;">Jaswanth, let's push your boundaries!</span>
+          </div>
+          <div id="motivationalQuote" style="font-size:1.02rem; font-weight:600; color:#9a3412; font-family:var(--font-heading); min-height:50px; display:flex; align-items:center; line-height:1.45;">
+            "Every formula you master today is a rank closer to IISc Bangalore, Jaswanth!"
+          </div>
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:0.75rem; border-top:1px solid #f1f5f9; padding-top:0.6rem;">
+          <span style="font-size:0.8rem; color:var(--text-muted);">🎯 Dream: IISc RBCCPS 2027</span>
+          <button onclick="nextQuote()" style="background:#fff7ed; border:1px solid #fed7aa; color:#ea580c; font-size:0.8rem; font-weight:700; padding:0.25rem 0.75rem; border-radius:6px; cursor:pointer;">✨ Next Quote</button>
+        </div>
+      </div>
+
+      <!-- Card 2: Live GATE 2027 Countdown -->
+      <div style="background:#ffffff; border:1.5px solid #fed7aa; border-radius:18px; padding:1.4rem 1.6rem; box-shadow:var(--shadow-sm); display:flex; flex-direction:column; justify-content:space-between;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.6rem;">
+          <span style="font-size:0.85rem; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:#c2410c;">⏳ GATE 2027 COUNTDOWN</span>
+          <span style="font-size:0.78rem; background:#fefce8; color:#a16207; border:1px solid #fde047; padding:0.15rem 0.5rem; border-radius:4px; font-weight:700;">Target: Feb 2027</span>
+        </div>
+        <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:0.5rem; text-align:center;">
+          <div style="background:#fffdfa; border:1px solid #fed7aa; border-radius:10px; padding:0.5rem 0.2rem;">
+            <div id="cntDays" style="font-size:1.5rem; font-weight:800; font-family:var(--font-mono); color:#ea580c;">00</div>
+            <div style="font-size:0.7rem; color:var(--text-muted); font-weight:600; text-transform:uppercase;">Days</div>
+          </div>
+          <div style="background:#fffdfa; border:1px solid #fed7aa; border-radius:10px; padding:0.5rem 0.2rem;">
+            <div id="cntHours" style="font-size:1.5rem; font-weight:800; font-family:var(--font-mono); color:#ea580c;">00</div>
+            <div style="font-size:0.7rem; color:var(--text-muted); font-weight:600; text-transform:uppercase;">Hours</div>
+          </div>
+          <div style="background:#fffdfa; border:1px solid #fed7aa; border-radius:10px; padding:0.5rem 0.2rem;">
+            <div id="cntMins" style="font-size:1.5rem; font-weight:800; font-family:var(--font-mono); color:#ea580c;">00</div>
+            <div style="font-size:0.7rem; color:var(--text-muted); font-weight:600; text-transform:uppercase;">Mins</div>
+          </div>
+          <div style="background:#fffdfa; border:1px solid #fed7aa; border-radius:10px; padding:0.5rem 0.2rem;">
+            <div id="cntSecs" style="font-size:1.5rem; font-weight:800; font-family:var(--font-mono); color:#ea580c;">00</div>
+            <div style="font-size:0.7rem; color:var(--text-muted); font-weight:600; text-transform:uppercase;">Secs</div>
+          </div>
+        </div>
+        <div style="font-size:0.8rem; color:var(--text-muted); margin-top:0.6rem; text-align:center;">Make every single second count!</div>
+      </div>
+
+      <!-- Card 3: Study Focus / Pomodoro Timer -->
+      <div style="background:#ffffff; border:1.5px solid #fed7aa; border-radius:18px; padding:1.4rem 1.6rem; box-shadow:var(--shadow-sm); display:flex; flex-direction:column; justify-content:space-between;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.4rem;">
+          <span style="font-size:0.85rem; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:#15803d;">⏱️ FOCUS STUDY TIMER</span>
+          <div style="display:flex; gap:0.3rem;">
+            <button onclick="setFocusTime(25)" style="background:#f0fdf4; border:1px solid #86efac; color:#15803d; font-size:0.75rem; font-weight:700; padding:0.15rem 0.45rem; border-radius:4px; cursor:pointer;">25m</button>
+            <button onclick="setFocusTime(50)" style="background:#fff7ed; border:1px solid #fed7aa; color:#ea580c; font-size:0.75rem; font-weight:700; padding:0.15rem 0.45rem; border-radius:4px; cursor:pointer;">50m</button>
+          </div>
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <div id="pomodoroDisplay" style="font-size:2.2rem; font-weight:800; font-family:var(--font-mono); color:#15803d; letter-spacing:1px;">25:00</div>
+          <div style="display:flex; gap:0.4rem;">
+            <button id="pomoStartBtn" onclick="togglePomodoro()" style="background:linear-gradient(135deg, #16a34a, #15803d); color:#fff; border:none; padding:0.5rem 1rem; border-radius:8px; font-weight:700; font-family:var(--font-heading); cursor:pointer;">Start</button>
+            <button onclick="resetPomodoro()" style="background:#f8fafc; border:1.5px solid #e2e8f0; color:var(--text-secondary); padding:0.5rem 0.8rem; border-radius:8px; font-weight:600; cursor:pointer;">Reset</button>
+          </div>
+        </div>
+        <div id="pomoStatus" style="font-size:0.8rem; color:#15803d; font-weight:600; margin-top:0.4rem;">🧘 Deep focus mode: 100% conceptual absorption.</div>
+      </div>
+
+    </div>
+
+    <div class="banner">
+      <h1>🚀 Jaswanth's Game-Changer Video Matrix</h1>
+      <p>Every topic in the official GATE RA 2027 syllabus is mapped below to the <strong>exact YouTube video lecture</strong> from IITs and IISc. Click <strong>"Watch on YouTube"</strong> to start studying right away with zero wasted time!</p>
+    </div>
+
+    <!-- Search & Filter Controls -->
+    <div class="filter-section">
+      <input type="text" id="topicSearch" class="search-input" placeholder="🔍 Search any topic (e.g. Thevenin, KCL, Stepper, LVDT, DH parameters, PLC, Coriolis, Mohr, Resonance)..." onkeyup="searchVideos()">
+      <div class="topic-buttons">
+        <button class="topic-btn active" onclick="filterCategory('all', this)">All Topics</button>
+        <button class="topic-btn" onclick="filterCategory('mechatronics', this)">Section A.2: Mechatronics & Circuits</button>
+        <button class="topic-btn" onclick="filterCategory('robotics', this)">Section A.3: Robotics & Automation</button>
+        <button class="topic-btn" onclick="filterCategory('mech', this)">Part B2: Mechanical Stream</button>
+      </div>
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- SECTION A.2: BASICS OF MECHATRONICS & CIRCUITS -->
+    <!-- ======================================================== -->
+    <div class="section-group" data-group="mechatronics">
+      <div class="section-title">⚡ Section A.2: Basics of Mechatronics, Circuits & Python</div>
+
+      <!-- Topic 1: Network Elements & Circuit Theorems -->
+      <div class="topic-block" data-keywords="network elements kcl kvl thevenin norton superposition maximum power ac resonance 3-phase circuits">
+        <div class="topic-header open" onclick="toggleBlock(this)">
+          <div class="topic-title-text">
+            <span>🔌 Network Elements & Circuit Theorems</span>
+            <span class="syllabus-badge">Part A.2 (Compulsory)</span>
+          </div>
+          <span>▼</span>
+        </div>
+        <div class="topic-body">
+          
+          <div class="video-item" id="v_kcl_kvl">
+            <div class="video-info">
+              <div class="video-tagline">
+                <span class="video-badge">▶ YOUTUBE NPTEL</span>
+                <span class="institute-tag">IIT Madras &bull; Prof. Nagendra Krishnapura</span>
+              </div>
+              <div class="video-title">1. Kirchhoff's Laws (KCL, KVL) & Nodal/Mesh Analysis</div>
+              <div class="video-summary">Systematic Node and Mesh analysis equations, independent & dependent sources, branch currents.</div>
+              <div class="omit-notice">⚡ Skip remaining general network topology lectures in this playlist; only focus on KCL/KVL matrix setup.</div>
+            </div>
+            <div class="video-actions">
+              <a href="https://www.youtube.com/results?search_query=NPTEL+Basic+Electrical+Circuits+Nagendra+Krishnapura+Kirchhoff+KCL+KVL" target="_blank" class="btn-yt">▶ Watch on YouTube</a>
+              <button class="btn-watched" onclick="toggleWatched('v_kcl_kvl', this)">Mark Watched<          <div class="video-item" id="v_thevenin">
+            <div class="video-info">
+              <div class="video-tagline">
+                <span class="video-badge">▶ YOUTUBE NPTEL</span>
+                <span class="institute-tag">IIT Madras &bull; Prof. Nagendra Krishnapura</span>
+              </div>
+              <div class="video-title">2. Thevenin’s, Norton’s & Maximum Power Transfer Theorems</div>
+              <div class="video-summary">How to find open-circuit V_th, short-circuit I_N, equivalent R_th, and maximum power condition (R_L = R_th, P_max = V_th² / 4R_th).</div>
+              <div class="omit-notice">⚡ Focus only on solving 2-terminal DC/AC equivalent circuits.</div>
+            </div>
+            <div class="video-actions">
+              <a href="https://www.youtube.com/results?search_query=NPTEL+Nagendra+Krishnapura+Thevenin+Norton+Maximum+Power+Transfer" target="_blank" class="btn-yt">▶ Watch on YouTube</a>
+              <button class="btn-watched" onclick="toggleWatched('v_thevenin', this)">Mark Watched</button>
+            </div>
+          </div>
+
+          <div class="video-item" id="v_resonance">
+            <div class="video-info">
+              <div class="video-tagline">
+                <span class="video-badge">▶ YOUTUBE NPTEL</span>
+                <span class="institute-tag">IIT Kharagpur &bull; Prof. Tapas Kumar Bhattacharya</span>
+              </div>
+              <div class="video-title">3. Series & Parallel AC Resonance, Quality Factor (Q) & 3-Phase Systems</div>
+              <div class="video-summary">Resonance frequency ω₀ = 1/√(LC), Bandwidth, Q-factor, and Star vs Delta line/phase relationships (V_L = √3 · V_ph).</div>
+            </div>
+            <div class="video-actions">
+              <a href="https://www.youtube.com/results?search_query=NPTEL+Tapas+Kumar+Bhattacharya+AC+Resonance+Three+Phase+Circuits" target="_blank" class="btn-yt">▶ Watch on YouTube</a>
+              <button class="btn-watched" onclick="toggleWatched('v_resonance', this)">Mark Watched</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Topic 2: Digital Circuits -->
+      <div class="topic-block" data-keywords="digital circuits boolean algebra multiplexers decoders encoders flip-flops counters">
+        <div class="topic-header open" onclick="toggleBlock(this)">
+          <div class="topic-title-text">
+            <span>💾 Digital Circuits (Logic Gates, MUX, Flip-Flops & Counters)</span>
+            <span class="syllabus-badge">Part A.2 (Compulsory)</span>
+          </div>
+          <span>▼</span>
+        </div>
+        <div class="topic-body">
+
+          <div class="video-item" id="v_logic_mux">
+            <div class="video-info">
+              <div class="video-tagline">
+                <span class="video-badge">▶ YOUTUBE NPTEL</span>
+                <span class="institute-tag">IIT Kharagpur &bull; Prof. Goutam Saha</span>
+              </div>
+              <div class="video-title">1. Boolean Minimization & Multiplexers (MUX 4:1, 8:1)</div>
+              <div class="video-summary">De Morgan's laws, SOP minimization, K-Maps, and implementing logic functions using Multiplexers.</div>
+            </div>
+            <div class="video-actions">
+              <a href="https://www.youtube.com/results?search_query=NPTEL+Digital+Electronic+Circuits+Goutam+Saha+Multiplexer+Boolean" target="_blank" class="btn-yt">▶ Watch on YouTube</a>
+              <button class="btn-watched" onclick="toggleWatched('v_logic_mux', this)">Mark Watched</button>
+            </div>
+          </div>
+
+          <div class="video-item" id="v_flipflops">
+            <div class="video-info">
+              <div class="video-tagline">
+                <span class="video-badge">▶ YOUTUBE NPTEL</span>
+                <span class="institute-tag">IIT Kharagpur &bull; Prof. Goutam Saha</span>
+              </div>
+              <div class="video-title">2. Latches, Flip-Flops (SR, JK, D, T) & Ripple Binary Counters</div>
+              <div class="video-summary">Excitation tables, JK race-around toggle conditions, D flip-flop registers, and MOD-N asynchronous/synchronous counters (2ⁿ⁻¹ &lt; N ≤ 2ⁿ).</div>
+              <div class="omit-notice">⚡ Skip DAC/ADC design in this playlist; only watch Flip-Flops and Counters.</div>
+            </div>
+            <div class="video-actions">
+              <a href="https://www.youtube.com/results?search_query=NPTEL+Goutam+Saha+Flip+Flops+JK+D+T+Binary+Counters" target="_blank" class="btn-yt">▶ Watch on YouTube</a>
+              <button class="btn-watched" onclick="toggleWatched('v_flipflops', this)">Mark Watched</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Topic 3: Sensors & Transducers -->
+      <div class="topic-block" data-keywords="sensors transducers strain gauge lvdt piezoelectric hall effect encoders signal conditioning op-amp bridge">
+        <div class="topic-header open" onclick="toggleBlock(this)">
+          <div class="topic-title-text">
+            <span>📡 Sensors, Transducers & Signal Conditioning Circuits</span>
+            <span class="syllabus-badge">Part A.2 (Compulsory)</span>
+          </div>
+          <span>▼</span>
+        </div>
+        <div class="topic-body">
+
+          <div class="video-item" id="v_strain_lvdt">
+            <div class="video-info">
+              <div class="video-tagline">
+                <span class="video-badge">▶ YOUTUBE NPTEL</span>
+                <span class="institute-tag">IISc Bangalore &bull; Prof. Hardik J. Pandya</span>
+              </div>
+              <div class="video-title">1. Resistive & Inductive Transducers (Strain Gauges, RTD, Thermistor, LVDT)</div>
+              <div class="video-summary">Gauge Factor derivation (GF = 1 + 2ν + (Δρ/ρ)/ε), PT100 temperature coefficient, LVDT series-opposition differential secondary windings and null voltage.</div>
+            </div>
+            <div class="video-actions">
+              <a href="https://www.youtube.com/results?search_query=NPTEL+Hardik+J+Pandya+Sensors+and+Actuators+Strain+Gauge+LVDT" target="_blank" class="btn-yt">▶ Watch on YouTube</a>
+              <button class="btn-watched" onclick="toggleWatched('v_strain_lvdt', this)">Mark Watched</button>
+            </div>
+          </div>
+
+          <div class="video-item" id="v_piezo_hall">
+            <div class="video-info">
+              <div class="video-tagline">
+                <span class="video-badge">▶ YOUTUBE NPTEL</span>
+                <span class="institute-tag">IISc Bangalore &bull; Prof. Hardik J. Pandya</span>
+              </div>
+              <div class="video-title">2. Piezoelectric, Hall Effect Sensors & Optical Encoders</div>
+              <div class="video-summary">Piezoelectric charge equation (Q = d · F), High-Pass filter behavior (why it cannot measure static DC loads), Hall effect voltage (V_H = R_H · I · B / t), and Quadrature optical encoders.</div>
+            </div>
+            <div class="video-actions">
+              <a href="https://www.youtube.com/results?search_query=NPTEL+Hardik+Pandya+Piezoelectric+Hall+Effect+Sensor+Optical+Encoder" target="_blank" class="btn-yt">▶ Watch on YouTube</a>
+              <button class="btn-watched" onclick="toggleWatched('v_piezo_hall', this)">Mark Watched</button>
+            </div>
+          </div>
+
+          <div class="video-item" id="v_opamp_bridge">
+            <div class="video-info">
+              <div class="video-tagline">
+                <span class="video-badge">▶ YOUTUBE NPTEL</span>
+                <span class="institute-tag">IIT Roorkee &bull; Prof. Pushparaj Mani Pathak</span>
+              </div>
+              <div class="video-title">3. Signal Conditioning: Wheatstone Bridges & 3-Op-Amp Instrumentation Amplifiers</div>
+              <div class="video-summary">Quarter/Half/Full bridge voltage deflection (V₀ = (Vs / 4) · GF · ε), Instrumentation amplifier differential gain formula, and active anti-aliasing filters.</div>
+            </div>
+            <div class="video-actions">
+              <a href="https://www.youtube.com/results?search_query=NPTEL+Pushparaj+Mani+Pathak+Mechatronics+Signal+Conditioning+Op+Amp" target="_blank" class="btn-yt">▶ Watch on YouTube</a>
+              <button class="btn-watched" onclick="toggleWatched('v_opamp_bridge', this)">Mark Watched</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Topic 4: Actuators & Motor Drives -->
+      <div class="topic-block" data-keywords="actuators dc motors stepper bldc servo motors hydraulic pneumatic torque speed">
+        <div class="topic-header open" onclick="toggleBlock(this)">
+          <div class="topic-title-text">
+            <span>⚙️ Actuators, Motor Drives & Fluid Power (Hydraulics/Pneumatics)</span>
+            <span class="syllabus-badge">Part A.2 (Compulsory)</span>
+          </div>
+          <span>▼</span>
+        </div>
+        <div class="topic-body">
+
+          <div class="video-item" id="v_stepper_bldc">
+            <div class="video-info">
+              <div class="video-tagline">
+                <span class="video-badge">▶ YOUTUBE NPTEL</span>
+                <span class="institute-tag">IIT Kharagpur &bull; Prof. Siddhartha Mukhopadhyay</span>
+              </div>
+              <div class="video-title">1. DC Motor Torque-Speed Characteristics, Stepper Motors & BLDC Drives</div>
+              <div class="video-summary">Back-EMF (E_b = K_e · ω), linear torque-speed drooping characteristic (ω = V/K_e - (R_a/K_e·K_t)T), Stepper step angle formula (β = 360° / (m · N_r)), half-stepping, and 3-Hall sensor BLDC commutation.</div>
+            </div>
+            <div class="video-actions">
+              <a href="https://www.youtube.com/results?search_query=NPTEL+Industrial+Automation+Siddhartha+Mukhopadhyay+DC+Motor+Stepper+BLDC" target="_blank" class="btn-yt">▶ Watch on YouTube</a>
+              <button class="btn-watched" onclick="toggleWatched('v_stepper_bldc', this)">Mark Watched</button>
+            </div>
+          </div>
+
+          <div class="video-item" id="v_hydraulics">
+            <div class="video-info">
+              <div class="video-tagline">
+                <span class="video-badge">▶ YOUTUBE NPTEL</span>
+                <span class="institute-tag">IIT Kharagpur &bull; Prof. Siddhartha Mukhopadhyay</span>
+              </div>
+              <div class="video-title">2. Hydraulic & Pneumatic Cylinders, Directional Valves & FRL Units</div>
+              <div class="video-summary">Single/Double-acting cylinder forward/return forces (F = P · A), flow velocity (v = Q/A), 3/2 and 5/2 Direction Control Valves (DCVs), and Air FRL units.</div>
+            </div>
+            <div class="video-actions">
+              <a href="https://www.youtube.com/results?search_query=NPTEL+Siddhartha+Mukhopadhyay+Hydraulic+Pneumatic+Actuation+Systems" target="_blank" class="btn-yt">▶ Watch on YouTube</a>
+              <button class="btn-watched" onclick="toggleWatched('v_hydraulics', this)">Mark Watched</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Topic 5: Python & Data Structures -->
+      <div class="topic-block" data-keywords="python data structures stack queue binary search tree heap graph bfs dfs recursion">
+        <div class="topic-header open" onclick="toggleBlock(this)">
+          <div class="topic-title-text">
+            <span>🐍 Python Programming & Data Structures for Robotics</span>
+            <span class="syllabus-badge">Part A.2 (Compulsory)</span>
+          </div>
+          <span>▼</span>
+        </div>
+        <div class="topic-body">
+
+          <div class="video-item" id="v_python_dsa">
+            <div class="video-info">
+              <div class="video-tagline">
+                <span class="video-badge">▶ YOUTUBE NPTEL</span>
+                <span class="institute-tag">CMI / NPTEL &bull; Prof. Madhavan Mukund</span>
+              </div>
+              <div class="video-title">1. Python Recursion, Time Complexity (O) & Stacks/Queues</div>
+              <div class="video-summary">Asymptotic analysis of recursive code, LIFO stacks, FIFO queues, and Linked List pointer modifications.</div>
+            </div>
+            <div class="video-actions">
+              <a href="https://www.youtube.com/results?search_query=NPTEL+Madhavan+Mukund+Python+Data+Structures+Algorithms" target="_blank" class="btn-yt">▶ Watch on YouTube</a>
+              <button class="btn-watched" onclick="toggleWatched('v_python_dsa', this)">Mark Watched</button>
+            </div>
+          </div>
+
+          <div class="video-item" id="v_trees_graphs">
+            <div class="video-info">
+              <div class="video-tagline">
+                <span class="video-badge">▶ YOUTUBE NPTEL</span>
+                <span class="institute-tag">CMI / NPTEL &bull; Prof. Madhavan Mukund</span>
+              </div>
+              <div class="video-title">2. Binary Search Trees (BST), Heaps & Breadth-First Search (BFS) for Robot Pathing</div>
+              <div class="video-summary">Inorder traversal sorting property, Min/Max-Heap array indexing (2i+1, 2i+2), and BFS queue-based shortest path guarantees on grid maps.</div>
+            </div>
+            <div class="video-actions">
+              <a href="https://www.youtube.com/results?search_query=NPTEL+Madhavan+Mukund+Binary+Search+Tree+Heap+BFS+DFS" target="_blank" class="btn-yt">▶ Watch on YouTube</a>
+              <button class="btn-watched" onclick="toggleWatched('v_trees_graphs', this)">Mark Watched</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- SECTION A.3: PRINCIPLES OF ROBOTICS AND AUTOMATION -->
+    <!-- ======================================================== -->
+    <div class="section-group" data-group="robotics">
+      <div class="section-title">🤖 Section A.3: Principles of Robotics & Automation (Compulsory Core)</div>
+
+      <!-- Topic 1: Spatial Transformations & Forward Kinematics -->
+      <div class="topic-block" data-keywords="robotics rotation matrices 2d 3d homogeneous transformations dh parameters forward kinematics dof grubler">
+        <div class="topic-header open" onclick="toggleBlock(this)">
+          <div class="topic-title-text">
+            <span>📐 Coordinate Systems, 2D/3D Rotation Matrices & DH Parameters</span>
+            <span class="syllabus-badge">Part A.3 (Compulsory)</span>
+          </div>
+          <span>▼</span>
+        </div>
+        <div class="topic-body">
+
+          <div class="video-item" id="v_rot_matrices">
+            <div class="video-info">
+              <div class="video-tagline">
+                <span class="video-badge">▶ YOUTUBE NPTEL</span>
+                <span class="institute-tag">IIT Kanpur &bull; Prof. Ashish Dutta</span>
+              </div>
+              <div class="video-title">1. 2D and 3D Rotation Matrices & Properties of SO(3)</div>
+              <div class="video-summary">Elementary rotation matrices R_x, R_y, R_z, Euler angles, orthogonality (Rᵀ = R⁻¹), determinant = +1, and pre/post-multiplication composition rules.</div>
+            </div>
+            <div class="video-actions">
+              <a href="https://www.youtube.com/results?search_query=NPTEL+Introduction+to+Robotics+Ashish+Dutta+Spatial+Transformations+Rotation+Matrix" target="_blank" class="btn-yt">▶ Watch on YouTube</a>
+              <button class="btn-watched" onclick="toggleWatched('v_rot_matrices', this)">Mark Watched</button>
+            </div>
+          </div>
+
+          <div class="video-item" id="v_dh_parameters">
+            <div class="video-info">
+              <div class="video-tagline">
+                <span class="video-badge">▶ YOUTUBE NPTEL</span>
+                <span class="institute-tag">IIT Kanpur &bull; Prof. Ashish Dutta</span>
+              </div>
+              <div class="video-title">2. Denavit-Hartenberg (D-H) Parametrization & Forward Kinematics</div>
+              <div class="video-summary">The 4 DH parameters (θ_i, d_i, a_i, α_i), assigning coordinate frames along common normals, and deriving link transformation matrix ⁱ⁻¹T_i.</div>
+            </div>
+            <div class="video-actions">
+              <a href="https://www.youtube.com/results?search_query=NPTEL+Ashish+Dutta+Denavit+Hartenberg+DH+Parameters+Kinematics" target="_blank" class="btn-yt">▶ Watch on YouTube</a>
+              <button class="btn-watched" onclick="toggleWatched('v_dh_parameters', this)">Mark Watched</button>
+            </div>
+          </div>
+
+          <div class="video-item" id="v_robot_applications">
+            <div class="video-info">
+              <div class="video-tagline">
+                <span class="video-badge">▶ YOUTUBE NPTEL</span>
+                <span class="institute-tag">IIT Madras &bull; Prof. T. Asokan</span>
+              </div>
+              <div class="video-title">3. Robot Applications, PTP vs Continuous Path & Accuracy/Repeatability</div>
+              <div class="video-summary">Mechanical, vacuum, and magnetic end-effectors; Point-to-Point (PTP) vs Continuous Path (CP) trajectory motion; Spatial resolution, Accuracy vs. Repeatability.</div>
+            </div>
+            <div class="video-actions">
+              <a href="https://www.youtube.com/results?search_query=NPTEL+T+Asokan+Introduction+to+Robotics+End+Effectors+Accuracy+Repeatability" target="_blank" class="btn-yt">▶ Watch on YouTube</a>
+              <button class="btn-watched" onclick="toggleWatched('v_robot_applications', this)">Mark Watched</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Topic 2: CIM, PLCs, CNC & Automation -->
+      <div class="topic-block" data-keywords="cim automation plcs ladder logic cnc g-codes asrs agv material handling aidc rfid">
+        <div class="topic-header open" onclick="toggleBlock(this)">
+          <div class="topic-title-text">
+            <span>🏭 CIM, PLCs, CNC Machines, AS/RS & Auto-ID Systems</span>
+            <span class="syllabus-badge">Part A.3 (Compulsory)</span>
+          </div>
+          <span>▼</span>
+        </div>
+        <div class="topic-body">
+
+          <div class="video-item" id="v_plc_ladder">
+            <div class="video-info">
+              <div class="video-tagline">
+                <span class="video-badge">▶ YOUTUBE NPTEL</span>
+                <span class="institute-tag">IIT Kharagpur &bull; Prof. Siddhartha Mukhopadhyay</span>
+              </div>
+              <div class="video-title">1. Programmable Logic Controllers (PLCs) & Ladder Logic Programming</div>
+              <div class="video-summary">PLC hardware scan cycle (Input &rarr; Program &rarr; Output), Ladder rungs, Normally Open/Closed contacts, On/Off Delay Timers (TON/TOF), and Up/Down Counters (CTU/CTD).</div>
+            </div>
+            <div class="video-actions">
+              <a href="https://www.youtube.com/results?search_query=NPTEL+Industrial+Automation+Siddhartha+Mukhopadhyay+PLC+Ladder+Logic" target="_blank" class="btn-yt">▶ Watch on YouTube</a>
+              <button class="btn-watched" onclick="toggleWatched('v_plc_ladder', this)">Mark Watched</button>
+            </div>
+          </div>
+
+          <div class="video-item" id="v_cnc_codes">
+            <div class="video-info">
+              <div class="video-tagline">
+                <span class="video-badge">▶ YOUTUBE NPTEL</span>
+                <span class="institute-tag">IIT Kharagpur &bull; Prof. Siddhartha Mukhopadhyay</span>
+              </div>
+              <div class="video-title">2. CNC Coordinate Systems, G-Codes & Multi-Axis Positioning</div>
+              <div class="video-summary">Right-hand axis conventions (Z-spindle), G00/G01/G02/G03 linear/circular interpolation, absolute vs incremental coordinates (G90/G91), lead screw pitch and backlash elimination.</div>
+            </div>
+            <div class="video-actions">
+              <a href="https://www.youtube.com/results?search_query=NPTEL+Siddhartha+Mukhopadhyay+CNC+Machines+G+Codes+Interpolation" target="_blank" class="btn-yt">▶ Watch on YouTube</a>
+              <button class="btn-watched" onclick="toggleWatched('v_cnc_codes', this)">Mark Watched</button>
+            </div>
+          </div>
+
+          <div class="video-item" id="v_asrs_agv">
+            <div class="video-info">
+              <div class="video-tagline">
+                <span class="video-badge">▶ YOUTUBE NPTEL</span>
+                <span class="institute-tag">IIT Guwahati &bull; Prof. Shrikrishna N. Joshi</span>
+              </div>
+              <div class="video-title">3. Automated Material Handling (AGVs), AS/RS Storage & AIDC (RFID)</div>
+              <div class="video-summary">Automated Guided Vehicle routing, AS/RS single-command (T_sc) and dual-command (T_dc) cycle times, 2D QR codes and Active vs. Passive RFID transponders.</div>
+            </div>
+            <div class="video-actions">
+              <a href="https://www.youtube.com/results?search_query=NPTEL+Automation+in+Manufacturing+Shrikrishna+Joshi+AGV+ASRS+RFID" target="_blank" class="btn-yt">▶ Watch on YouTube</a>
+              <button class="btn-watched" onclick="toggleWatched('v_asrs_agv', this)">Mark Watched</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- SECTION B2: MECHANICAL STREAM (25 MARKS) -->
+    <!-- ======================================================== -->
+    <div class="section-group" data-group="mech">
+      <div class="section-title">⚙️ Part B2: Mechanical Engineering Stream (25 Marks)</div>
+
+      <!-- Topic 1: Mechanics of Materials (SOM) -->
+      <div class="topic-block" data-keywords="mechanics of materials som mohrs circle bending torsion euler buckling strain rosettes">
+        <div class="topic-header open" onclick="toggleBlock(this)">
+          <div class="topic-title-text">
+            <span>🧱 B2.1: Mechanics of Materials (SOM)</span>
+            <span class="syllabus-badge" style="color:#15803d; background:#f0fdf4; border-color:#86efac;">Part B2 Optional</span>
+          </div>
+          <span>▼</span>
+        </div>
+        <div class="topic-body">
+
+          <div class="video-item" id="v_som_mohr">
+            <div class="video-info">
+              <div class="video-tagline">
+                <span class="video-badge">▶ YOUTUBE NPTEL</span>
+                <span class="institute-tag">IIT Roorkee &bull; Prof. S.P. Harsha</span>
+              </div>
+              <div class="video-title">1. Mohr’s Circle for Plane Stress & Principal Stresses</div>
+              <div class="video-summary">Centre and radius of Mohr's circle, σ₁,₂ = (σx + σy)/2 ± √(((σx - σy)/2)² + τxy²), τ_max = R, and principal plane angles.</div>
+            </div>
+            <div class="video-actions">
+              <a href="https://www.youtube.com/results?search_query=NPTEL+Strength+of+Materials+SP+Harsha+Mohrs+Circle+Principal+Stress" target="_blank" class="btn-yt">▶ Watch on YouTube</a>
+              <button class="btn-watched" onclick="toggleWatched('v_som_mohr', this)">Mark Watched</button>
+            </div>
+          </div>
+
+          <div class="video-item" id="v_som_columns">
+            <div class="video-info">
+              <div class="video-tagline">
+                <span class="video-badge">▶ YOUTUBE NPTEL</span>
+                <span class="institute-tag">IIT Roorkee &bull; Prof. S.P. Harsha</span>
+              </div>
+              <div class="video-title">2. Torsion of Shafts, Euler’s Column Buckling & Strain Rosettes</div>
+              <div class="video-summary">Torsion equation (T/J = τ/r = G·θ/L), Euler critical load (P_cr = (π² · E · I) / L_e²), effective length L_e, and Rectangular 0°-45°-90° strain rosettes.</div>
+            </div>
+            <div class="video-actions">
+              <a href="https://www.youtube.com/results?search_query=NPTEL+SP+Harsha+Torsion+Euler+Buckling+Columns+Strain+Rosettes" target="_blank" class="btn-yt">▶ Watch on YouTube</a>
+              <button class="btn-watched" onclick="toggleWatched('v_som_columns', this)">Mark Watched</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Topic 2: TOM & Vibrations -->
+      <div class="topic-block" data-keywords="kinematics dynamics tom vibrations coriolis gear trains sdof damping transmissibility">
+        <div class="topic-header open" onclick="toggleBlock(this)">
+          <div class="topic-title-text">
+            <span>⚙️ B2.2: Kinematics, Dynamics of Machinery & Vibrations</span>
+            <span class="syllabus-badge" style="color:#15803d; background:#f0fdf4; border-color:#86efac;">Part B2 Optional</span>
+          </div>
+          <span>▼</span>
+        </div>
+        <div class="topic-body">
+
+          <div class="video-item" id="v_tom_coriolis">
+            <div class="video-info">
+              <div class="video-tagline">
+                <span class="video-badge">▶ YOUTUBE NPTEL</span>
+                <span class="institute-tag">IIT Kharagpur &bull; Prof. Anirvan Dasgupta</span>
+              </div>
+              <div class="video-title">1. Mechanism Inversions, Coriolis Acceleration & Epicyclic Gears</div>
+              <div class="video-summary">Grashof's criteria, slider-crank inversions, Coriolis acceleration formula (aᶜ = 2·ω·v) and direction, Epicyclic/planetary gear speed tables.</div>
+            </div>
+            <div class="video-actions">
+              <a href="https://www.youtube.com/results?search_query=NPTEL+Anirvan+Dasgupta+Kinematics+of+Mechanisms+Coriolis+Acceleration" target="_blank" class="btn-yt">▶ Watch on YouTube</a>
+              <button class="btn-watched" onclick="toggleWatched('v_tom_coriolis', this)">Mark Watched</button>
+            </div>
+          </div>
+
+          <div class="video-item" id="v_tom_vibrations">
+            <div class="video-info">
+              <div class="video-tagline">
+                <span class="video-badge">▶ YOUTUBE NPTEL</span>
+                <span class="institute-tag">IIT Guwahati &bull; Prof. Rajiv Tiwari</span>
+              </div>
+              <div class="video-title">2. SDOF Free & Forced Damped Vibrations, Transmissibility (TR)</div>
+              <div class="video-summary">Natural frequency ωₙ = √(k/m), Damping ratio ζ = c / 2mωₙ, Logarithmic decrement δ, and Vibration isolation criterion (TR &lt; 1 only when ω/ωₙ &gt; √2).</div>
+            </div>
+            <div class="video-actions">
+              <a href="https://www.youtube.com/results?search_query=NPTEL+Mechanical+Vibrations+Rajiv+Tiwari+Damped+Vibrations+Transmissibility" target="_blank" class="btn-yt">▶ Watch on YouTube</a>
+              <button class="btn-watched" onclick="toggleWatched('v_tom_vibrations', this)">Mark Watched</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <div class="footer">
+    GATE 2027 Robotics & Automation (RA) Preparation &bull; Direct YouTube NPTEL Video Index &bull; Target IISc RBCCPS
+  </div>
+
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-outline" id="cursorOutline"></div>
+
+  <script>
+    // Portal Warp Animation to return to Main Study Hub
+    function returnPortal() {
+      const portal = document.getElementById("portalOverlay");
+      const bar = document.getElementById("portalBar");
+      portal.classList.add("active");
+      setTimeout(() => {
+        bar.style.width = "100%";
+      }, 50);
+      setTimeout(() => {
+        window.location.href = "index.html";
+      }, 1150);
+    }
+
+    // Custom Cursor Animation Logic
+    const cursorDot = document.getElementById("cursorDot");
+    const cursorOutline = document.getElementById("cursorOutline");
+
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    let outlineX = mouseX;
+    let outlineY = mouseY;
+
+    window.addEventListener("mousemove", (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      cursorDot.style.left = `${mouseX}px`;
+      cursorDot.style.top = `${mouseY}px`;
+    });
+
+    function animateCursor() {
+      const distX = mouseX - outlineX;
+      const distY = mouseY - outlineY;
+      outlineX += distX * 0.18;
+      outlineY += distY * 0.18;
+
+      cursorOutline.style.left = `${outlineX}px`;
+      cursorOutline.style.top = `${outlineY}px`;
+
+      requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+
+    document.addEventListener("mousedown", () => document.body.classList.add("cursor-click"));
+    document.addEventListener("mouseup", () => document.body.classList.remove("cursor-click"));
+
+    function attachCursorHover() {
+      const interactives = document.querySelectorAll("a, button, input, .topic-block, .video-item, .topic-btn");
+      interactives.forEach((el) => {
+        el.addEventListener("mouseenter", () => document.body.classList.add("cursor-hover"));
+        el.addEventListener("mouseleave", () => document.body.classList.remove("cursor-hover"));
+      });
+    }
+    attachCursorHover();
+
+    // ==========================================
+    // JASWANTH'S MOTIVATION & TIMER LOGIC
+    // ==========================================
+    const motivationalQuotes = [
+      "\"Jaswanth, let's push your boundaries! IISc RBCCPS is waiting for you.\"",
+      "\"Every formula you master today is a rank closer to IISc Bangalore, Jaswanth!\"",
+      "\"Consistency over intensity. Solve 5 numericals daily and conquer GATE RA 2027!\"",
+      "\"The inaugural year of GATE RA is your greatest opportunity. Outwork everyone!\"",
+      "\"Small daily disciplines compounded over time lead to extraordinary results, Jaswanth.\"",
+      "\"Don't count the days, make the days count. Dream big, study hard!\"",
+      "\"Your competition is resting right now. Keep your momentum going!\""
+    ];
+
+    let quoteIdx = 0;
+    function nextQuote() {
+      quoteIdx = (quoteIdx + 1) % motivationalQuotes.length;
+      document.getElementById('motivationalQuote').innerText = motivationalQuotes[quoteIdx];
+    }
+    setInterval(nextQuote, 10000);
+
+    // GATE 2027 Countdown (Target: Feb 13, 2027)
+    function updateCountdown() {
+      const targetDate = new Date("February 13, 2027 09:30:00").getTime();
+      const now = new Date().getTime();
+      const diff = targetDate - now;
+
+      if (diff > 0) {
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        document.getElementById("cntDays").innerText = String(days).padStart(2, '0');
+        document.getElementById("cntHours").innerText = String(hours).padStart(2, '0');
+        document.getElementById("cntMins").innerText = String(minutes).padStart(2, '0');
+        document.getElementById("cntSecs").innerText = String(seconds).padStart(2, '0');
+      }
+    }
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // Pomodoro Focus Timer
+    let pomoSeconds = 25 * 60;
+    let pomoRunning = false;
+    let pomoInterval = null;
+
+    function setFocusTime(mins) {
+      clearInterval(pomoInterval);
+      pomoRunning = false;
+      pomoSeconds = mins * 60;
+      updatePomoDisplay();
+      document.getElementById('pomoStartBtn').innerText = 'Start';
+      document.getElementById('pomoStatus').innerText = `🎯 Target: ${mins}-minute uninterrupted focus session.`;
+    }
+
+    function updatePomoDisplay() {
+      const m = Math.floor(pomoSeconds / 60);
+      const s = pomoSeconds % 60;
+      document.getElementById('pomodoroDisplay').innerText = 
+        `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    }
+
+    function togglePomodoro() {
+      if (pomoRunning) {
+        clearInterval(pomoInterval);
+        pomoRunning = false;
+        document.getElementById('pomoStartBtn').innerText = 'Resume';
+        document.getElementById('pomoStatus').innerText = '⏸️ Timer paused. Take a breath and dive back in!';
+      } else {
+        pomoRunning = true;
+        document.getElementById('pomoStartBtn').innerText = 'Pause';
+        document.getElementById('pomoStatus').innerText = '🔥 Jaswanth is in deep work mode! Stay focused!';
+        pomoInterval = setInterval(() => {
+          if (pomoSeconds > 0) {
+            pomoSeconds--;
+            updatePomoDisplay();
+          } else {
+            clearInterval(pomoInterval);
+            pomoRunning = false;
+            document.getElementById('pomoStartBtn').innerText = 'Start';
+            document.getElementById('pomoStatus').innerText = '🎉 Session Completed! Great job Jaswanth! Take a 5-min break.';
+            alert("⏰ Great focus session completed, Jaswanth! Take a 5-minute break!");
+          }
+        }, 1000);
+      }
+    }
+
+    function resetPomodoro() {
+      clearInterval(pomoInterval);
+      pomoRunning = false;
+      pomoSeconds = 25 * 60;
+      updatePomoDisplay();
+      document.getElementById('pomoStartBtn').innerText = 'Start';
+      document.getElementById('pomoStatus').innerText = '🧘 Deep focus mode: 100% conceptual absorption.';
+    }
+
+    function toggleBlock(header) {
+      const block = header.parentElement;
+      block.classList.toggle('collapsed');
+      header.classList.toggle('open');
+      const arrow = header.querySelector('span:last-child');
+      arrow.innerText = block.classList.contains('collapsed') ? '▶' : '▼';
+    }
+
+    function filterCategory(cat, btn) {
+      document.querySelectorAll('.topic-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const groups = document.querySelectorAll('.section-group');
+      groups.forEach(g => {
+        if (cat === 'all' || g.getAttribute('data-group') === cat) {
+          g.style.display = 'block';
+        } else {
+          g.style.display = 'none';
+        }
+      });
+    }
+
+    function searchVideos() {
+      const query = document.getElementById('topicSearch').value.toLowerCase();
+      const blocks = document.querySelectorAll('.topic-block');
+
+      blocks.forEach(block => {
+        const text = block.innerText.toLowerCase() + " " + block.getAttribute('data-keywords');
+        if (text.includes(query)) {
+          block.style.display = 'block';
+        } else {
+          block.style.display = 'none';
+        }
+      });
+    }
+
+    function toggleWatched(id, btn) {
+      const item = document.getElementById(id);
+      item.classList.toggle('watched');
+      const isWatched = item.classList.contains('watched');
+      btn.classList.toggle('active', isWatched);
+      btn.innerText = isWatched ? '✓ Watched' : 'Mark Watched';
+
+      let watchedList = JSON.parse(localStorage.getItem('gate_ra_watched_videos') || '[]');
+      if (isWatched) {
+        if (!watchedList.includes(id)) watchedList.push(id);
+      } else {
+        watchedList = watchedList.filter(x => x !== id);
+      }
+      localStorage.setItem('gate_ra_watched_videos', JSON.stringify(watchedList));
+    }
+
+    window.addEventListener('load', () => {
+      const watchedList = JSON.parse(localStorage.getItem('gate_ra_watched_videos') || '[]');
+      watchedList.forEach(id => {
+        const item = document.getElementById(id);
+        if (item) {
+          item.classList.add('watched');
+          const btn = item.querySelector('.btn-watched');
+          if (btn) {
+            btn.classList.add('active');
+            btn.innerText = '✓ Watched';
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>
