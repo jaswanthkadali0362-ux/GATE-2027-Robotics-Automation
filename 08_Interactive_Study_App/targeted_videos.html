@@ -632,6 +632,138 @@
       margin-top: 3.5rem;
       background: #ffffff;
     }
+
+    /* ========================================================
+       ULTRA-FEASIBLE MOBILE & TOUCH SCREEN OPTIMIZATION
+       ======================================================== */
+    @media (hover: none) and (pointer: coarse) {
+      .cursor-dot, .cursor-outline {
+        display: none !important;
+      }
+    }
+
+    @media (max-width: 868px) {
+      header {
+        padding: 0.75rem 1rem;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.6rem;
+      }
+
+      .brand {
+        justify-content: center;
+        text-align: center;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+      }
+
+      .brand-title {
+        font-size: 1.05rem;
+      }
+
+      .header-actions {
+        justify-content: center;
+      }
+
+      .btn-nav {
+        font-size: 0.82rem;
+        padding: 0.45rem 0.85rem;
+        width: 100%;
+        text-align: center;
+      }
+
+      main {
+        padding: 1rem 0.85rem;
+      }
+
+      .banner {
+        padding: 1.35rem;
+        border-radius: 16px;
+      }
+
+      .banner h1 {
+        font-size: 1.45rem;
+      }
+
+      .filter-section {
+        padding: 1.1rem;
+      }
+
+      .topic-buttons {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding-bottom: 0.3rem;
+      }
+
+      .topic-buttons::-webkit-scrollbar {
+        display: none;
+      }
+
+      .topic-btn {
+        flex-shrink: 0;
+        font-size: 0.82rem;
+        padding: 0.4rem 0.8rem;
+      }
+
+      .topic-header {
+        padding: 1rem 1.1rem;
+      }
+
+      .video-item {
+        padding: 1.1rem;
+        flex-direction: column;
+        gap: 0.9rem;
+      }
+
+      .video-actions {
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-between;
+      }
+
+      .btn-yt {
+        flex: 1;
+        padding: 0.6rem;
+        font-size: 0.85rem;
+      }
+
+      .portal-core {
+        width: 170px;
+        height: 170px;
+        margin-bottom: 1.2rem;
+      }
+
+      .portal-gear-outer {
+        width: 160px;
+        height: 160px;
+      }
+
+      .portal-gear-inner {
+        width: 110px;
+        height: 110px;
+      }
+
+      .portal-icon {
+        font-size: 2.8rem;
+      }
+
+      .portal-title {
+        font-size: 1.45rem;
+        padding: 0 1rem;
+      }
+
+      .portal-slogan {
+        font-size: 0.92rem;
+        padding: 0 1.2rem;
+      }
+
+      .portal-bar-container {
+        width: 85%;
+        max-width: 300px;
+      }
+    }
   </style>
 </head>
 <body>
