@@ -17,6 +17,7 @@
       }
     };
   </script>
+  <script src="assets/question_bank.js"></script>
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
   <style>
     :root {
@@ -1417,6 +1418,264 @@
         max-width: 300px;
       }
     }
+  
+    /* ==========================================
+       1,000 NPTEL ASSIGNMENT QUESTION BANK
+       ========================================== */
+    .qbank-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .qbank-hero {
+      background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+      border: 1.5px solid #fed7aa;
+      border-radius: 16px;
+      padding: 1.75rem 2rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1.2rem;
+    }
+    .qbank-hero-title {
+      font-family: var(--font-heading);
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #7c2d12;
+      margin-bottom: 0.4rem;
+    }
+    .qbank-hero-desc {
+      color: #9a3412;
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+    .qbank-stat-badge {
+      background: #ffffff;
+      border: 1.5px solid #ea580c;
+      padding: 0.6rem 1.2rem;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(234, 88, 12, 0.15);
+    }
+    .qbank-stat-num {
+      font-family: var(--font-heading);
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #ea580c;
+      line-height: 1;
+    }
+    .qbank-stat-lbl {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #7c2d12;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 0.2rem;
+    }
+    .qbank-filter-group {
+      margin-bottom: 1.5rem;
+    }
+    .qbank-filter-label {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--text-secondary);
+      margin-bottom: 0.6rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .qbank-filter-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+    }
+    .qbank-pill {
+      background: #ffffff;
+      border: 1.5px solid #e2e8f0;
+      color: var(--text-secondary);
+      font-family: var(--font-heading);
+      font-weight: 600;
+      font-size: 0.8rem;
+      padding: 0.42rem 0.85rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.18s ease;
+    }
+    .qbank-pill.active, .qbank-pill:hover {
+      background: #ea580c;
+      color: #ffffff;
+      border-color: #ea580c;
+      box-shadow: 0 2px 8px rgba(234, 88, 12, 0.25);
+    }
+    .qbank-search-bar {
+      display: flex;
+      gap: 0.8rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .qbank-search-input {
+      flex: 1;
+      min-width: 280px;
+      padding: 0.75rem 1.2rem;
+      border: 1.5px solid var(--border-warm);
+      border-radius: 10px;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      outline: none;
+      background: #ffffff;
+      box-shadow: var(--shadow-sm);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .qbank-search-input:focus {
+      border-color: var(--accent-orange);
+      box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.15);
+    }
+    .qbank-count-info {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text-secondary);
+      margin-bottom: 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 0.2rem;
+    }
+    .qcard {
+      background: #ffffff;
+      border: 1.5px solid #f1f5f9;
+      border-radius: 14px;
+      padding: 1.4rem 1.6rem;
+      margin-bottom: 1.25rem;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+    .qcard:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+      border-color: #fed7aa;
+    }
+    .qcard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+    .qcard-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+    .qcard-mod {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #ea580c;
+      background: #fff7ed;
+      border: 1px solid #fed7aa;
+      padding: 0.25rem 0.65rem;
+      border-radius: 6px;
+    }
+    .qcard-type {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #0369a1;
+      background: #f0f9ff;
+      border: 1px solid #bae6fd;
+      padding: 0.25rem 0.65rem;
+      border-radius: 6px;
+    }
+    .qcard-qid {
+      font-family: var(--font-heading);
+      font-weight: 800;
+      font-size: 1rem;
+      color: var(--text-main);
+    }
+    .qcard-body {
+      font-size: 0.98rem;
+      line-height: 1.65;
+      color: var(--text-main);
+      margin-bottom: 0.85rem;
+      font-weight: 500;
+    }
+    .qcard-options {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 0.5rem;
+      margin-bottom: 0.85rem;
+    }
+    .qcard-opt {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      padding: 0.6rem 0.9rem;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+    .btn-solution-toggle {
+      background: #fff7ed;
+      border: 1.5px solid #fed7aa;
+      color: #ea580c;
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 0.45rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .btn-solution-toggle:hover {
+      background: #ea580c;
+      color: #ffffff;
+      border-color: #ea580c;
+    }
+    .qcard-solution {
+      display: none;
+      margin-top: 0.85rem;
+      padding: 1.1rem 1.25rem;
+      background: #f0fdf4;
+      border: 1.5px solid #bbf7d0;
+      border-radius: 10px;
+      font-size: 0.92rem;
+      line-height: 1.6;
+      color: #166534;
+    }
+    .qcard-solution.visible {
+      display: block;
+      animation: fadeIn 0.25s ease;
+    }
+    .btn-load-more {
+      width: 100%;
+      background: linear-gradient(135deg, #fff7ed, #ffedd5);
+      border: 2px dashed #ea580c;
+      color: #c2410c;
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 1rem;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      margin-top: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+    .btn-load-more:hover {
+      background: #ea580c;
+      color: #ffffff;
+      border-style: solid;
+      box-shadow: var(--shadow-hover);
+    }
+
   </style>
 </head>
 <body>
@@ -1433,6 +1692,7 @@
       <button class="nav-btn" onclick="switchTab('notes')">📖 Notes & Cheatsheets</button>
       <button class="nav-btn" onclick="switchTab('syllabus')">📋 Syllabus Tracker</button>
       <button class="nav-btn" onclick="switchTab('formulas')">⚡ Formula Cards</button>
+      <button class="nav-btn" onclick="switchTab('qbank')">📚 1,000 NPTEL Question Bank</button>
       <button class="nav-btn" onclick="switchTab('quiz')">🎯 Practice Quiz</button>
     </nav>
   </header>
@@ -2443,6 +2703,70 @@ u)$), Mohr's Circle.<br>
       </div>
     </div>
 
+  
+    <!-- TAB 6: 1,000 NPTEL ASSIGNMENT QUESTION BANK -->
+    <div id="qbank" class="tab-content">
+      <div class="qbank-container">
+        
+        <!-- Hero Header -->
+        <div class="qbank-hero">
+          <div>
+            <div class="qbank-hero-title">📚 1,000 NPTEL & Standard Assignment Questions</div>
+            <div class="qbank-hero-desc">Complete 10-Module Question Bank • 100 Questions per Module • Step-by-Step Solutions & Formulas</div>
+          </div>
+          <div class="qbank-stat-badge">
+            <div class="qbank-stat-num" id="qbankTotalCount">1,000</div>
+            <div class="qbank-stat-lbl">Questions Pool</div>
+          </div>
+        </div>
+
+        <!-- Filter Controls -->
+        <div class="qbank-filter-group">
+          <div class="qbank-filter-label">🎯 Filter by Module:</div>
+          <div class="qbank-filter-pills" id="qbankModulePills">
+            <button class="qbank-pill active" onclick="filterQBankModule('all', this)">All Modules (1,000)</button>
+            <button class="qbank-pill" onclick="filterQBankModule('Mod 1', this)">Mod 1: Transforms & DH</button>
+            <button class="qbank-pill" onclick="filterQBankModule('Mod 2', this)">Mod 2: Jacobians & Dynamics</button>
+            <button class="qbank-pill" onclick="filterQBankModule('Mod 3', this)">Mod 3: Sensors & Transducers</button>
+            <button class="qbank-pill" onclick="filterQBankModule('Mod 4', this)">Mod 4: Actuators & Motors</button>
+            <button class="qbank-pill" onclick="filterQBankModule('Mod 5', this)">Mod 5: CIM & PLCs</button>
+            <button class="qbank-pill" onclick="filterQBankModule('Mod 6', this)">Mod 6: Python & DSA</button>
+            <button class="qbank-pill" onclick="filterQBankModule('Mod 7', this)">Mod 7: Engg Mathematics</button>
+            <button class="qbank-pill" onclick="filterQBankModule('Mod 8', this)">Mod 8: Circuits (KCL/KVL) & Mechanics</button>
+            <button class="qbank-pill" onclick="filterQBankModule('Mod 9', this)">Mod 9: SOM (Part B2)</button>
+            <button class="qbank-pill" onclick="filterQBankModule('Mod 10', this)">Mod 10: Control Systems</button>
+          </div>
+        </div>
+
+        <!-- Search & Type Filter -->
+        <div class="qbank-search-bar">
+          <input type="text" id="qbankSearchInput" class="qbank-search-input" placeholder="🔍 Search any topic or keyword (e.g. KCL, KVL, Thevenin, Transients, DH parameter, Jacobian, Coriolis, Mohr, Bode, PID, Newton-Raphson)..." oninput="debounceQBankSearch()" />
+          <div style="display:flex; gap:0.4rem; align-items:center;">
+            <button class="filter-btn active" id="btnTypeAll" onclick="filterQBankType('all', this)">All Types</button>
+            <button class="filter-btn" onclick="filterQBankType('MCQ', this)">MCQs</button>
+            <button class="filter-btn" onclick="filterQBankType('NAT', this)">NATs</button>
+          </div>
+        </div>
+
+        <!-- Count Info -->
+        <div class="qbank-count-info">
+          <span id="qbankVisibleCount">Showing 25 of 1,000 Questions</span>
+          <span style="font-size:0.82rem; color:var(--accent-orange);">💡 Click "Reveal Solution" to view step-by-step working</span>
+        </div>
+
+        <!-- Question Cards Stream -->
+        <div id="qbankCardsContainer">
+          <!-- Injected via JavaScript -->
+        </div>
+
+        <!-- Load More Button -->
+        <button id="qbankLoadMoreBtn" class="btn-load-more" onclick="loadMoreQBank()">
+          <span>⬇️ Load More Questions (Showing 25 of 1,000)</span>
+        </button>
+
+      </div>
+    </div>
+
   </main>
 
   <div class="footer">
@@ -2526,6 +2850,10 @@ u)$), Mohr's Circle.<br>
       
       event.target.classList.add('active');
       document.getElementById(tabId).classList.add('active');
+      if (tabId === 'qbank') {
+        if (qbankPool.length === 0) initQBank();
+        renderQBankCards();
+      }
       if (tabId === 'notes') {
         loadNote('kinematics');
       }
@@ -2679,6 +3007,7 @@ u)$), Mohr's Circle.<br>
       updateProgress();
       renderQuestion();
       loadNote('cheatcodes');
+      if (typeof initQBank === 'function') initQBank();
     });
 
     // Formula Search Filter
@@ -3344,6 +3673,177 @@ u)$), Mohr's Circle.<br>
         }
       }
     });
+  
+    // ==========================================
+    // 1,000 NPTEL ASSIGNMENT QUESTION BANK LOGIC
+    // ==========================================
+    let qbankPool = [];
+    let qbankFiltered = [];
+    let qbankCurrentPage = 1;
+    const QBANK_PAGE_SIZE = 25;
+    let qbankCurrentMod = 'all';
+    let qbankCurrentType = 'all';
+    let qbankSearchDebounce = null;
+
+    function initQBank() {
+      if (window.GATE_QUESTION_BANK && window.GATE_QUESTION_BANK.length > 0) {
+        qbankPool = window.GATE_QUESTION_BANK;
+      } else {
+        // Fallback fetch if opened via server
+        fetch('assets/question_bank.json')
+          .then(res => res.json())
+          .then(data => {
+            qbankPool = data;
+            applyQBankFilters();
+          })
+          .catch(e => console.log('QBank local load fallback:', e));
+      }
+      qbankFiltered = [...qbankPool];
+      applyQBankFilters();
+    }
+
+    function applyQBankFilters() {
+      const query = (document.getElementById('qbankSearchInput')?.value || '').toLowerCase().trim();
+      
+      qbankFiltered = qbankPool.filter(item => {
+        // Module filter
+        const matchMod = (qbankCurrentMod === 'all') || (item.module.startsWith(qbankCurrentMod));
+        // Type filter
+        const matchType = (qbankCurrentType === 'all') || 
+          (qbankCurrentType === 'MCQ' && item.type.includes('MCQ')) ||
+          (qbankCurrentType === 'NAT' && item.type.includes('NAT'));
+        // Query filter
+        const matchQuery = !query || 
+          item.question.toLowerCase().includes(query) ||
+          item.module.toLowerCase().includes(query) ||
+          item.answer.toLowerCase().includes(query) ||
+          (item.id && item.id.toLowerCase().includes(query));
+
+        return matchMod && matchType && matchQuery;
+      });
+
+      qbankCurrentPage = 1;
+      renderQBankCards();
+    }
+
+    function debounceQBankSearch() {
+      clearTimeout(qbankSearchDebounce);
+      qbankSearchDebounce = setTimeout(applyQBankFilters, 250);
+    }
+
+    function filterQBankModule(modKey, btn) {
+      document.querySelectorAll('#qbankModulePills .qbank-pill').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      qbankCurrentMod = modKey;
+      applyQBankFilters();
+    }
+
+    function filterQBankType(typeKey, btn) {
+      document.querySelectorAll('#qbank .filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      qbankCurrentType = typeKey;
+      applyQBankFilters();
+    }
+
+    function renderQBankCards() {
+      const container = document.getElementById('qbankCardsContainer');
+      if (!container) return;
+
+      const total = qbankFiltered.length;
+      const countLabel = document.getElementById('qbankVisibleCount');
+      const loadMoreBtn = document.getElementById('qbankLoadMoreBtn');
+
+      if (total === 0) {
+        container.innerHTML = '<div style="text-align:center; padding:3rem; background:#fff; border-radius:12px; border:1px solid #e2e8f0; color:#64748b;">🔍 No questions match your search or filter criteria. Try clearing filters.</div>';
+        if (countLabel) countLabel.innerText = 'Showing 0 of 0 Questions';
+        if (loadMoreBtn) loadMoreBtn.style.display = 'none';
+        return;
+      }
+
+      const limit = Math.min(qbankCurrentPage * QBANK_PAGE_SIZE, total);
+      if (countLabel) countLabel.innerText = `Showing ${limit} of ${total} Questions`;
+
+      if (loadMoreBtn) {
+        if (limit < total) {
+          loadMoreBtn.style.display = 'flex';
+          loadMoreBtn.innerHTML = `<span>⬇️ Load More Questions (Showing ${limit} of ${total})</span>`;
+        } else {
+          loadMoreBtn.style.display = 'none';
+        }
+      }
+
+      const itemsToShow = qbankFiltered.slice(0, limit);
+      let html = '';
+
+      itemsToShow.forEach((q, idx) => {
+        const qidStr = q.id && q.id !== 'Q' ? `Q${q.id}` : `Question ${idx + 1}`;
+        const typeBadge = q.type || 'GATE';
+        const hasOptions = q.options && q.options.length > 0;
+
+        let optionsHtml = '';
+        if (hasOptions) {
+          optionsHtml = '<div class="qcard-options">';
+          q.options.forEach(opt => {
+            optionsHtml += `<div class="qcard-opt">${opt}</div>`;
+          });
+          optionsHtml += '</div>';
+        }
+
+        html += `
+          <div class="qcard" id="qcard_${idx}">
+            <div class="qcard-header">
+              <div class="qcard-meta">
+                <span class="qcard-qid">${qidStr}</span>
+                <span class="qcard-mod">${q.module}</span>
+                <span class="qcard-type">${typeBadge}</span>
+              </div>
+              <button class="btn-solution-toggle" onclick="toggleQBankSolution(${idx}, this)">
+                <span>👁️ Reveal Solution</span>
+              </button>
+            </div>
+            <div class="qcard-body">${q.question}</div>
+            ${optionsHtml}
+            <div class="qcard-solution" id="solution_${idx}">
+              <strong>✅ Correct Answer & Step-by-Step Explanation:</strong><br>
+              <div style="margin-top:0.4rem;">${q.answer || 'Refer to standard syllabus derivation.'}</div>
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+
+      // Typeset MathJax equations
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise([container]).catch(err => console.log('MathJax error:', err));
+      }
+    }
+
+    function toggleQBankSolution(idx, btn) {
+      const sol = document.getElementById(`solution_${idx}`);
+      if (!sol) return;
+      if (sol.classList.contains('visible')) {
+        sol.classList.remove('visible');
+        btn.innerHTML = '<span>👁️ Reveal Solution</span>';
+        btn.style.background = '#fff7ed';
+        btn.style.color = '#ea580c';
+      } else {
+        sol.classList.add('visible');
+        btn.innerHTML = '<span>🙈 Hide Solution</span>';
+        btn.style.background = '#16a34a';
+        btn.style.color = '#ffffff';
+        btn.style.borderColor = '#16a34a';
+        if (window.MathJax && MathJax.typesetPromise) {
+          MathJax.typesetPromise([sol]).catch(() => {});
+        }
+      }
+    }
+
+    function loadMoreQBank() {
+      qbankCurrentPage++;
+      renderQBankCards();
+    }
+
   </script>
 
   <!-- Direct Video Player Theater Modal -->
