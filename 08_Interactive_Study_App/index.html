@@ -671,6 +671,263 @@
       transform: translateY(-1px);
     }
 
+    .course-actions {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 0.85rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-play-direct {
+      flex: 2;
+      min-width: 140px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: #ffffff;
+      font-weight: 700;
+      font-family: var(--font-heading);
+      font-size: 0.88rem;
+      padding: 0.65rem 1rem;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 8px rgba(220, 38, 38, 0.25);
+    }
+
+    .btn-play-direct:hover {
+      background: linear-gradient(135deg, #dc2626, #b91c1c);
+      transform: translateY(-1px);
+      box-shadow: 0 5px 15px rgba(220, 38, 38, 0.35);
+    }
+
+    .btn-direct-yt {
+      flex: 1;
+      min-width: 105px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+      background: #ffffff;
+      border: 1.5px solid #e2e8f0;
+      color: #0f172a;
+      font-weight: 600;
+      font-family: var(--font-heading);
+      font-size: 0.82rem;
+      padding: 0.6rem 0.8rem;
+      border-radius: 10px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-direct-yt:hover {
+      border-color: #ef4444;
+      color: #dc2626;
+      background: #fef2f2;
+      transform: translateY(-1px);
+    }
+
+    .btn-playlist {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+      background: #f8fafc;
+      border: 1.5px solid #e2e8f0;
+      color: var(--text-muted);
+      font-weight: 600;
+      font-family: var(--font-heading);
+      font-size: 0.8rem;
+      padding: 0.6rem 0.8rem;
+      border-radius: 10px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-playlist:hover {
+      border-color: #3b82f6;
+      color: #2563eb;
+      background: #eff6ff;
+      transform: translateY(-1px);
+    }
+
+    /* Direct Video Player Theater Modal */
+    .video-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.88);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.25rem;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.25s ease, visibility 0.25s ease;
+    }
+
+    .video-modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .video-modal-container {
+      background: #0f172a;
+      color: #f8fafc;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 18px;
+      width: 100%;
+      max-width: 960px;
+      overflow: hidden;
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.7), 0 0 40px rgba(239, 68, 68, 0.25);
+      transform: scale(0.95) translateY(10px);
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .video-modal-overlay.active .video-modal-container {
+      transform: scale(1) translateY(0);
+    }
+
+    .video-modal-header {
+      padding: 1rem 1.4rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      background: rgba(30, 41, 59, 0.8);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .video-modal-badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      background: rgba(239, 68, 68, 0.18);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      padding: 0.2rem 0.55rem;
+      border-radius: 6px;
+      margin-bottom: 0.35rem;
+    }
+
+    .video-modal-title {
+      margin: 0;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #ffffff;
+      font-family: var(--font-heading);
+      line-height: 1.35;
+    }
+
+    .video-modal-instructor {
+      margin: 0.25rem 0 0 0;
+      font-size: 0.82rem;
+      color: #94a3b8;
+    }
+
+    .video-modal-close {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #f8fafc;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      font-size: 1.4rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+
+    .video-modal-close:hover {
+      background: #ef4444;
+      color: #ffffff;
+      border-color: #ef4444;
+    }
+
+    .video-player-wrapper {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      background: #000000;
+    }
+
+    .video-player-wrapper iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .video-modal-footer {
+      padding: 0.9rem 1.4rem;
+      background: rgba(15, 23, 42, 0.95);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .modal-actions-left {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .modal-btn-direct-yt {
+      background: #ef4444;
+      color: #ffffff;
+      font-size: 0.85rem;
+      font-weight: 700;
+      padding: 0.55rem 1rem;
+      border-radius: 8px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      transition: all 0.2s;
+    }
+
+    .modal-btn-direct-yt:hover {
+      background: #dc2626;
+      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+    }
+
+    .modal-btn-playlist {
+      background: rgba(255, 255, 255, 0.08);
+      color: #cbd5e1;
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 0.55rem 0.9rem;
+      border-radius: 8px;
+      text-decoration: none;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      transition: all 0.2s;
+    }
+
+    .modal-btn-playlist:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: #ffffff;
+    }
+
     /* Filter Bar */
     .filter-bar {
       display: flex;
@@ -1325,7 +1582,11 @@
               <strong>💡 Syllabus Takeaway:</strong> Focus on deriving DH parameter tables (θ, d, a, α) and calculating end-effector position using forward transformation matrices ⁰Tₙ.
             </div>
           </div>
-          <a href="https://www.youtube.com/results?search_query=NPTEL+Introduction+to+Robotics+Ashish+Dutta" target="_blank" class="btn-link">▶ Watch on YouTube</a>
+          <div class="course-actions">
+            <button class="btn-play-direct" onclick="openCourseVideo('course_robotics')">▶ Play Video</button>
+            <a href="https://www.youtube.com/watch?v=j0kmlMDcObE" target="_blank" rel="noopener noreferrer" class="btn-direct-yt">↗ Direct YT</a>
+            <a href="https://www.youtube.com/playlist?list=PLFW6lRTa1g81AGUOky_xVhNVsudGwZxsY" target="_blank" rel="noopener noreferrer" class="btn-playlist">📑 Playlist</a>
+          </div>
         </div>
 
         <!-- Course 2: Industrial Automation, PLCs & Actuators -->
@@ -1354,7 +1615,11 @@
               <strong>💡 Syllabus Takeaway:</strong> Master PLC scan cycles, TON/TOF timer contacts, stepper step angle formulas, and hydraulic/pneumatic cylinder force equations (F = P · A).
             </div>
           </div>
-          <a href="https://www.youtube.com/results?search_query=NPTEL+Industrial+Automation+and+Control+Siddhartha+Mukhopadhyay" target="_blank" class="btn-link">▶ Watch on YouTube</a>
+          <div class="course-actions">
+            <button class="btn-play-direct" onclick="openCourseVideo('course_automation')">▶ Play Video</button>
+            <a href="https://www.youtube.com/watch?v=oxMdDsud5vg" target="_blank" rel="noopener noreferrer" class="btn-direct-yt">↗ Direct YT</a>
+            <a href="https://www.youtube.com/playlist?list=PLE8F9BF5CB1201D23" target="_blank" rel="noopener noreferrer" class="btn-playlist">📑 Playlist</a>
+          </div>
         </div>
 
         <!-- Course 3: Automation in Manufacturing (CIM, AS/RS, AIDC) -->
@@ -1383,7 +1648,11 @@
               <strong>💡 Syllabus Takeaway:</strong> Understand AS/RS travel time equations and passive vs active RFID frequencies.
             </div>
           </div>
-          <a href="https://www.youtube.com/results?search_query=NPTEL+Automation+in+Manufacturing+Shrikrishna+Joshi" target="_blank" class="btn-link">▶ Watch on YouTube</a>
+          <div class="course-actions">
+            <button class="btn-play-direct" onclick="openCourseVideo('course_cim')">▶ Play Video</button>
+            <a href="https://www.youtube.com/watch?v=v-3TmN4HhLc" target="_blank" rel="noopener noreferrer" class="btn-direct-yt">↗ Direct YT</a>
+            <a href="https://www.youtube.com/playlist?list=PLwdnzlV3ogoW31clPN6Dn6c8Ia-n36vXk" target="_blank" rel="noopener noreferrer" class="btn-playlist">📑 Playlist</a>
+          </div>
         </div>
 
         <!-- Course 4: Sensors & Signal Conditioning -->
@@ -1412,7 +1681,11 @@
               <strong>💡 Syllabus Takeaway:</strong> Focus on Wheatstone bridge output voltage (V₀ = (Vs / 4) · GF · ε) and why piezoelectric sensors cannot measure static DC loads.
             </div>
           </div>
-          <a href="https://www.youtube.com/results?search_query=NPTEL+Sensors+and+Actuators+Hardik+J+Pandya" target="_blank" class="btn-link">▶ Watch on YouTube</a>
+          <div class="course-actions">
+            <button class="btn-play-direct" onclick="openCourseVideo('course_sensors')">▶ Play Video</button>
+            <a href="https://www.youtube.com/watch?v=nE1C4ghfvac" target="_blank" rel="noopener noreferrer" class="btn-direct-yt">↗ Direct YT</a>
+            <a href="https://www.youtube.com/playlist?list=PLgMDNELGJ1CbufZjqWa8uoSlQWKqVwPN7" target="_blank" rel="noopener noreferrer" class="btn-playlist">📑 Playlist</a>
+          </div>
         </div>
 
         <!-- Course 5: Digital Logic & Circuits -->
@@ -1440,7 +1713,11 @@
               <strong>💡 Syllabus Takeaway:</strong> Master JK flip-flop excitation tables and calculating modulus N for ripple counters (2ⁿ⁻¹ &lt; N ≤ 2ⁿ).
             </div>
           </div>
-          <a href="https://www.youtube.com/results?search_query=NPTEL+Digital+Electronic+Circuits+Goutam+Saha" target="_blank" class="btn-link">▶ Watch on YouTube</a>
+          <div class="course-actions">
+            <button class="btn-play-direct" onclick="openCourseVideo('course_digital')">▶ Play Video</button>
+            <a href="https://www.youtube.com/watch?v=oNh6V91zdPY" target="_blank" rel="noopener noreferrer" class="btn-direct-yt">↗ Direct YT</a>
+            <a href="https://www.youtube.com/playlist?list=PLbRMhDVUMnge4gDT0vBWjCb3Lz0HnYKkX" target="_blank" rel="noopener noreferrer" class="btn-playlist">📑 Playlist</a>
+          </div>
         </div>
 
         <!-- Course 6: Python & Data Structures -->
@@ -1469,7 +1746,11 @@
               <strong>💡 Syllabus Takeaway:</strong> Predict output of recursive Python code and understand BFS queue-based shortest path guarantee.
             </div>
           </div>
-          <a href="https://www.youtube.com/results?search_query=NPTEL+Programming+Data+Structures+and+Algorithms+using+Python+Madhavan+Mukund" target="_blank" class="btn-link">▶ Watch on YouTube</a>
+          <div class="course-actions">
+            <button class="btn-play-direct" onclick="openCourseVideo('course_python')">▶ Play Video</button>
+            <a href="https://www.youtube.com/watch?v=9MmC_uGjBsM" target="_blank" rel="noopener noreferrer" class="btn-direct-yt">↗ Direct YT</a>
+            <a href="https://www.youtube.com/playlist?list=PLyqSpQzTE6M_Fu6l8irVwXkUyC9Gwqr6_" target="_blank" rel="noopener noreferrer" class="btn-playlist">📑 Playlist</a>
+          </div>
         </div>
 
         <!-- Course 7: Strength of Materials (Part B2) -->
@@ -1497,7 +1778,11 @@
               <strong>💡 Syllabus Takeaway:</strong> Core scoring area for Part B2. Solve standard 2-mark numericals on principal stresses and beam deflections.
             </div>
           </div>
-          <a href="https://www.youtube.com/results?search_query=NPTEL+Strength+of+Materials+SP+Harsha" target="_blank" class="btn-link">▶ Watch on YouTube</a>
+          <div class="course-actions">
+            <button class="btn-play-direct" onclick="openCourseVideo('course_som')">▶ Play Video</button>
+            <a href="https://www.youtube.com/watch?v=GkFgysZC4Vc" target="_blank" rel="noopener noreferrer" class="btn-direct-yt">↗ Direct YT</a>
+            <a href="https://www.youtube.com/playlist?list=PL27C4A6AEA552F9E6" target="_blank" rel="noopener noreferrer" class="btn-playlist">📑 Playlist</a>
+          </div>
         </div>
 
         <!-- Course 8: Theory of Machines & Vibrations (Part B2) -->
@@ -1526,7 +1811,11 @@
               <strong>💡 Syllabus Takeaway:</strong> Master tabular speed methods for epicyclic gears and the √2 isolation frequency boundary.
             </div>
           </div>
-          <a href="https://www.youtube.com/results?search_query=NPTEL+Kinematics+of+Mechanisms+and+Machines+Dilip+Kumar+Pratihar" target="_blank" class="btn-link">▶ Watch on YouTube</a>
+          <div class="course-actions">
+            <button class="btn-play-direct" onclick="openCourseVideo('course_tom')">▶ Play Video</button>
+            <a href="https://www.youtube.com/watch?v=yDEJxYGAoso" target="_blank" rel="noopener noreferrer" class="btn-direct-yt">↗ Direct YT</a>
+            <a href="https://www.youtube.com/playlist?list=PLbRMhDVUMngdCkMipemSKP_dCgZLLfOe8" target="_blank" rel="noopener noreferrer" class="btn-playlist">📑 Playlist</a>
+          </div>
         </div>
 
       </div>
@@ -2626,6 +2915,143 @@
       currentQ = Math.floor(Math.random() * currentQuestions.length);
       renderQuestion();
     }
+
+    // ==========================================
+    // COURSE VIDEO CATALOG & THEATER MODAL LOGIC
+    // ==========================================
+    const courseCatalog = {
+      course_robotics: {
+        title: "Introduction to Robotics",
+        instructor: "Prof. Ashish Dutta & Prof. T. Asokan • IIT Kanpur & IIT Madras",
+        badge: "Core Robotics (Part A.3)",
+        videoId: "j0kmlMDcObE",
+        playlistId: "PLFW6lRTa1g81AGUOky_xVhNVsudGwZxsY"
+      },
+      course_automation: {
+        title: "Industrial Automation and Control",
+        instructor: "Prof. Siddhartha Mukhopadhyay • IIT Kharagpur",
+        badge: "PLCs & Actuators (Part A.2 / A.3)",
+        videoId: "oxMdDsud5vg",
+        playlistId: "PLE8F9BF5CB1201D23"
+      },
+      course_cim: {
+        title: "Automation in Manufacturing & CIM",
+        instructor: "Prof. Shrikrishna N. Joshi • IIT Guwahati",
+        badge: "CIM, AGVs & RFID (Part A.3)",
+        videoId: "v-3TmN4HhLc",
+        playlistId: "PLwdnzlV3ogoW31clPN6Dn6c8Ia-n36vXk"
+      },
+      course_sensors: {
+        title: "Sensors and Actuators",
+        instructor: "Prof. Hardik J. Pandya • IISc Bangalore",
+        badge: "Sensors & Signal Conditioning (Part A.2)",
+        videoId: "nE1C4ghfvac",
+        playlistId: "PLgMDNELGJ1CbufZjqWa8uoSlQWKqVwPN7"
+      },
+      course_digital: {
+        title: "Digital Electronic Circuits",
+        instructor: "Prof. Goutam Saha • IIT Kharagpur",
+        badge: "Digital Logic & MUX (Part A.2)",
+        videoId: "oNh6V91zdPY",
+        playlistId: "PLbRMhDVUMnge4gDT0vBWjCb3Lz0HnYKkX"
+      },
+      course_python: {
+        title: "Python Programming & Data Structures",
+        instructor: "Prof. Madhavan Mukund • CMI / NPTEL",
+        badge: "Python & Algorithms (Part A.2)",
+        videoId: "9MmC_uGjBsM",
+        playlistId: "PLyqSpQzTE6M_Fu6l8irVwXkUyC9Gwqr6_"
+      },
+      course_som: {
+        title: "Strength of Materials (SOM)",
+        instructor: "Prof. S.P. Harsha • IIT Roorkee",
+        badge: "Mechanics of Materials (Part B2)",
+        videoId: "GkFgysZC4Vc",
+        playlistId: "PL27C4A6AEA552F9E6"
+      },
+      course_tom: {
+        title: "Theory of Machines & Mechanical Vibrations",
+        instructor: "Prof. Dilip Kumar Pratihar • IIT Kharagpur",
+        badge: "TOM & Dynamics (Part B2)",
+        videoId: "yDEJxYGAoso",
+        playlistId: "PLbRMhDVUMngdCkMipemSKP_dCgZLLfOe8"
+      }
+    };
+
+    function openCourseVideo(key) {
+      const data = courseCatalog[key];
+      if (!data) return;
+
+      document.getElementById('modalBadge').innerText = data.badge;
+      document.getElementById('modalTitle').innerText = data.title;
+      document.getElementById('modalInstructor').innerText = data.instructor;
+      
+      const iframe = document.getElementById('videoIframe');
+      iframe.src = `https://www.youtube.com/embed/${data.videoId}?autoplay=1&rel=0&modestbranding=1`;
+
+      const ytBtn = document.getElementById('modalYtDirectBtn');
+      ytBtn.href = `https://www.youtube.com/watch?v=${data.videoId}`;
+
+      const plBtn = document.getElementById('modalPlaylistBtn');
+      if (data.playlistId) {
+        plBtn.href = `https://www.youtube.com/playlist?list=${data.playlistId}`;
+        plBtn.style.display = 'inline-flex';
+      } else {
+        plBtn.style.display = 'none';
+      }
+
+      document.getElementById('videoModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeVideoModal(e) {
+      if (e && e.target !== e.currentTarget && !e.target.classList.contains('video-modal-close') && e.target.id !== 'videoModal') {
+        return;
+      }
+      const modal = document.getElementById('videoModal');
+      modal.classList.remove('active');
+      document.getElementById('videoIframe').src = '';
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        const modal = document.getElementById('videoModal');
+        if (modal && modal.classList.contains('active')) {
+          closeVideoModal();
+        }
+      }
+    });
   </script>
+
+  <!-- Direct Video Player Theater Modal -->
+  <div id="videoModal" class="video-modal-overlay" onclick="closeVideoModal(event)">
+    <div class="video-modal-container" onclick="event.stopPropagation()">
+      <div class="video-modal-header">
+        <div>
+          <span class="video-modal-badge" id="modalBadge">NPTEL DIRECT LECTURE</span>
+          <h3 id="modalTitle" class="video-modal-title">Lecture Title</h3>
+          <p id="modalInstructor" class="video-modal-instructor">Instructor &bull; Institute</p>
+        </div>
+        <button class="video-modal-close" onclick="closeVideoModal()" aria-label="Close video player">&times;</button>
+      </div>
+
+      <div class="video-player-wrapper">
+        <iframe id="videoIframe" src="" title="GATE RA Video Lecture Player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      </div>
+
+      <div class="video-modal-footer">
+        <div class="modal-actions-left">
+          <a id="modalYtDirectBtn" href="#" target="_blank" rel="noopener noreferrer" class="modal-btn-direct-yt">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+            <span>Open Direct in YouTube</span>
+          </a>
+          <a id="modalPlaylistBtn" href="#" target="_blank" rel="noopener noreferrer" class="modal-btn-playlist">
+            <span>📑 Full Course Playlist</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>

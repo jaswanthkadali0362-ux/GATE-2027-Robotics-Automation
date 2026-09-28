@@ -571,30 +571,56 @@
     .video-actions {
       display: flex;
       flex-direction: column;
-      gap: 0.6rem;
-      min-width: 190px;
+      gap: 0.5rem;
+      min-width: 200px;
       align-items: stretch;
     }
 
-    .btn-yt {
-      background: linear-gradient(135deg, #f97316, #ea580c);
+    .btn-play-modal {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
       color: #ffffff;
       font-weight: 700;
       font-family: var(--font-heading);
       font-size: 0.88rem;
-      padding: 0.65rem 1.15rem;
+      padding: 0.65rem 1rem;
       border-radius: 10px;
-      text-decoration: none;
+      border: none;
+      cursor: pointer;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 0.45rem;
       transition: all 0.2s;
-      box-shadow: 0 2px 8px rgba(234, 88, 12, 0.25);
+      box-shadow: 0 2px 8px rgba(220, 38, 38, 0.25);
     }
 
-    .btn-yt:hover {
-      box-shadow: 0 6px 16px rgba(234, 88, 12, 0.35);
+    .btn-play-modal:hover {
+      background: linear-gradient(135deg, #dc2626, #b91c1c);
+      box-shadow: 0 6px 16px rgba(220, 38, 38, 0.4);
+      transform: translateY(-1px);
+    }
+
+    .btn-direct-yt {
+      background: #ffffff;
+      border: 1.5px solid #e2e8f0;
+      color: #0f172a;
+      font-weight: 600;
+      font-family: var(--font-heading);
+      font-size: 0.82rem;
+      padding: 0.5rem 0.85rem;
+      border-radius: 8px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      transition: all 0.2s;
+    }
+
+    .btn-direct-yt:hover {
+      border-color: #ef4444;
+      color: #dc2626;
+      background: #fef2f2;
       transform: translateY(-1px);
     }
 
@@ -621,6 +647,178 @@
       border-color: #86efac;
       color: #15803d;
       font-weight: 700;
+    }
+
+    /* Direct Video Player Theater Modal */
+    .video-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.88);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.25rem;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.25s ease, visibility 0.25s ease;
+    }
+
+    .video-modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .video-modal-container {
+      background: #0f172a;
+      color: #f8fafc;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 18px;
+      width: 100%;
+      max-width: 960px;
+      overflow: hidden;
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.7), 0 0 40px rgba(239, 68, 68, 0.25);
+      transform: scale(0.95) translateY(10px);
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .video-modal-overlay.active .video-modal-container {
+      transform: scale(1) translateY(0);
+    }
+
+    .video-modal-header {
+      padding: 1rem 1.4rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      background: rgba(30, 41, 59, 0.8);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .video-modal-badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      background: rgba(239, 68, 68, 0.18);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      padding: 0.2rem 0.55rem;
+      border-radius: 6px;
+      margin-bottom: 0.35rem;
+    }
+
+    .video-modal-title {
+      margin: 0;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #ffffff;
+      font-family: var(--font-heading);
+      line-height: 1.35;
+    }
+
+    .video-modal-instructor {
+      margin: 0.25rem 0 0 0;
+      font-size: 0.82rem;
+      color: #94a3b8;
+    }
+
+    .video-modal-close {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #f8fafc;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      font-size: 1.4rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+
+    .video-modal-close:hover {
+      background: #ef4444;
+      color: #ffffff;
+      border-color: #ef4444;
+    }
+
+    .video-player-wrapper {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      background: #000000;
+    }
+
+    .video-player-wrapper iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .video-modal-footer {
+      padding: 0.9rem 1.4rem;
+      background: rgba(15, 23, 42, 0.95);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .modal-actions-left {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .modal-btn-direct-yt {
+      background: #ef4444;
+      color: #ffffff;
+      font-size: 0.85rem;
+      font-weight: 700;
+      padding: 0.55rem 1rem;
+      border-radius: 8px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      transition: all 0.2s;
+    }
+
+    .modal-btn-direct-yt:hover {
+      background: #dc2626;
+      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+    }
+
+    .modal-btn-playlist {
+      background: rgba(255, 255, 255, 0.08);
+      color: #cbd5e1;
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 0.55rem 0.9rem;
+      border-radius: 8px;
+      text-decoration: none;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      transition: all 0.2s;
+    }
+
+    .modal-btn-playlist:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: #ffffff;
     }
 
     /* Custom Cursor Styles */
@@ -1018,7 +1216,7 @@
           <div class="video-item" id="v_kcl_kvl">
             <div class="video-info">
               <div class="video-tagline">
-                <span class="video-badge">▶ YOUTUBE NPTEL</span>
+                <span class="video-badge">▶ DIRECT NPTEL</span>
                 <span class="institute-tag">IIT Madras &bull; Prof. Nagendra Krishnapura</span>
               </div>
               <div class="video-title">1. Kirchhoff's Laws (KCL, KVL) & Nodal/Mesh Analysis</div>
@@ -1026,11 +1224,16 @@
               <div class="omit-notice">⚡ Skip remaining general network topology lectures in this playlist; only focus on KCL/KVL matrix setup.</div>
             </div>
             <div class="video-actions">
-              <a href="https://www.youtube.com/results?search_query=NPTEL+Basic+Electrical+Circuits+Nagendra+Krishnapura+Kirchhoff+KCL+KVL" target="_blank" class="btn-yt">▶ Watch on YouTube</a>
-              <button class="btn-watched" onclick="toggleWatched('v_kcl_kvl', this)">Mark Watched<          <div class="video-item" id="v_thevenin">
+              <button class="btn-play-modal" onclick="openVideoModal('v_kcl_kvl')">▶ Play Video</button>
+              <a href="https://www.youtube.com/watch?v=ZnXau5GhgGI" target="_blank" rel="noopener noreferrer" class="btn-direct-yt">↗ Direct YouTube</a>
+              <button class="btn-watched" onclick="toggleWatched('v_kcl_kvl', this)">Mark Watched</button>
+            </div>
+          </div>
+
+          <div class="video-item" id="v_thevenin">
             <div class="video-info">
               <div class="video-tagline">
-                <span class="video-badge">▶ YOUTUBE NPTEL</span>
+                <span class="video-badge">▶ DIRECT NPTEL</span>
                 <span class="institute-tag">IIT Madras &bull; Prof. Nagendra Krishnapura</span>
               </div>
               <div class="video-title">2. Thevenin’s, Norton’s & Maximum Power Transfer Theorems</div>
@@ -1038,7 +1241,8 @@
               <div class="omit-notice">⚡ Focus only on solving 2-terminal DC/AC equivalent circuits.</div>
             </div>
             <div class="video-actions">
-              <a href="https://www.youtube.com/results?search_query=NPTEL+Nagendra+Krishnapura+Thevenin+Norton+Maximum+Power+Transfer" target="_blank" class="btn-yt">▶ Watch on YouTube</a>
+              <button class="btn-play-modal" onclick="openVideoModal('v_thevenin')">▶ Play Video</button>
+              <a href="https://www.youtube.com/watch?v=Vk_E7wAGrK0" target="_blank" rel="noopener noreferrer" class="btn-direct-yt">↗ Direct YouTube</a>
               <button class="btn-watched" onclick="toggleWatched('v_thevenin', this)">Mark Watched</button>
             </div>
           </div>
@@ -1046,14 +1250,15 @@
           <div class="video-item" id="v_resonance">
             <div class="video-info">
               <div class="video-tagline">
-                <span class="video-badge">▶ YOUTUBE NPTEL</span>
+                <span class="video-badge">▶ DIRECT NPTEL</span>
                 <span class="institute-tag">IIT Kharagpur &bull; Prof. Tapas Kumar Bhattacharya</span>
               </div>
               <div class="video-title">3. Series & Parallel AC Resonance, Quality Factor (Q) & 3-Phase Systems</div>
               <div class="video-summary">Resonance frequency ω₀ = 1/√(LC), Bandwidth, Q-factor, and Star vs Delta line/phase relationships (V_L = √3 · V_ph).</div>
             </div>
             <div class="video-actions">
-              <a href="https://www.youtube.com/results?search_query=NPTEL+Tapas+Kumar+Bhattacharya+AC+Resonance+Three+Phase+Circuits" target="_blank" class="btn-yt">▶ Watch on YouTube</a>
+              <button class="btn-play-modal" onclick="openVideoModal('v_resonance')">▶ Play Video</button>
+              <a href="https://www.youtube.com/watch?v=3TR_DS_7z2w" target="_blank" rel="noopener noreferrer" class="btn-direct-yt">↗ Direct YouTube</a>
               <button class="btn-watched" onclick="toggleWatched('v_resonance', this)">Mark Watched</button>
             </div>
           </div>
@@ -1075,14 +1280,15 @@
           <div class="video-item" id="v_logic_mux">
             <div class="video-info">
               <div class="video-tagline">
-                <span class="video-badge">▶ YOUTUBE NPTEL</span>
+                <span class="video-badge">▶ DIRECT NPTEL</span>
                 <span class="institute-tag">IIT Kharagpur &bull; Prof. Goutam Saha</span>
               </div>
               <div class="video-title">1. Boolean Minimization & Multiplexers (MUX 4:1, 8:1)</div>
               <div class="video-summary">De Morgan's laws, SOP minimization, K-Maps, and implementing logic functions using Multiplexers.</div>
             </div>
             <div class="video-actions">
-              <a href="https://www.youtube.com/results?search_query=NPTEL+Digital+Electronic+Circuits+Goutam+Saha+Multiplexer+Boolean" target="_blank" class="btn-yt">▶ Watch on YouTube</a>
+              <button class="btn-play-modal" onclick="openVideoModal('v_logic_mux')">▶ Play Video</button>
+              <a href="https://www.youtube.com/watch?v=fwTRzApMCgs" target="_blank" rel="noopener noreferrer" class="btn-direct-yt">↗ Direct YouTube</a>
               <button class="btn-watched" onclick="toggleWatched('v_logic_mux', this)">Mark Watched</button>
             </div>
           </div>
@@ -1090,7 +1296,7 @@
           <div class="video-item" id="v_flipflops">
             <div class="video-info">
               <div class="video-tagline">
-                <span class="video-badge">▶ YOUTUBE NPTEL</span>
+                <span class="video-badge">▶ DIRECT NPTEL</span>
                 <span class="institute-tag">IIT Kharagpur &bull; Prof. Goutam Saha</span>
               </div>
               <div class="video-title">2. Latches, Flip-Flops (SR, JK, D, T) & Ripple Binary Counters</div>
@@ -1098,7 +1304,8 @@
               <div class="omit-notice">⚡ Skip DAC/ADC design in this playlist; only watch Flip-Flops and Counters.</div>
             </div>
             <div class="video-actions">
-              <a href="https://www.youtube.com/results?search_query=NPTEL+Goutam+Saha+Flip+Flops+JK+D+T+Binary+Counters" target="_blank" class="btn-yt">▶ Watch on YouTube</a>
+              <button class="btn-play-modal" onclick="openVideoModal('v_flipflops')">▶ Play Video</button>
+              <a href="https://www.youtube.com/watch?v=CeD2L6KbtVM" target="_blank" rel="noopener noreferrer" class="btn-direct-yt">↗ Direct YouTube</a>
               <button class="btn-watched" onclick="toggleWatched('v_flipflops', this)">Mark Watched</button>
             </div>
           </div>
@@ -1120,14 +1327,15 @@
           <div class="video-item" id="v_strain_lvdt">
             <div class="video-info">
               <div class="video-tagline">
-                <span class="video-badge">▶ YOUTUBE NPTEL</span>
+                <span class="video-badge">▶ DIRECT NPTEL</span>
                 <span class="institute-tag">IISc Bangalore &bull; Prof. Hardik J. Pandya</span>
               </div>
               <div class="video-title">1. Resistive & Inductive Transducers (Strain Gauges, RTD, Thermistor, LVDT)</div>
               <div class="video-summary">Gauge Factor derivation (GF = 1 + 2ν + (Δρ/ρ)/ε), PT100 temperature coefficient, LVDT series-opposition differential secondary windings and null voltage.</div>
             </div>
             <div class="video-actions">
-              <a href="https://www.youtube.com/results?search_query=NPTEL+Hardik+J+Pandya+Sensors+and+Actuators+Strain+Gauge+LVDT" target="_blank" class="btn-yt">▶ Watch on YouTube</a>
+              <button class="btn-play-modal" onclick="openVideoModal('v_strain_lvdt')">▶ Play Video</button>
+              <a href="https://www.youtube.com/watch?v=SCwpE16qZ60" target="_blank" rel="noopener noreferrer" class="btn-direct-yt">↗ Direct YouTube</a>
               <button class="btn-watched" onclick="toggleWatched('v_strain_lvdt', this)">Mark Watched</button>
             </div>
           </div>
@@ -1135,14 +1343,15 @@
           <div class="video-item" id="v_piezo_hall">
             <div class="video-info">
               <div class="video-tagline">
-                <span class="video-badge">▶ YOUTUBE NPTEL</span>
+                <span class="video-badge">▶ DIRECT NPTEL</span>
                 <span class="institute-tag">IISc Bangalore &bull; Prof. Hardik J. Pandya</span>
               </div>
               <div class="video-title">2. Piezoelectric, Hall Effect Sensors & Optical Encoders</div>
               <div class="video-summary">Piezoelectric charge equation (Q = d · F), High-Pass filter behavior (why it cannot measure static DC loads), Hall effect voltage (V_H = R_H · I · B / t), and Quadrature optical encoders.</div>
             </div>
             <div class="video-actions">
-              <a href="https://www.youtube.com/results?search_query=NPTEL+Hardik+Pandya+Piezoelectric+Hall+Effect+Sensor+Optical+Encoder" target="_blank" class="btn-yt">▶ Watch on YouTube</a>
+              <button class="btn-play-modal" onclick="openVideoModal('v_piezo_hall')">▶ Play Video</button>
+              <a href="https://www.youtube.com/watch?v=T6kGQrnUYD8" target="_blank" rel="noopener noreferrer" class="btn-direct-yt">↗ Direct YouTube</a>
               <button class="btn-watched" onclick="toggleWatched('v_piezo_hall', this)">Mark Watched</button>
             </div>
           </div>
@@ -1150,14 +1359,15 @@
           <div class="video-item" id="v_opamp_bridge">
             <div class="video-info">
               <div class="video-tagline">
-                <span class="video-badge">▶ YOUTUBE NPTEL</span>
+                <span class="video-badge">▶ DIRECT NPTEL</span>
                 <span class="institute-tag">IIT Roorkee &bull; Prof. Pushparaj Mani Pathak</span>
               </div>
               <div class="video-title">3. Signal Conditioning: Wheatstone Bridges & 3-Op-Amp Instrumentation Amplifiers</div>
               <div class="video-summary">Quarter/Half/Full bridge voltage deflection (V₀ = (Vs / 4) · GF · ε), Instrumentation amplifier differential gain formula, and active anti-aliasing filters.</div>
             </div>
             <div class="video-actions">
-              <a href="https://www.youtube.com/results?search_query=NPTEL+Pushparaj+Mani+Pathak+Mechatronics+Signal+Conditioning+Op+Amp" target="_blank" class="btn-yt">▶ Watch on YouTube</a>
+              <button class="btn-play-modal" onclick="openVideoModal('v_opamp_bridge')">▶ Play Video</button>
+              <a href="https://www.youtube.com/watch?v=zVVITxiec7g" target="_blank" rel="noopener noreferrer" class="btn-direct-yt">↗ Direct YouTube</a>
               <button class="btn-watched" onclick="toggleWatched('v_opamp_bridge', this)">Mark Watched</button>
             </div>
           </div>
@@ -1179,14 +1389,15 @@
           <div class="video-item" id="v_stepper_bldc">
             <div class="video-info">
               <div class="video-tagline">
-                <span class="video-badge">▶ YOUTUBE NPTEL</span>
+                <span class="video-badge">▶ DIRECT NPTEL</span>
                 <span class="institute-tag">IIT Kharagpur &bull; Prof. Siddhartha Mukhopadhyay</span>
               </div>
               <div class="video-title">1. DC Motor Torque-Speed Characteristics, Stepper Motors & BLDC Drives</div>
               <div class="video-summary">Back-EMF (E_b = K_e · ω), linear torque-speed drooping characteristic (ω = V/K_e - (R_a/K_e·K_t)T), Stepper step angle formula (β = 360° / (m · N_r)), half-stepping, and 3-Hall sensor BLDC commutation.</div>
             </div>
             <div class="video-actions">
-              <a href="https://www.youtube.com/results?search_query=NPTEL+Industrial+Automation+Siddhartha+Mukhopadhyay+DC+Motor+Stepper+BLDC" target="_blank" class="btn-yt">▶ Watch on YouTube</a>
+              <button class="btn-play-modal" onclick="openVideoModal('v_stepper_bldc')">▶ Play Video</button>
+              <a href="https://www.youtube.com/watch?v=Qy6mA4TEpyI" target="_blank" rel="noopener noreferrer" class="btn-direct-yt">↗ Direct YouTube</a>
               <button class="btn-watched" onclick="toggleWatched('v_stepper_bldc', this)">Mark Watched</button>
             </div>
           </div>
@@ -1194,14 +1405,15 @@
           <div class="video-item" id="v_hydraulics">
             <div class="video-info">
               <div class="video-tagline">
-                <span class="video-badge">▶ YOUTUBE NPTEL</span>
+                <span class="video-badge">▶ DIRECT NPTEL</span>
                 <span class="institute-tag">IIT Kharagpur &bull; Prof. Siddhartha Mukhopadhyay</span>
               </div>
               <div class="video-title">2. Hydraulic & Pneumatic Cylinders, Directional Valves & FRL Units</div>
               <div class="video-summary">Single/Double-acting cylinder forward/return forces (F = P · A), flow velocity (v = Q/A), 3/2 and 5/2 Direction Control Valves (DCVs), and Air FRL units.</div>
             </div>
             <div class="video-actions">
-              <a href="https://www.youtube.com/results?search_query=NPTEL+Siddhartha+Mukhopadhyay+Hydraulic+Pneumatic+Actuation+Systems" target="_blank" class="btn-yt">▶ Watch on YouTube</a>
+              <button class="btn-play-modal" onclick="openVideoModal('v_hydraulics')">▶ Play Video</button>
+              <a href="https://www.youtube.com/watch?v=zno8BYcdQzk" target="_blank" rel="noopener noreferrer" class="btn-direct-yt">↗ Direct YouTube</a>
               <button class="btn-watched" onclick="toggleWatched('v_hydraulics', this)">Mark Watched</button>
             </div>
           </div>
@@ -1223,14 +1435,15 @@
           <div class="video-item" id="v_python_dsa">
             <div class="video-info">
               <div class="video-tagline">
-                <span class="video-badge">▶ YOUTUBE NPTEL</span>
+                <span class="video-badge">▶ DIRECT NPTEL</span>
                 <span class="institute-tag">CMI / NPTEL &bull; Prof. Madhavan Mukund</span>
               </div>
               <div class="video-title">1. Python Recursion, Time Complexity (O) & Stacks/Queues</div>
               <div class="video-summary">Asymptotic analysis of recursive code, LIFO stacks, FIFO queues, and Linked List pointer modifications.</div>
             </div>
             <div class="video-actions">
-              <a href="https://www.youtube.com/results?search_query=NPTEL+Madhavan+Mukund+Python+Data+Structures+Algorithms" target="_blank" class="btn-yt">▶ Watch on YouTube</a>
+              <button class="btn-play-modal" onclick="openVideoModal('v_python_dsa')">▶ Play Video</button>
+              <a href="https://www.youtube.com/watch?v=9MmC_uGjBsM" target="_blank" rel="noopener noreferrer" class="btn-direct-yt">↗ Direct YouTube</a>
               <button class="btn-watched" onclick="toggleWatched('v_python_dsa', this)">Mark Watched</button>
             </div>
           </div>
@@ -1238,14 +1451,15 @@
           <div class="video-item" id="v_trees_graphs">
             <div class="video-info">
               <div class="video-tagline">
-                <span class="video-badge">▶ YOUTUBE NPTEL</span>
+                <span class="video-badge">▶ DIRECT NPTEL</span>
                 <span class="institute-tag">CMI / NPTEL &bull; Prof. Madhavan Mukund</span>
               </div>
               <div class="video-title">2. Binary Search Trees (BST), Heaps & Breadth-First Search (BFS) for Robot Pathing</div>
               <div class="video-summary">Inorder traversal sorting property, Min/Max-Heap array indexing (2i+1, 2i+2), and BFS queue-based shortest path guarantees on grid maps.</div>
             </div>
             <div class="video-actions">
-              <a href="https://www.youtube.com/results?search_query=NPTEL+Madhavan+Mukund+Binary+Search+Tree+Heap+BFS+DFS" target="_blank" class="btn-yt">▶ Watch on YouTube</a>
+              <button class="btn-play-modal" onclick="openVideoModal('v_trees_graphs')">▶ Play Video</button>
+              <a href="https://www.youtube.com/watch?v=QJuQDU1D5KQ" target="_blank" rel="noopener noreferrer" class="btn-direct-yt">↗ Direct YouTube</a>
               <button class="btn-watched" onclick="toggleWatched('v_trees_graphs', this)">Mark Watched</button>
             </div>
           </div>
@@ -1275,14 +1489,15 @@
           <div class="video-item" id="v_rot_matrices">
             <div class="video-info">
               <div class="video-tagline">
-                <span class="video-badge">▶ YOUTUBE NPTEL</span>
+                <span class="video-badge">▶ DIRECT NPTEL</span>
                 <span class="institute-tag">IIT Kanpur &bull; Prof. Ashish Dutta</span>
               </div>
               <div class="video-title">1. 2D and 3D Rotation Matrices & Properties of SO(3)</div>
               <div class="video-summary">Elementary rotation matrices R_x, R_y, R_z, Euler angles, orthogonality (Rᵀ = R⁻¹), determinant = +1, and pre/post-multiplication composition rules.</div>
             </div>
             <div class="video-actions">
-              <a href="https://www.youtube.com/results?search_query=NPTEL+Introduction+to+Robotics+Ashish+Dutta+Spatial+Transformations+Rotation+Matrix" target="_blank" class="btn-yt">▶ Watch on YouTube</a>
+              <button class="btn-play-modal" onclick="openVideoModal('v_rot_matrices')">▶ Play Video</button>
+              <a href="https://www.youtube.com/watch?v=Ii2QJmmBuvc" target="_blank" rel="noopener noreferrer" class="btn-direct-yt">↗ Direct YouTube</a>
               <button class="btn-watched" onclick="toggleWatched('v_rot_matrices', this)">Mark Watched</button>
             </div>
           </div>
@@ -1290,14 +1505,15 @@
           <div class="video-item" id="v_dh_parameters">
             <div class="video-info">
               <div class="video-tagline">
-                <span class="video-badge">▶ YOUTUBE NPTEL</span>
+                <span class="video-badge">▶ DIRECT NPTEL</span>
                 <span class="institute-tag">IIT Kanpur &bull; Prof. Ashish Dutta</span>
               </div>
               <div class="video-title">2. Denavit-Hartenberg (D-H) Parametrization & Forward Kinematics</div>
               <div class="video-summary">The 4 DH parameters (θ_i, d_i, a_i, α_i), assigning coordinate frames along common normals, and deriving link transformation matrix ⁱ⁻¹T_i.</div>
             </div>
             <div class="video-actions">
-              <a href="https://www.youtube.com/results?search_query=NPTEL+Ashish+Dutta+Denavit+Hartenberg+DH+Parameters+Kinematics" target="_blank" class="btn-yt">▶ Watch on YouTube</a>
+              <button class="btn-play-modal" onclick="openVideoModal('v_dh_parameters')">▶ Play Video</button>
+              <a href="https://www.youtube.com/watch?v=K_yvWED--UQ" target="_blank" rel="noopener noreferrer" class="btn-direct-yt">↗ Direct YouTube</a>
               <button class="btn-watched" onclick="toggleWatched('v_dh_parameters', this)">Mark Watched</button>
             </div>
           </div>
@@ -1305,14 +1521,15 @@
           <div class="video-item" id="v_robot_applications">
             <div class="video-info">
               <div class="video-tagline">
-                <span class="video-badge">▶ YOUTUBE NPTEL</span>
+                <span class="video-badge">▶ DIRECT NPTEL</span>
                 <span class="institute-tag">IIT Madras &bull; Prof. T. Asokan</span>
               </div>
               <div class="video-title">3. Robot Applications, PTP vs Continuous Path & Accuracy/Repeatability</div>
               <div class="video-summary">Mechanical, vacuum, and magnetic end-effectors; Point-to-Point (PTP) vs Continuous Path (CP) trajectory motion; Spatial resolution, Accuracy vs. Repeatability.</div>
             </div>
             <div class="video-actions">
-              <a href="https://www.youtube.com/results?search_query=NPTEL+T+Asokan+Introduction+to+Robotics+End+Effectors+Accuracy+Repeatability" target="_blank" class="btn-yt">▶ Watch on YouTube</a>
+              <button class="btn-play-modal" onclick="openVideoModal('v_robot_applications')">▶ Play Video</button>
+              <a href="https://www.youtube.com/watch?v=P_PP76flZfw" target="_blank" rel="noopener noreferrer" class="btn-direct-yt">↗ Direct YouTube</a>
               <button class="btn-watched" onclick="toggleWatched('v_robot_applications', this)">Mark Watched</button>
             </div>
           </div>
@@ -1334,14 +1551,15 @@
           <div class="video-item" id="v_plc_ladder">
             <div class="video-info">
               <div class="video-tagline">
-                <span class="video-badge">▶ YOUTUBE NPTEL</span>
+                <span class="video-badge">▶ DIRECT NPTEL</span>
                 <span class="institute-tag">IIT Kharagpur &bull; Prof. Siddhartha Mukhopadhyay</span>
               </div>
               <div class="video-title">1. Programmable Logic Controllers (PLCs) & Ladder Logic Programming</div>
               <div class="video-summary">PLC hardware scan cycle (Input &rarr; Program &rarr; Output), Ladder rungs, Normally Open/Closed contacts, On/Off Delay Timers (TON/TOF), and Up/Down Counters (CTU/CTD).</div>
             </div>
             <div class="video-actions">
-              <a href="https://www.youtube.com/results?search_query=NPTEL+Industrial+Automation+Siddhartha+Mukhopadhyay+PLC+Ladder+Logic" target="_blank" class="btn-yt">▶ Watch on YouTube</a>
+              <button class="btn-play-modal" onclick="openVideoModal('v_plc_ladder')">▶ Play Video</button>
+              <a href="https://www.youtube.com/watch?v=3N0kWzC6jmE" target="_blank" rel="noopener noreferrer" class="btn-direct-yt">↗ Direct YouTube</a>
               <button class="btn-watched" onclick="toggleWatched('v_plc_ladder', this)">Mark Watched</button>
             </div>
           </div>
@@ -1349,14 +1567,15 @@
           <div class="video-item" id="v_cnc_codes">
             <div class="video-info">
               <div class="video-tagline">
-                <span class="video-badge">▶ YOUTUBE NPTEL</span>
+                <span class="video-badge">▶ DIRECT NPTEL</span>
                 <span class="institute-tag">IIT Kharagpur &bull; Prof. Siddhartha Mukhopadhyay</span>
               </div>
               <div class="video-title">2. CNC Coordinate Systems, G-Codes & Multi-Axis Positioning</div>
               <div class="video-summary">Right-hand axis conventions (Z-spindle), G00/G01/G02/G03 linear/circular interpolation, absolute vs incremental coordinates (G90/G91), lead screw pitch and backlash elimination.</div>
             </div>
             <div class="video-actions">
-              <a href="https://www.youtube.com/results?search_query=NPTEL+Siddhartha+Mukhopadhyay+CNC+Machines+G+Codes+Interpolation" target="_blank" class="btn-yt">▶ Watch on YouTube</a>
+              <button class="btn-play-modal" onclick="openVideoModal('v_cnc_codes')">▶ Play Video</button>
+              <a href="https://www.youtube.com/watch?v=PN_tGm5Gip4" target="_blank" rel="noopener noreferrer" class="btn-direct-yt">↗ Direct YouTube</a>
               <button class="btn-watched" onclick="toggleWatched('v_cnc_codes', this)">Mark Watched</button>
             </div>
           </div>
@@ -1364,14 +1583,15 @@
           <div class="video-item" id="v_asrs_agv">
             <div class="video-info">
               <div class="video-tagline">
-                <span class="video-badge">▶ YOUTUBE NPTEL</span>
+                <span class="video-badge">▶ DIRECT NPTEL</span>
                 <span class="institute-tag">IIT Guwahati &bull; Prof. Shrikrishna N. Joshi</span>
               </div>
               <div class="video-title">3. Automated Material Handling (AGVs), AS/RS Storage & AIDC (RFID)</div>
               <div class="video-summary">Automated Guided Vehicle routing, AS/RS single-command (T_sc) and dual-command (T_dc) cycle times, 2D QR codes and Active vs. Passive RFID transponders.</div>
             </div>
             <div class="video-actions">
-              <a href="https://www.youtube.com/results?search_query=NPTEL+Automation+in+Manufacturing+Shrikrishna+Joshi+AGV+ASRS+RFID" target="_blank" class="btn-yt">▶ Watch on YouTube</a>
+              <button class="btn-play-modal" onclick="openVideoModal('v_asrs_agv')">▶ Play Video</button>
+              <a href="https://www.youtube.com/watch?v=v-3TmN4HhLc" target="_blank" rel="noopener noreferrer" class="btn-direct-yt">↗ Direct YouTube</a>
               <button class="btn-watched" onclick="toggleWatched('v_asrs_agv', this)">Mark Watched</button>
             </div>
           </div>
@@ -1401,14 +1621,15 @@
           <div class="video-item" id="v_som_mohr">
             <div class="video-info">
               <div class="video-tagline">
-                <span class="video-badge">▶ YOUTUBE NPTEL</span>
+                <span class="video-badge">▶ DIRECT NPTEL</span>
                 <span class="institute-tag">IIT Roorkee &bull; Prof. S.P. Harsha</span>
               </div>
               <div class="video-title">1. Mohr’s Circle for Plane Stress & Principal Stresses</div>
               <div class="video-summary">Centre and radius of Mohr's circle, σ₁,₂ = (σx + σy)/2 ± √(((σx - σy)/2)² + τxy²), τ_max = R, and principal plane angles.</div>
             </div>
             <div class="video-actions">
-              <a href="https://www.youtube.com/results?search_query=NPTEL+Strength+of+Materials+SP+Harsha+Mohrs+Circle+Principal+Stress" target="_blank" class="btn-yt">▶ Watch on YouTube</a>
+              <button class="btn-play-modal" onclick="openVideoModal('v_som_mohr')">▶ Play Video</button>
+              <a href="https://www.youtube.com/watch?v=La4UEa7hA7Q" target="_blank" rel="noopener noreferrer" class="btn-direct-yt">↗ Direct YouTube</a>
               <button class="btn-watched" onclick="toggleWatched('v_som_mohr', this)">Mark Watched</button>
             </div>
           </div>
@@ -1416,14 +1637,15 @@
           <div class="video-item" id="v_som_columns">
             <div class="video-info">
               <div class="video-tagline">
-                <span class="video-badge">▶ YOUTUBE NPTEL</span>
+                <span class="video-badge">▶ DIRECT NPTEL</span>
                 <span class="institute-tag">IIT Roorkee &bull; Prof. S.P. Harsha</span>
               </div>
               <div class="video-title">2. Torsion of Shafts, Euler’s Column Buckling & Strain Rosettes</div>
               <div class="video-summary">Torsion equation (T/J = τ/r = G·θ/L), Euler critical load (P_cr = (π² · E · I) / L_e²), effective length L_e, and Rectangular 0°-45°-90° strain rosettes.</div>
             </div>
             <div class="video-actions">
-              <a href="https://www.youtube.com/results?search_query=NPTEL+SP+Harsha+Torsion+Euler+Buckling+Columns+Strain+Rosettes" target="_blank" class="btn-yt">▶ Watch on YouTube</a>
+              <button class="btn-play-modal" onclick="openVideoModal('v_som_columns')">▶ Play Video</button>
+              <a href="https://www.youtube.com/watch?v=dFOoU2psFFg" target="_blank" rel="noopener noreferrer" class="btn-direct-yt">↗ Direct YouTube</a>
               <button class="btn-watched" onclick="toggleWatched('v_som_columns', this)">Mark Watched</button>
             </div>
           </div>
@@ -1445,14 +1667,15 @@
           <div class="video-item" id="v_tom_coriolis">
             <div class="video-info">
               <div class="video-tagline">
-                <span class="video-badge">▶ YOUTUBE NPTEL</span>
+                <span class="video-badge">▶ DIRECT NPTEL</span>
                 <span class="institute-tag">IIT Kharagpur &bull; Prof. Anirvan Dasgupta</span>
               </div>
               <div class="video-title">1. Mechanism Inversions, Coriolis Acceleration & Epicyclic Gears</div>
               <div class="video-summary">Grashof's criteria, slider-crank inversions, Coriolis acceleration formula (aᶜ = 2·ω·v) and direction, Epicyclic/planetary gear speed tables.</div>
             </div>
             <div class="video-actions">
-              <a href="https://www.youtube.com/results?search_query=NPTEL+Anirvan+Dasgupta+Kinematics+of+Mechanisms+Coriolis+Acceleration" target="_blank" class="btn-yt">▶ Watch on YouTube</a>
+              <button class="btn-play-modal" onclick="openVideoModal('v_tom_coriolis')">▶ Play Video</button>
+              <a href="https://www.youtube.com/watch?v=yDEJxYGAoso" target="_blank" rel="noopener noreferrer" class="btn-direct-yt">↗ Direct YouTube</a>
               <button class="btn-watched" onclick="toggleWatched('v_tom_coriolis', this)">Mark Watched</button>
             </div>
           </div>
@@ -1460,14 +1683,15 @@
           <div class="video-item" id="v_tom_vibrations">
             <div class="video-info">
               <div class="video-tagline">
-                <span class="video-badge">▶ YOUTUBE NPTEL</span>
+                <span class="video-badge">▶ DIRECT NPTEL</span>
                 <span class="institute-tag">IIT Guwahati &bull; Prof. Rajiv Tiwari</span>
               </div>
               <div class="video-title">2. SDOF Free & Forced Damped Vibrations, Transmissibility (TR)</div>
               <div class="video-summary">Natural frequency ωₙ = √(k/m), Damping ratio ζ = c / 2mωₙ, Logarithmic decrement δ, and Vibration isolation criterion (TR &lt; 1 only when ω/ωₙ &gt; √2).</div>
             </div>
             <div class="video-actions">
-              <a href="https://www.youtube.com/results?search_query=NPTEL+Mechanical+Vibrations+Rajiv+Tiwari+Damped+Vibrations+Transmissibility" target="_blank" class="btn-yt">▶ Watch on YouTube</a>
+              <button class="btn-play-modal" onclick="openVideoModal('v_tom_vibrations')">▶ Play Video</button>
+              <a href="https://www.youtube.com/watch?v=bX_m53Xexvk" target="_blank" rel="noopener noreferrer" class="btn-direct-yt">↗ Direct YouTube</a>
               <button class="btn-watched" onclick="toggleWatched('v_tom_vibrations', this)">Mark Watched</button>
             </div>
           </div>
@@ -1709,6 +1933,267 @@
         }
       });
     });
+
+    // ==========================================
+    // DIRECT VIDEO CATALOG & THEATER MODAL LOGIC
+    // ==========================================
+    const videoCatalog = {
+      v_kcl_kvl: {
+        title: "1. Kirchhoff's Laws (KCL, KVL) & Nodal/Mesh Analysis",
+        instructor: "IIT Madras • Prof. Nagendra Krishnapura",
+        badge: "Section A.2: Circuits",
+        videoId: "ZnXau5GhgGI",
+        playlistId: "PLa4KQhDlGd7QCTX3gTz0LyoL93jVjtaMe"
+      },
+      v_thevenin: {
+        title: "2. Thevenin’s, Norton’s & Maximum Power Transfer Theorems",
+        instructor: "IIT Madras • Prof. Nagendra Krishnapura",
+        badge: "Section A.2: Circuits",
+        videoId: "Vk_E7wAGrK0",
+        playlistId: "PLa4KQhDlGd7QCTX3gTz0LyoL93jVjtaMe"
+      },
+      v_resonance: {
+        title: "3. Series & Parallel AC Resonance, Quality Factor (Q) & 3-Phase Systems",
+        instructor: "IIT Kharagpur • Prof. Tapas Kumar Bhattacharya",
+        badge: "Section A.2: Circuits",
+        videoId: "3TR_DS_7z2w",
+        playlistId: "PLbRMhDVUMngfdEXVcdf_ijj2Eub-UHs_y"
+      },
+      v_logic_mux: {
+        title: "1. Boolean Minimization & Multiplexers (MUX 4:1, 8:1)",
+        instructor: "IIT Kharagpur • Prof. Goutam Saha",
+        badge: "Section A.2: Digital Logic",
+        videoId: "fwTRzApMCgs",
+        playlistId: "PLbRMhDVUMnge4gDT0vBWjCb3Lz0HnYKkX"
+      },
+      v_flipflops: {
+        title: "2. Latches, Flip-Flops (SR, JK, D, T) & Ripple Binary Counters",
+        instructor: "IIT Kharagpur • Prof. Goutam Saha",
+        badge: "Section A.2: Digital Logic",
+        videoId: "CeD2L6KbtVM",
+        playlistId: "PLbRMhDVUMnge4gDT0vBWjCb3Lz0HnYKkX"
+      },
+      v_strain_lvdt: {
+        title: "1. Resistive & Inductive Transducers (Strain Gauges, RTD, Thermistor, LVDT)",
+        instructor: "IISc Bangalore • Prof. Hardik J. Pandya",
+        badge: "Section A.2: Sensors",
+        videoId: "SCwpE16qZ60",
+        playlistId: "PLUQpHm_JtukJvSy1VciVGFcn3pO5wToWN"
+      },
+      v_piezo_hall: {
+        title: "2. Piezoelectric, Hall Effect Sensors & Optical Encoders",
+        instructor: "IISc Bangalore • Prof. Hardik J. Pandya",
+        badge: "Section A.2: Sensors",
+        videoId: "T6kGQrnUYD8",
+        playlistId: "PLgMDNELGJ1CbufZjqWa8uoSlQWKqVwPN7"
+      },
+      v_opamp_bridge: {
+        title: "3. Signal Conditioning: Wheatstone Bridges & 3-Op-Amp Instrumentation Amplifiers",
+        instructor: "IIT Roorkee • Prof. Pushparaj Mani Pathak",
+        badge: "Section A.2: Signal Conditioning",
+        videoId: "zVVITxiec7g",
+        playlistId: "PLLy_2iUCG87BNHXRb6L2pWEpMcLoFaY_U"
+      },
+      v_stepper_bldc: {
+        title: "1. DC Motor Torque-Speed Characteristics, Stepper Motors & BLDC Drives",
+        instructor: "IIT Kharagpur • Prof. Siddhartha Mukhopadhyay",
+        badge: "Section A.2: Electric Actuators",
+        videoId: "Qy6mA4TEpyI",
+        playlistId: "PLE8F9BF5CB1201D23"
+      },
+      v_hydraulics: {
+        title: "2. Hydraulic & Pneumatic Cylinders, Directional Valves & FRL Units",
+        instructor: "IIT Kharagpur • Prof. Siddhartha Mukhopadhyay",
+        badge: "Section A.2: Fluid Power",
+        videoId: "zno8BYcdQzk",
+        playlistId: "PLj_Alq7xw30mbL8RTojUTYt-nrfrGlDw0"
+      },
+      v_python_dsa: {
+        title: "1. Python Recursion, Time Complexity (O) & Stacks/Queues",
+        instructor: "CMI / NPTEL • Prof. Madhavan Mukund",
+        badge: "Section A.2: Python Programming",
+        videoId: "9MmC_uGjBsM",
+        playlistId: "PLyqSpQzTE6M_Fu6l8irVwXkUyC9Gwqr6_"
+      },
+      v_trees_graphs: {
+        title: "2. Binary Search Trees (BST), Heaps & Breadth-First Search (BFS) for Robot Pathing",
+        instructor: "CMI / NPTEL • Prof. Madhavan Mukund",
+        badge: "Section A.2: Algorithms",
+        videoId: "QJuQDU1D5KQ",
+        playlistId: "PLMp6dO8TtIP34dQ2F-vIQJ06WwAzuoGvK"
+      },
+      v_rot_matrices: {
+        title: "1. 2D and 3D Rotation Matrices & Properties of SO(3)",
+        instructor: "IIT Kanpur • Prof. Ashish Dutta",
+        badge: "Section A.3: Core Robotics",
+        videoId: "Ii2QJmmBuvc",
+        playlistId: "PLFW6lRTa1g81AGUOky_xVhNVsudGwZxsY"
+      },
+      v_dh_parameters: {
+        title: "2. Denavit-Hartenberg (D-H) Parametrization & Forward Kinematics",
+        instructor: "IIT Kanpur • Prof. Ashish Dutta",
+        badge: "Section A.3: Core Robotics",
+        videoId: "K_yvWED--UQ",
+        playlistId: "PLFW6lRTa1g81AGUOky_xVhNVsudGwZxsY"
+      },
+      v_robot_applications: {
+        title: "3. Robot Applications, PTP vs Continuous Path & Accuracy/Repeatability",
+        instructor: "IIT Madras • Prof. T. Asokan",
+        badge: "Section A.3: Core Robotics",
+        videoId: "P_PP76flZfw",
+        playlistId: "PLyqSpQzTE6M_XM9cvjLLO_Azt1FkgPhpH"
+      },
+      v_plc_ladder: {
+        title: "1. Programmable Logic Controllers (PLCs) & Ladder Logic Programming",
+        instructor: "IIT Kharagpur • Prof. Siddhartha Mukhopadhyay",
+        badge: "Section A.3: Automation",
+        videoId: "3N0kWzC6jmE",
+        playlistId: "PLE8F9BF5CB1201D23"
+      },
+      v_cnc_codes: {
+        title: "2. CNC Coordinate Systems, G-Codes & Multi-Axis Positioning",
+        instructor: "IIT Kharagpur • Prof. Siddhartha Mukhopadhyay",
+        badge: "Section A.3: Automation",
+        videoId: "PN_tGm5Gip4",
+        playlistId: "PLE8F9BF5CB1201D23"
+      },
+      v_asrs_agv: {
+        title: "3. Automated Material Handling (AGVs), AS/RS Storage & AIDC (RFID)",
+        instructor: "IIT Guwahati • Prof. Shrikrishna N. Joshi",
+        badge: "Section A.3: Automation",
+        videoId: "v-3TmN4HhLc",
+        playlistId: "PLwdnzlV3ogoW31clPN6Dn6c8Ia-n36vXk"
+      },
+      v_som_mohr: {
+        title: "1. Mohr’s Circle for Plane Stress & Principal Stresses",
+        instructor: "IIT Roorkee • Prof. S.P. Harsha",
+        badge: "Part B2: Mechanics of Materials",
+        videoId: "La4UEa7hA7Q",
+        playlistId: "PLJoALJA_KMOARYNi50T6b488kPUBbOIsX"
+      },
+      v_som_columns: {
+        title: "2. Torsion of Shafts, Euler’s Column Buckling & Strain Rosettes",
+        instructor: "IIT Roorkee • Prof. S.P. Harsha",
+        badge: "Part B2: Mechanics of Materials",
+        videoId: "dFOoU2psFFg",
+        playlistId: "PLx3rV8SZWEyij0jjlEVp9YuJnvSv6MV3z"
+      },
+      v_tom_coriolis: {
+        title: "1. Mechanism Inversions, Coriolis Acceleration & Epicyclic Gears",
+        instructor: "IIT Kharagpur • Prof. Anirvan Dasgupta",
+        badge: "Part B2: TOM & Dynamics",
+        videoId: "yDEJxYGAoso",
+        playlistId: "PLbRMhDVUMngdCkMipemSKP_dCgZLLfOe8"
+      },
+      v_tom_vibrations: {
+        title: "2. SDOF Free & Forced Damped Vibrations, Transmissibility (TR)",
+        instructor: "IIT Guwahati • Prof. Rajiv Tiwari",
+        badge: "Part B2: Mechanical Vibrations",
+        videoId: "bX_m53Xexvk",
+        playlistId: "PLAC668A0566953FB5"
+      }
+    };
+
+    let currentModalKey = null;
+
+    function openVideoModal(key) {
+      const data = videoCatalog[key];
+      if (!data) return;
+      currentModalKey = key;
+
+      document.getElementById('modalBadge').innerText = data.badge;
+      document.getElementById('modalTitle').innerText = data.title;
+      document.getElementById('modalInstructor').innerText = data.instructor;
+      
+      const iframe = document.getElementById('videoIframe');
+      iframe.src = `https://www.youtube.com/embed/${data.videoId}?autoplay=1&rel=0&modestbranding=1`;
+
+      const ytBtn = document.getElementById('modalYtDirectBtn');
+      ytBtn.href = `https://www.youtube.com/watch?v=${data.videoId}`;
+
+      const plBtn = document.getElementById('modalPlaylistBtn');
+      if (data.playlistId) {
+        plBtn.href = `https://www.youtube.com/playlist?list=${data.playlistId}`;
+        plBtn.style.display = 'inline-flex';
+      } else {
+        plBtn.style.display = 'none';
+      }
+
+      // Sync watched state
+      const targetItem = document.getElementById(key);
+      const isWatched = targetItem ? targetItem.classList.contains('watched') : false;
+      const watchedBtn = document.getElementById('modalWatchedBtn');
+      watchedBtn.classList.toggle('active', isWatched);
+      watchedBtn.innerText = isWatched ? '✓ Watched' : 'Mark Watched';
+
+      document.getElementById('videoModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeVideoModal(e) {
+      if (e && e.target !== e.currentTarget && !e.target.classList.contains('video-modal-close') && e.target.id !== 'videoModal') {
+        return;
+      }
+      const modal = document.getElementById('videoModal');
+      modal.classList.remove('active');
+      document.getElementById('videoIframe').src = '';
+      document.body.style.overflow = '';
+      currentModalKey = null;
+    }
+
+    function toggleModalWatched() {
+      if (!currentModalKey) return;
+      const cardWatchedBtn = document.querySelector(`#${currentModalKey} .btn-watched`);
+      if (cardWatchedBtn) {
+        toggleWatched(currentModalKey, cardWatchedBtn);
+        const isWatched = document.getElementById(currentModalKey).classList.contains('watched');
+        const modalWatchedBtn = document.getElementById('modalWatchedBtn');
+        modalWatchedBtn.classList.toggle('active', isWatched);
+        modalWatchedBtn.innerText = isWatched ? '✓ Watched' : 'Mark Watched';
+      }
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        const modal = document.getElementById('videoModal');
+        if (modal && modal.classList.contains('active')) {
+          closeVideoModal();
+        }
+      }
+    });
   </script>
+
+  <!-- Direct Video Player Theater Modal -->
+  <div id="videoModal" class="video-modal-overlay" onclick="closeVideoModal(event)">
+    <div class="video-modal-container" onclick="event.stopPropagation()">
+      <div class="video-modal-header">
+        <div>
+          <span class="video-modal-badge" id="modalBadge">NPTEL DIRECT LECTURE</span>
+          <h3 id="modalTitle" class="video-modal-title">Lecture Title</h3>
+          <p id="modalInstructor" class="video-modal-instructor">Instructor &bull; Institute</p>
+        </div>
+        <button class="video-modal-close" onclick="closeVideoModal()" aria-label="Close video player">&times;</button>
+      </div>
+
+      <div class="video-player-wrapper">
+        <iframe id="videoIframe" src="" title="GATE RA Video Lecture Player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      </div>
+
+      <div class="video-modal-footer">
+        <div class="modal-actions-left">
+          <a id="modalYtDirectBtn" href="#" target="_blank" rel="noopener noreferrer" class="modal-btn-direct-yt">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+            <span>Open Direct in YouTube</span>
+          </a>
+          <a id="modalPlaylistBtn" href="#" target="_blank" rel="noopener noreferrer" class="modal-btn-playlist">
+            <span>📑 Full Course Playlist</span>
+          </a>
+        </div>
+        <div style="display:flex; align-items:center; gap:0.6rem;">
+          <button id="modalWatchedBtn" class="btn-watched" onclick="toggleModalWatched()">Mark Watched</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
