@@ -1544,18 +1544,152 @@
     <div id="videos" class="tab-content active">
       <div class="filter-bar">
         <span style="font-size:0.88rem; color:var(--text-secondary); margin-right:0.5rem; font-weight:600;">Filter by Subject:</span>
-        <button class="filter-btn active" onclick="filterVideos('all', this)">All Courses</button>
+        <button class="filter-btn active" onclick="filterVideos('all', this)">All Courses (16)</button>
+        <button class="filter-btn" onclick="filterVideos('maths', this)">Engineering Maths (A.1)</button>
+        <button class="filter-btn" onclick="filterVideos('circuits', this)">Circuits & Networks (A.2)</button>
         <button class="filter-btn" onclick="filterVideos('robotics', this)">Core Robotics (A.3)</button>
         <button class="filter-btn" onclick="filterVideos('automation', this)">PLCs & CIM (A.3)</button>
         <button class="filter-btn" onclick="filterVideos('sensors', this)">Sensors & Actuators (A.2)</button>
-        <button class="filter-btn" onclick="filterVideos('circuits', this)">Circuits & Digital (A.2)</button>
-        <button class="filter-btn" onclick="filterVideos('python', this)">Python & DSA (A.2)</button>
+        <button class="filter-btn" onclick="filterVideos('digital', this)">Digital & Python (A.2)</button>
+        <button class="filter-btn" onclick="filterVideos('mechanics', this)">Engg Mechanics (A.2)</button>
+        <button class="filter-btn" onclick="filterVideos('electrical', this)">Electrical Part B1</button>
         <button class="filter-btn" onclick="filterVideos('mech', this)">Mechanical Part B2</button>
       </div>
 
       <div class="grid-2" id="videoGrid">
 
-        <!-- Course 1: Robotics Kinematics -->
+        <!-- Course 1: Network Elements & Network Theory (Section A.2) -->
+        <div class="card video-card" data-cat="circuits mechatronics">
+          <div>
+            <img src="assets/course_circuits.jpg" alt="Basic Electrical Circuits & Network Analysis" class="course-img">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Basic Electrical Circuits & Network Analysis</div>
+                <div class="card-subtitle">KCL, KVL, Node/Mesh, Thevenin, Transients & 3-Phase AC</div>
+              </div>
+              <span class="match-badge">100% GATE Match</span>
+            </div>
+            <div class="lecturer-info">
+              <span class="institute-pill">IIT Madras</span>
+              <span>Prof. Nagendra Krishnapura</span>
+            </div>
+            <div class="lecture-breakdown">
+              <strong>Key Lectures to Watch:</strong><br>
+              &bull; <strong>Kirchhoff's Laws & Node/Mesh:</strong> KCL, KVL, Dependent Sources (VCVS, CCVS), Mesh/Nodal Matrix equations.<br>
+              &bull; <strong>Network Theorems:</strong> Thevenin's, Norton's, Superposition, Maximum Power Transfer ($R_L = R_{th}$, $Z_L = Z_{th}^*$).<br>
+              &bull; <strong>Transients in DC/AC:</strong> First-order RL/RC ($	au = L/R, RC$), Second-order RLC underdamped/critically damped.<br>
+              &bull; <strong>AC Steady State & Resonance:</strong> Phasors, Series/Parallel Resonance ($\omega_0 = 1/\sqrt{LC}$, $Q = \omega_0 L/R$), 3-Phase Star-Delta & Complex Power.
+            </div>
+            <div class="key-takeaway">
+              <strong>💡 Theory & Problematic Takeaway:</strong> Essential for high-scoring NAT numericals! Master node voltage equations with dependent sources, Thevenin test-source method ($V_{test}/I_{test}$), and circuit differential equations.
+            </div>
+          </div>
+          <div class="course-actions">
+            <button class="btn-play-direct" onclick="openCourseVideo('course_circuits')">▶ Play Video</button>
+            <a href="https://www.youtube.com/watch?v=ZnXau5GhgGI" target="_blank" rel="noopener noreferrer" class="btn-direct-yt">↗ Direct YT</a>
+            <a href="https://www.youtube.com/playlist?list=PLa4KQhDlGd7QCTX3gTz0LyoL93jVjtaMe" target="_blank" rel="noopener noreferrer" class="btn-playlist">📑 Playlist</a>
+          </div>
+        </div>
+
+        <!-- Course 2: Engineering Mathematics I - Linear Algebra & Calculus (Section A.1) -->
+        <div class="card video-card" data-cat="maths">
+          <div>
+            <img src="assets/course_maths.jpg" alt="Engineering Mathematics - Linear Algebra & Calculus" class="course-img">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Engineering Mathematics I: Linear Algebra & Calculus</div>
+                <div class="card-subtitle">Matrices, Eigenvalues, Taylor Series, Maxima/Minima & Vector Calculus</div>
+              </div>
+              <span class="match-badge">100% GATE Match</span>
+            </div>
+            <div class="lecturer-info">
+              <span class="institute-pill">IIT Kharagpur</span>
+              <span>Prof. Jitendra Kumar</span>
+            </div>
+            <div class="lecture-breakdown">
+              <strong>Key Lectures to Watch:</strong><br>
+              &bull; <strong>Linear Algebra:</strong> Rank, System of equations ($Ax = b$), Eigenvalues & Eigenvectors, Cayley-Hamilton theorem, Diagonalization.<br>
+              &bull; <strong>Single & Multi-Variable Calculus:</strong> Mean value theorems, Indeterminate forms (L'Hopital), Taylor & Maclaurin series.<br>
+              &bull; <strong>Partial Derivatives:</strong> Total derivative, Maxima/Minima (Hessian matrix, saddle points), Lagrange multipliers.<br>
+              &bull; <strong>Vector Calculus:</strong> Gradient, Divergence, Curl, Vector identities, Green's, Gauss Divergence & Stokes' theorems.
+            </div>
+            <div class="key-takeaway">
+              <strong>💡 Theory & Problematic Takeaway:</strong> Compulsory 13-15 marks foundation! Practice computing eigenvalues of $3 	imes 3$ matrices and line/surface integrals using Green's and Stokes' theorems.
+            </div>
+          </div>
+          <div class="course-actions">
+            <button class="btn-play-direct" onclick="openCourseVideo('course_maths1')">▶ Play Video</button>
+            <a href="https://www.youtube.com/watch?v=4QFsiXfgbzM" target="_blank" rel="noopener noreferrer" class="btn-direct-yt">↗ Direct YT</a>
+            <a href="https://www.youtube.com/playlist?list=PLbRMhDVUMngeVrxtbBz-n8HvP8KAWBpI5" target="_blank" rel="noopener noreferrer" class="btn-playlist">📑 Playlist</a>
+          </div>
+        </div>
+
+        <!-- Course 3: Differential Equations, Probability & Numerical Methods (Section A.1) -->
+        <div class="card video-card" data-cat="maths">
+          <div>
+            <img src="assets/course_maths.jpg" alt="Differential Equations & Probability" class="course-img">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Differential Equations, Probability & Numerical Methods</div>
+                <div class="card-subtitle">ODEs, Laplace Transforms, Distributions, Bayes & Numerical Integration</div>
+              </div>
+              <span class="match-badge">100% GATE Match</span>
+            </div>
+            <div class="lecturer-info">
+              <span class="institute-pill">IIT Kharagpur & IIT Roorkee</span>
+              <span>Prof. Somesh Kumar & Prof. D.N. Pandey</span>
+            </div>
+            <div class="lecture-breakdown">
+              <strong>Key Lectures to Watch:</strong><br>
+              &bull; <strong>Differential Equations:</strong> 1st order linear/nonlinear, Higher-order constant coefficients, Euler-Cauchy ($x^2 y'' + p x y' + q y = 0$), Laplace Transforms.<br>
+              &bull; <strong>Probability & Statistics:</strong> Conditional probability, Bayes' theorem, Random variables, Binomial, Poisson, Normal distributions, Hypothesis testing.<br>
+              &bull; <strong>Numerical Methods:</strong> Newton-Raphson quadratic convergence, Trapezoidal & Simpson's 1/3 and 3/8 rules, Runge-Kutta 4th order (RK4).
+            </div>
+            <div class="key-takeaway">
+              <strong>💡 Theory & Problematic Takeaway:</strong> Crucial for scoring full marks in Mathematics NATs! Master Poisson parameter $\lambda$, Normal distribution $z$-scores, and Newton-Raphson iterations.
+            </div>
+          </div>
+          <div class="course-actions">
+            <button class="btn-play-direct" onclick="openCourseVideo('course_maths2')">▶ Play Video</button>
+            <a href="https://www.youtube.com/watch?v=VVYLpmKRfQ8" target="_blank" rel="noopener noreferrer" class="btn-direct-yt">↗ Direct YT</a>
+            <a href="https://www.youtube.com/playlist?list=PL6C92B335BD4238AB" target="_blank" rel="noopener noreferrer" class="btn-playlist">📑 Playlist</a>
+          </div>
+        </div>
+
+        <!-- Course 4: Engineering Mechanics for Robotics (Section A.2) -->
+        <div class="card video-card" data-cat="mechanics mechatronics">
+          <div>
+            <img src="assets/course_mechanics.jpg" alt="Engineering Mechanics for Robotics" class="course-img">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Engineering Mechanics for Robotics</div>
+                <div class="card-subtitle">FBD, Friction, Belt-Pulleys, Trusses & Rigid Body Plane Motion</div>
+              </div>
+              <span class="match-badge">100% GATE Match</span>
+            </div>
+            <div class="lecturer-info">
+              <span class="institute-pill">IIT Kanpur</span>
+              <span>Prof. Manoj K. Harbola</span>
+            </div>
+            <div class="lecture-breakdown">
+              <strong>Key Lectures to Watch:</strong><br>
+              &bull; <strong>Equilibrium & FBD:</strong> Free-body diagrams, static equilibrium ($\sum F = 0, \sum M = 0$), Lami's theorem.<br>
+              &bull; <strong>Friction Applications:</strong> Coulomb friction, Rolling friction, Belt-Pulley tension ratio ($T_1/T_2 = e^{\mu 	heta}$), centrifugal tension.<br>
+              &bull; <strong>Trusses & Frames:</strong> Method of joints, Method of sections, zero-force member identification.<br>
+              &bull; <strong>Plane Kinematics & Dynamics:</strong> Instantaneous Center (I-centre), D'Alembert's principle, Work-Energy theorem, Impulse-Momentum for rigid bodies.
+            </div>
+            <div class="key-takeaway">
+              <strong>💡 Theory & Problematic Takeaway:</strong> Foundational for robot manipulators and mobile robots! Master FBD setup, belt friction power transmission, and rigid body angular acceleration equations.
+            </div>
+          </div>
+          <div class="course-actions">
+            <button class="btn-play-direct" onclick="openCourseVideo('course_mechanics')">▶ Play Video</button>
+            <a href="https://www.youtube.com/watch?v=LG0YzGeAFxk" target="_blank" rel="noopener noreferrer" class="btn-direct-yt">↗ Direct YT</a>
+            <a href="https://www.youtube.com/playlist?list=PL3D71089119256E1E" target="_blank" rel="noopener noreferrer" class="btn-playlist">📑 Playlist</a>
+          </div>
+        </div>
+
+        <!-- Course 5: Introduction to Robotics (Section A.3) -->
         <div class="card video-card" data-cat="robotics">
           <div>
             <img src="assets/course_robotics_1787078002829.jpg" alt="Introduction to Robotics" class="course-img">
@@ -1579,7 +1713,7 @@
               &bull; <strong>Week 11–12:</strong> End-Effectors, PTP vs Continuous Path, Repeatability & Accuracy.
             </div>
             <div class="key-takeaway">
-              <strong>💡 Syllabus Takeaway:</strong> Focus on deriving DH parameter tables (θ, d, a, α) and calculating end-effector position using forward transformation matrices ⁰Tₙ.
+              <strong>💡 Theory & Problematic Takeaway:</strong> Focus on deriving DH parameter tables ($	heta, d, a, lpha$) and calculating end-effector position using forward transformation matrices $^{0}T_n$.
             </div>
           </div>
           <div class="course-actions">
@@ -1589,7 +1723,7 @@
           </div>
         </div>
 
-        <!-- Course 2: Industrial Automation, PLCs & Actuators -->
+        <!-- Course 6: Industrial Automation, PLCs & Actuators (Section A.2 / A.3) -->
         <div class="card video-card" data-cat="automation sensors">
           <div>
             <img src="assets/course_automation_1787078405078.jpg" alt="Industrial Automation and Control" class="course-img">
@@ -1612,7 +1746,7 @@
               &bull; <strong>Module 8 (Lec 32–36):</strong> DC Motor, Stepper, and BLDC Speed-Torque Characteristics.
             </div>
             <div class="key-takeaway">
-              <strong>💡 Syllabus Takeaway:</strong> Master PLC scan cycles, TON/TOF timer contacts, stepper step angle formulas, and hydraulic/pneumatic cylinder force equations (F = P · A).
+              <strong>💡 Theory & Problematic Takeaway:</strong> Master PLC scan cycles, TON/TOF timer contacts, stepper step angle formulas ($eta = 360^\circ / (m \cdot N_r)$), and hydraulic/pneumatic cylinder force equations ($F = P \cdot A$).
             </div>
           </div>
           <div class="course-actions">
@@ -1622,7 +1756,7 @@
           </div>
         </div>
 
-        <!-- Course 3: Automation in Manufacturing (CIM, AS/RS, AIDC) -->
+        <!-- Course 7: Automation in Manufacturing (CIM, AS/RS, AIDC - Section A.3) -->
         <div class="card video-card" data-cat="automation">
           <div>
             <img src="assets/course_cim_1787078530952.jpg" alt="Automation in Manufacturing & CIM" class="course-img">
@@ -1641,11 +1775,11 @@
               <strong>Key Lectures to Watch:</strong><br>
               &bull; <strong>Week 1–2:</strong> CIM Architectures, Fixed vs Flexible Automation.<br>
               &bull; <strong>Week 6–7:</strong> Automated Material Handling, AGV Guidance & Routing.<br>
-              &bull; <strong>Week 8:</strong> AS/RS Storage Systems, Single/Dual Command Cycle Times (T_sc, T_dc).<br>
+              &bull; <strong>Week 8:</strong> AS/RS Storage Systems, Single/Dual Command Cycle Times ($T_{sc}, T_{dc}$).<br>
               &bull; <strong>Week 9:</strong> Auto-ID & Data Capture (AIDC): 1D/2D Barcodes, RFID Transponders.
             </div>
             <div class="key-takeaway">
-              <strong>💡 Syllabus Takeaway:</strong> Understand AS/RS travel time equations and passive vs active RFID frequencies.
+              <strong>💡 Theory & Problematic Takeaway:</strong> Understand AS/RS travel time equations, AGV fleet sizing, and passive vs active RFID frequencies.
             </div>
           </div>
           <div class="course-actions">
@@ -1655,8 +1789,8 @@
           </div>
         </div>
 
-        <!-- Course 4: Sensors & Signal Conditioning -->
-        <div class="card video-card" data-cat="sensors">
+        <!-- Course 8: Sensors & Signal Conditioning (Section A.2) -->
+        <div class="card video-card" data-cat="sensors mechatronics">
           <div>
             <img src="assets/course_sensors_1787078455436.jpg" alt="Sensors and Actuators" class="course-img">
             <div class="card-header">
@@ -1674,11 +1808,11 @@
               <strong>Key Lectures to Watch:</strong><br>
               &bull; <strong>Lec 1–6:</strong> Strain Gauges (Gauge Factor GF), RTD (PT100), Thermistors.<br>
               &bull; <strong>Lec 7–11:</strong> LVDT Inductive Displacement Transducers, Capacitive Sensors.<br>
-              &bull; <strong>Lec 12–15:</strong> Piezoelectric Charge Transducers, Hall Effect Sensors (V_H = R_H · I · B / t).<br>
+              &bull; <strong>Lec 12–15:</strong> Piezoelectric Charge Transducers, Hall Effect Sensors ($V_H = R_H \cdot I \cdot B / t$).<br>
               &bull; <strong>Lec 16–25:</strong> Optical Quadrature Encoders, 3-Op-Amp Instrumentation Amplifiers.
             </div>
             <div class="key-takeaway">
-              <strong>💡 Syllabus Takeaway:</strong> Focus on Wheatstone bridge output voltage (V₀ = (Vs / 4) · GF · ε) and why piezoelectric sensors cannot measure static DC loads.
+              <strong>💡 Theory & Problematic Takeaway:</strong> Focus on Wheatstone bridge output voltage ($V_0 = rac{V_s}{4} \cdot GF \cdot arepsilon$) and why piezoelectric sensors cannot measure static DC loads.
             </div>
           </div>
           <div class="course-actions">
@@ -1688,8 +1822,8 @@
           </div>
         </div>
 
-        <!-- Course 5: Digital Logic & Circuits -->
-        <div class="card video-card" data-cat="circuits">
+        <!-- Course 9: Digital Electronic Circuits (Section A.2) -->
+        <div class="card video-card" data-cat="digital circuits mechatronics">
           <div>
             <img src="assets/course_digital_1787078582789.jpg" alt="Digital Electronic Circuits" class="course-img">
             <div class="card-header">
@@ -1710,7 +1844,7 @@
               &bull; <strong>Lec 17–25:</strong> Latches, SR, JK, D, T Flip-Flops, MOD-N Binary Counters.
             </div>
             <div class="key-takeaway">
-              <strong>💡 Syllabus Takeaway:</strong> Master JK flip-flop excitation tables and calculating modulus N for ripple counters (2ⁿ⁻¹ &lt; N ≤ 2ⁿ).
+              <strong>💡 Theory & Problematic Takeaway:</strong> Master JK flip-flop excitation tables and calculating modulus N for ripple counters ($2^{n-1} < N \le 2^n$).
             </div>
           </div>
           <div class="course-actions">
@@ -1720,8 +1854,8 @@
           </div>
         </div>
 
-        <!-- Course 6: Python & Data Structures -->
-        <div class="card video-card" data-cat="python">
+        <!-- Course 10: Python & Data Structures (Section A.2) -->
+        <div class="card video-card" data-cat="digital python mechatronics">
           <div>
             <img src="assets/course_python_1787078613259.jpg" alt="Python & Data Structures" class="course-img">
             <div class="card-header">
@@ -1738,12 +1872,12 @@
             <div class="lecture-breakdown">
               <strong>Key Lectures to Watch:</strong><br>
               &bull; <strong>Week 1–2:</strong> Python Syntax, Lists, Dictionaries, Slicing, List Comprehension.<br>
-              &bull; <strong>Week 3:</strong> Recursion, Time Complexity (O(1), O(n), O(n log n), O(n²)).<br>
+              &bull; <strong>Week 3:</strong> Recursion, Time Complexity ($O(1), O(n), O(n \log n), O(n^2)$).<br>
               &bull; <strong>Week 4–5:</strong> Stacks, Queues, Linked Lists Operations.<br>
               &bull; <strong>Week 6–8:</strong> Binary Search Trees (Inorder Traversal), Binary Heaps, BFS/DFS Graph Traversal.
             </div>
             <div class="key-takeaway">
-              <strong>💡 Syllabus Takeaway:</strong> Predict output of recursive Python code and understand BFS queue-based shortest path guarantee.
+              <strong>💡 Theory & Problematic Takeaway:</strong> Predict output of recursive Python code and understand BFS queue-based shortest path guarantee.
             </div>
           </div>
           <div class="course-actions">
@@ -1753,7 +1887,105 @@
           </div>
         </div>
 
-        <!-- Course 7: Strength of Materials (Part B2) -->
+        <!-- Course 11: Control Systems & Robot Dynamics (Part B1 / Mechatronics A.2) -->
+        <div class="card video-card" data-cat="electrical control">
+          <div>
+            <img src="assets/course_control.jpg" alt="Control Engineering & System Dynamics" class="course-img">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Control Engineering & System Dynamics</div>
+                <div class="card-subtitle">Transfer Functions, Block Diagrams/SFG, Routh-Hurwitz, Bode & PID</div>
+              </div>
+              <span class="match-badge">100% GATE Match</span>
+            </div>
+            <div class="lecturer-info">
+              <span class="institute-pill">IIT Madras</span>
+              <span>Prof. Ramkrishna Pasumarthy</span>
+            </div>
+            <div class="lecture-breakdown">
+              <strong>Key Lectures to Watch:</strong><br>
+              &bull; <strong>System Representation:</strong> Transfer Functions, Block Diagrams, Mason's Rule for Signal Flow Graphs.<br>
+              &bull; <strong>Time Domain Analysis:</strong> 2nd-order transient specifications, Peak overshoot ($\%MP = e^{-\pi\zeta/\sqrt{1-\zeta^2}} 	imes 100\%$), Settling time ($t_s = 4/(\zeta\omega_n)$), Steady-state errors ($K_p, K_v, K_a$).<br>
+              &bull; <strong>Stability & Frequency Response:</strong> Routh-Hurwitz array, Root Loci, Bode Plots, Gain Margin & Phase Margin, Nyquist Criterion ($N = P - Z$).<br>
+              &bull; <strong>Compensators & Controllers:</strong> Lag, Lead, Lead-Lag compensators, P, PI, and PID controller tuning.
+            </div>
+            <div class="key-takeaway">
+              <strong>💡 Theory & Problematic Takeaway:</strong> Essential for Part B1 and robot trajectory tracking! Master Mason's gain formula, Routh array stability, and Bode gain/phase margin calculations.
+            </div>
+          </div>
+          <div class="course-actions">
+            <button class="btn-play-direct" onclick="openCourseVideo('course_control')">▶ Play Video</button>
+            <a href="https://www.youtube.com/watch?v=7LZSjgZz-Qw" target="_blank" rel="noopener noreferrer" class="btn-direct-yt">↗ Direct YT</a>
+            <a href="https://www.youtube.com/playlist?list=PLxn52v8fxX5l5tGzU1NAxRDkgqxK0k5UZ" target="_blank" rel="noopener noreferrer" class="btn-playlist">📑 Playlist</a>
+          </div>
+        </div>
+
+        <!-- Course 12: Analog Electronic Circuits & Embedded Systems (Part B1) -->
+        <div class="card video-card" data-cat="electrical circuits">
+          <div>
+            <img src="assets/course_circuits.jpg" alt="Analog Circuits & Embedded Systems" class="course-img">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Analog Circuits & Embedded Systems</div>
+                <div class="card-subtitle">Op-Amps, Filters, 555 Timers, ADC/DAC & Microcontroller Interfacing</div>
+              </div>
+              <span class="match-badge">100% GATE Match</span>
+            </div>
+            <div class="lecturer-info">
+              <span class="institute-pill">IIT Madras & IIT Kharagpur</span>
+              <span>Prof. Nagendra Krishnapura & Prof. Santanu Chattopadhyay</span>
+            </div>
+            <div class="lecture-breakdown">
+              <strong>Key Lectures to Watch:</strong><br>
+              &bull; <strong>Amplifiers & Op-Amps:</strong> BJT/MOSFET small-signal equivalent circuits, Op-amp configurations, Feedback amplifiers.<br>
+              &bull; <strong>Waveform Generators & Converters:</strong> 555 Timers (Astable/Monostable), Schmitt triggers, Sample-and-Hold, ADC/DAC converters ($V_{LSB} = V_{ref} / 2^n$), SMPS.<br>
+              &bull; <strong>Microcontroller Architecture:</strong> CPU, Memory, I/O ports, Timers, Interrupt handling and latency, I/O interfacing, Data acquisition (DAQ).
+            </div>
+            <div class="key-takeaway">
+              <strong>💡 Theory & Problematic Takeaway:</strong> Crucial for Part B1 Electrical stream! Solve Op-Amp virtual short numericals, Schmitt trigger hysteresis thresholds, and ADC quantization errors.
+            </div>
+          </div>
+          <div class="course-actions">
+            <button class="btn-play-direct" onclick="openCourseVideo('course_analog')">▶ Play Video</button>
+            <a href="https://www.youtube.com/watch?v=weKHhXsBf4E" target="_blank" rel="noopener noreferrer" class="btn-direct-yt">↗ Direct YT</a>
+            <a href="https://www.youtube.com/playlist?list=PLzN9G9-0qj-DN6PEn_bZ54TlVrAOn1RCg" target="_blank" rel="noopener noreferrer" class="btn-playlist">📑 Playlist</a>
+          </div>
+        </div>
+
+        <!-- Course 13: Signals and Systems (Part B1) -->
+        <div class="card video-card" data-cat="electrical">
+          <div>
+            <img src="assets/course_circuits.jpg" alt="Signals and Systems" class="course-img">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Signals and Systems</div>
+                <div class="card-subtitle">LTI Systems, Fourier Series, Shannon Sampling, Laplace & Z-Transform</div>
+              </div>
+              <span class="match-badge">100% GATE Match</span>
+            </div>
+            <div class="lecturer-info">
+              <span class="institute-pill">IIT Bombay</span>
+              <span>Prof. V.M. Gadre</span>
+            </div>
+            <div class="lecture-breakdown">
+              <strong>Key Lectures to Watch:</strong><br>
+              &bull; <strong>Signal Properties:</strong> CT & DT signals, Linearity, Time-Invariance, Causality, BIBO Stability.<br>
+              &bull; <strong>Fourier Analysis & Sampling:</strong> Continuous & Discrete Fourier Series, Shannon's Sampling Theorem ($f_s \ge 2 f_{max}$, Nyquist rate).<br>
+              &bull; <strong>Transforms:</strong> Fourier Transform, Laplace Transform ROC, Z-Transform ROC and pole-zero stability.<br>
+              &bull; <strong>Power & Energy:</strong> RMS value, average value calculations for complex periodic waveforms.
+            </div>
+            <div class="key-takeaway">
+              <strong>💡 Theory & Problematic Takeaway:</strong> High mathematical weightage in Part B1! Master convolution integrals, Nyquist rate calculations, and Z-transform inverse formulas.
+            </div>
+          </div>
+          <div class="course-actions">
+            <button class="btn-play-direct" onclick="openCourseVideo('course_signals')">▶ Play Video</button>
+            <a href="https://www.youtube.com/watch?v=0nZYen9w_eo" target="_blank" rel="noopener noreferrer" class="btn-direct-yt">↗ Direct YT</a>
+            <a href="https://www.youtube.com/playlist?list=PLyqSpQzTE6M8KJ-XQ1m2vl3nd2ZUqKEN8" target="_blank" rel="noopener noreferrer" class="btn-playlist">📑 Playlist</a>
+          </div>
+        </div>
+
+        <!-- Course 14: Strength of Materials (Part B2) -->
         <div class="card video-card" data-cat="mech">
           <div>
             <img src="assets/course_som_1787078478456.jpg" alt="Strength of Materials (SOM)" class="course-img">
@@ -1770,12 +2002,14 @@
             </div>
             <div class="lecture-breakdown">
               <strong>Key Lectures to Watch:</strong><br>
-              &bull; <strong>Stress & Strain:</strong> Elastic Constants (E = 2G(1+ν) = 3K(1-2ν)), Mohr's Circle.<br>
-              &bull; <strong>Beams & Shafts:</strong> Flexure formula M/I = σ/y = E/R, Torsion formula T/J = τ/r = G·θ/L.<br>
-              &bull; <strong>Columns & Strain Gauges:</strong> Euler buckling P_cr = (π² · E · I) / L_e², Rectangular Strain Rosettes.
+              &bull; <strong>Stress & Strain:</strong> Elastic Constants ($E = 2G(1+
+u) = 3K(1-2
+u)$), Mohr's Circle.<br>
+              &bull; <strong>Beams & Shafts:</strong> Flexure formula $M/I = \sigma/y = E/R$, Torsion formula $T/J = 	au/r = G\cdot	heta/L$.<br>
+              &bull; <strong>Columns & Strain Gauges:</strong> Euler buckling $P_{cr} = (\pi^2 \cdot E \cdot I) / L_e^2$, Rectangular Strain Rosettes.
             </div>
             <div class="key-takeaway">
-              <strong>💡 Syllabus Takeaway:</strong> Core scoring area for Part B2. Solve standard 2-mark numericals on principal stresses and beam deflections.
+              <strong>💡 Theory & Problematic Takeaway:</strong> Core scoring area for Part B2. Solve standard 2-mark numericals on principal stresses and beam deflections.
             </div>
           </div>
           <div class="course-actions">
@@ -1785,7 +2019,7 @@
           </div>
         </div>
 
-        <!-- Course 8: Theory of Machines & Vibrations (Part B2) -->
+        <!-- Course 15: Theory of Machines & Vibrations (Part B2) -->
         <div class="card video-card" data-cat="mech">
           <div>
             <img src="assets/course_vibrations_1787078501480.jpg" alt="Theory of Machines & Mechanical Vibrations" class="course-img">
@@ -1802,19 +2036,51 @@
             </div>
             <div class="lecture-breakdown">
               <strong>Key Lectures to Watch:</strong><br>
-              &bull; <strong>Kinematics & Coriolis:</strong> Degrees of freedom, Coriolis acceleration (aᶜ = 2·ω·v_rel).<br>
+              &bull; <strong>Kinematics & Coriolis:</strong> Degrees of freedom, Coriolis acceleration ($a^c = 2\cdot\omega\cdot v_{rel}$).<br>
               &bull; <strong>Gear Trains:</strong> Epicyclic gear speed tables, Sun-Planet-Ring torque ratios.<br>
-              &bull; <strong>SDOF Vibrations:</strong> Natural frequency, Damping ratio ζ, Logarithmic decrement.<br>
-              &bull; <strong>Vibration Isolation:</strong> Transmissibility (TR &lt; 1 only when r = ω/ω_n &gt; √2).
+              &bull; <strong>SDOF Vibrations:</strong> Natural frequency, Damping ratio $\zeta$, Logarithmic decrement.<br>
+              &bull; <strong>Vibration Isolation:</strong> Transmissibility ($TR < 1$ only when $r = \omega/\omega_n > \sqrt{2}$).
             </div>
             <div class="key-takeaway">
-              <strong>💡 Syllabus Takeaway:</strong> Master tabular speed methods for epicyclic gears and the √2 isolation frequency boundary.
+              <strong>💡 Theory & Problematic Takeaway:</strong> Master tabular speed methods for epicyclic gears and the $\sqrt{2}$ isolation frequency boundary.
             </div>
           </div>
           <div class="course-actions">
             <button class="btn-play-direct" onclick="openCourseVideo('course_tom')">▶ Play Video</button>
             <a href="https://www.youtube.com/watch?v=yDEJxYGAoso" target="_blank" rel="noopener noreferrer" class="btn-direct-yt">↗ Direct YT</a>
             <a href="https://www.youtube.com/playlist?list=PLbRMhDVUMngdCkMipemSKP_dCgZLLfOe8" target="_blank" rel="noopener noreferrer" class="btn-playlist">📑 Playlist</a>
+          </div>
+        </div>
+
+        <!-- Course 16: Machine Design, CAD/CAM & Additive Manufacturing (Part B2) -->
+        <div class="card video-card" data-cat="mech">
+          <div>
+            <img src="assets/course_automation_1787078405078.jpg" alt="Machine Design, CAD/CAM & Additive Manufacturing" class="course-img">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Machine Design, CAD/CAM & Additive Manufacturing</div>
+                <div class="card-subtitle">Failure Theories, Fatigue S-N, Bearings, Joints, Springs & 3D Printing</div>
+              </div>
+              <span class="match-badge">100% GATE Match</span>
+            </div>
+            <div class="lecturer-info">
+              <span class="institute-pill">IIT Kharagpur & IIT Kanpur</span>
+              <span>Prof. B. Maiti & Prof. J. Ramkumar</span>
+            </div>
+            <div class="lecture-breakdown">
+              <strong>Key Lectures to Watch:</strong><br>
+              &bull; <strong>Static & Fatigue Failure:</strong> Von Mises, Tresca, S-N diagram, Soderberg & Goodman criteria.<br>
+              &bull; <strong>Machine Elements:</strong> Bolted/riveted/welded joints, Shafts (ASME code), Rolling contact bearings ($L_{10} = (C/P)^k 	imes 10^6$), Brakes & Clutches (uniform wear vs pressure), Helical springs (Wahl factor).<br>
+              &bull; <strong>CAD/CAM & Additive Mfg:</strong> Solid modeling (CSG, B-rep), CNC tool paths, Additive technologies (FDM, SLA Beer-Lambert cure depth, SLS).
+            </div>
+            <div class="key-takeaway">
+              <strong>💡 Theory & Problematic Takeaway:</strong> High-scoring 10-12 marks section in Part B2! Master bearing life reduction when load changes and spring stress/deflection equations.
+            </div>
+          </div>
+          <div class="course-actions">
+            <button class="btn-play-direct" onclick="openCourseVideo('course_machine_design')">▶ Play Video</button>
+            <a href="https://www.youtube.com/watch?v=mzWMdZZaHwI" target="_blank" rel="noopener noreferrer" class="btn-direct-yt">↗ Direct YT</a>
+            <a href="https://www.youtube.com/playlist?list=PL3D4EECEFAA99D9BE" target="_blank" rel="noopener noreferrer" class="btn-playlist">📑 Playlist</a>
           </div>
         </div>
 
@@ -2919,7 +3185,35 @@
     // ==========================================
     // COURSE VIDEO CATALOG & THEATER MODAL LOGIC
     // ==========================================
-    const courseCatalog = {
+        const courseCatalog = {
+      course_circuits: {
+        title: "Basic Electrical Circuits & Network Analysis",
+        instructor: "Prof. Nagendra Krishnapura • IIT Madras",
+        badge: "Network Theory, KCL & KVL (Part A.2)",
+        videoId: "ZnXau5GhgGI",
+        playlistId: "PLa4KQhDlGd7QCTX3gTz0LyoL93jVjtaMe"
+      },
+      course_maths1: {
+        title: "Engineering Mathematics I: Linear Algebra & Calculus",
+        instructor: "Prof. Jitendra Kumar • IIT Kharagpur",
+        badge: "Engineering Mathematics (Part A.1)",
+        videoId: "4QFsiXfgbzM",
+        playlistId: "PLbRMhDVUMngeVrxtbBz-n8HvP8KAWBpI5"
+      },
+      course_maths2: {
+        title: "Differential Equations, Probability & Numerical Methods",
+        instructor: "Prof. Somesh Kumar & Prof. D.N. Pandey • IIT Kharagpur & IIT Roorkee",
+        badge: "Engineering Mathematics (Part A.1)",
+        videoId: "VVYLpmKRfQ8",
+        playlistId: "PL6C92B335BD4238AB"
+      },
+      course_mechanics: {
+        title: "Engineering Mechanics for Robotics",
+        instructor: "Prof. Manoj K. Harbola • IIT Kanpur",
+        badge: "Engineering Mechanics (Part A.2)",
+        videoId: "LG0YzGeAFxk",
+        playlistId: "PL3D71089119256E1E"
+      },
       course_robotics: {
         title: "Introduction to Robotics",
         instructor: "Prof. Ashish Dutta & Prof. T. Asokan • IIT Kanpur & IIT Madras",
@@ -2962,6 +3256,27 @@
         videoId: "9MmC_uGjBsM",
         playlistId: "PLyqSpQzTE6M_Fu6l8irVwXkUyC9Gwqr6_"
       },
+      course_control: {
+        title: "Control Engineering & System Dynamics",
+        instructor: "Prof. Ramkrishna Pasumarthy • IIT Madras",
+        badge: "Control Systems (Part B1 / Robotics)",
+        videoId: "7LZSjgZz-Qw",
+        playlistId: "PLxn52v8fxX5l5tGzU1NAxRDkgqxK0k5UZ"
+      },
+      course_analog: {
+        title: "Analog Electronic Circuits & Embedded Systems",
+        instructor: "Prof. Nagendra Krishnapura & Prof. Santanu Chattopadhyay • IIT Madras & IIT Kharagpur",
+        badge: "Analog & Microcontrollers (Part B1)",
+        videoId: "weKHhXsBf4E",
+        playlistId: "PLzN9G9-0qj-DN6PEn_bZ54TlVrAOn1RCg"
+      },
+      course_signals: {
+        title: "Signals and Systems",
+        instructor: "Prof. V.M. Gadre • IIT Bombay",
+        badge: "Signals & Transforms (Part B1)",
+        videoId: "0nZYen9w_eo",
+        playlistId: "PLyqSpQzTE6M8KJ-XQ1m2vl3nd2ZUqKEN8"
+      },
       course_som: {
         title: "Strength of Materials (SOM)",
         instructor: "Prof. S.P. Harsha • IIT Roorkee",
@@ -2975,6 +3290,13 @@
         badge: "TOM & Dynamics (Part B2)",
         videoId: "yDEJxYGAoso",
         playlistId: "PLbRMhDVUMngdCkMipemSKP_dCgZLLfOe8"
+      },
+      course_machine_design: {
+        title: "Machine Design, CAD/CAM & Additive Manufacturing",
+        instructor: "Prof. B. Maiti & Prof. J. Ramkumar • IIT Kharagpur & IIT Kanpur",
+        badge: "Machine Elements & CAD/CAM (Part B2)",
+        videoId: "mzWMdZZaHwI",
+        playlistId: "PL3D4EECEFAA99D9BE"
       }
     };
 
